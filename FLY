@@ -107,7 +107,7 @@ nowe = false
 
 game:GetService("StarterGui"):SetCore("SendNotification", { 
     Title = "Ayai_Yume ";
-    Text = "Ayai_Yume ";
+    Text = "Made by Thongdepzai ";
     Icon = "rbxthumb://type=Asset&id=136458803107836&w=150&h=150"})
 Duration = 16;
 

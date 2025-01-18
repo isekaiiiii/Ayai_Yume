@@ -76,7 +76,10 @@ ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 -- Cấu hình ImageButton
 ImageButton.Parent = ScreenGui
 ImageButton.BackgroundTransparency = 1
-ImageButton.ImageColor3 = Color3.fromRGB(0, 0, 0) -- Màu đen
+ImageButton.Image = "rbxassetid://91409498103068" -- Thay bằng ID hình ảnh
+ImageButton.ImageColor3 = ImageButton.ImageColor3 = Color3.fromRGB(255, 255, 255) -- Màu trắng
+ImageButton.BorderSizePixel = 0
+UICorner.Parent = ImageButton
 ImageButton.BorderSizePixel = 0 -- Kích thước đường viền
 UICorner.Parent = ImageButton
 

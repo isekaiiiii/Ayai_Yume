@@ -1,27 +1,3 @@
--- Hiển thị link Discord khi bật script
-local url = "https://discord.gg/3Tp35BhYeG"
-if syn then
-    syn.request({
-        Url = url,
-        Method = "GET"
-    })
-elseif getgenv().request or request then
-    (getgenv().request or request)({
-        Url = url,
-        Method = "GET"
-    })
-elseif setclipboard then
-    setclipboard(url)
-    print("Liên kết Discord đã được sao chép vào clipboard: " .. url)
-    game.StarterGui:SetCore("SendNotification", {
-        Title = "Tham gia Discord",
-        Text = "Link Discord đã được sao chép vào clipboard!",
-        Duration = 10
-    })
-else
-    print("Vui lòng truy cập vào link Discord: " .. url)
-end
-
 -- Tải và chạy thư viện Fluent
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 
@@ -77,6 +53,54 @@ ImageButton.MouseButton1Down:Connect(function()
     game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.End, false, game)
 end)
 
+-- Hiển thị link Discord khi bật script
+local discordLink = "https://discord.gg/3Tp35BhYeG"
+game.StarterGui:SetCore("SendNotification", {
+    Title = "Tham gia Discord",
+    Text = "Nhấn vào nút bên phải để sao chép liên kết!",
+    Duration = 10
+})
+
+-- Sao chép link vào clipboard nếu được hỗ trợ
+local function copyDiscordLink()
+    if setclipboard then
+        setclipboard(discordLink)
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Discord Link",
+            Text = "Đã sao chép liên kết vào clipboard!",
+            Duration = 5
+        })
+    else
+        game.StarterGui:SetCore("SendNotification", {
+            Title = "Discord Link",
+            Text = "Truy cập link: " .. discordLink,
+            Duration = 5
+        })
+    end
+end
+
+-- Tạo nút sao chép link Discord
+local CopyLinkButton = Instance.new("TextButton")
+local ButtonCorner = Instance.new("UICorner")
+
+CopyLinkButton.Parent = ScreenGui
+CopyLinkButton.Text = "Sao chép Discord"
+CopyLinkButton.Size = UDim2.new(0, 150, 0, 40) -- Kích thước nút
+CopyLinkButton.Position = UDim2.new(1, -160, 0.1, 0) -- Vị trí nút (góc phải trên)
+CopyLinkButton.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+CopyLinkButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+CopyLinkButton.TextSize = 14
+CopyLinkButton.BorderSizePixel = 0
+CopyLinkButton.ZIndex = 2
+
+ButtonCorner.CornerRadius = UDim.new(0, 5)
+ButtonCorner.Parent = CopyLinkButton
+
+-- Sự kiện khi nhấn nút
+CopyLinkButton.MouseButton1Click:Connect(function()
+    copyDiscordLink()
+end)
+
 -- Thêm chức năng vào tab "ALL"
 Tabs.ALL:AddButton({
     Title = "Script được tạo bởi Thong",
@@ -98,30 +122,3 @@ Tabs.ALL:AddButton({
         print("Boost FPS thành công!")
     end
 })
-
--- Thêm các script vào tab "Blox Fruits"
-local BloxFruitsScripts = {
-    { Title = "Alchemy Hub", Description = "No Key", URL = "https://raw.githubusercontent.com/CasperFlyModz/discord.gg-rips/main/FPSBooster.lua" },
-    { Title = "[New] Redz Hub", Description = "No Key", URL = "https://raw.githubusercontent.com/realredz/BloxFruits/refs/heads/main/Source.lua" },
-    { Title = "Andepzai Hub", Description = "No Key", URL = "https://raw.githubusercontent.com/AndepzaiHubBeta/ref/main/AndepzaiNewUpdated.lua" },
-    { Title = "W Azure", Description = "No Key", URL = "https://api.luarmor.net/files/v3/loaders/3b2169cf53bc6104dabe8e19562e5cc2.lua" },
-    { Title = "Zee Hub", Description = "Need Key", URL = "https://zuwz.me/Ls-Zee-Hub-KL" },
-    { Title = "Nope Hub Auto Chest", Description = "Need Key", URL = "https://raw.githubusercontent.com/Zunes-Bypassed/NOPE/main/NOPE.lua" },
-    { Title = "Panda Hub Find Fruits", Description = "No Key", URL = "https://raw.githubusercontent.com/PNguyen0199/Script/main/Fai-Fao-Ver2.lua" },
-    { Title = "Hoho Hub V4", Description = "Need Key", URL = "https://raw.githubusercontent.com/acsu123/HOHO_H/main/Loading_UI" },
-    { Title = "Zen Hub", Description = "Need Key", URL = "https://raw.githubusercontent.com/Zenhubtop/zen%5Fhub/pr/main/zennewwwui.lua" },
-    { Title = "BT Project", Description = "Need Key", URL = "https://lua-library.btteams.net/script-auth.txt" },
-    { Title = "OMG Hub", Description = "Need Key", URL = "https://raw.githubusercontent.com/Omgshit/Scripts/main/MainLoader.lua" },
-    { Title = "Nousigi Hub", Description = "Need Key", URL = "https://raw.githubusercontent.com/scriptpastebin/raw/main/Nousigi" },
-    { Title = "Buang Hub", Description = "Need Key", URL = "https://raw.githubusercontent.com/buang5516/buanghub/main/BUANGHUB.lua" }
-}
-
-for _, script in ipairs(BloxFruitsScripts) do
-    Tabs.BloxFruits:AddButton({
-        Title = script.Title,
-        Description = script.Description,
-        Callback = function()
-            loadstring(game:HttpGet(script.URL, true))()
-        end
-    })
-end

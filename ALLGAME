@@ -1,4 +1,4 @@
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/TBoyRoblox727/TBoyRobloxYT/refs/heads/main/TBoypro.txt')))()
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Thongdepzai2701/Ayai_Yume/refs/heads/main/Thongontop.txt'))()
 
 local Window = OrionLib:MakeWindow({Name = "Script tổng hợp", HidePremium = false, SaveConfig = true, ConfigFolder = "dxl_bf"})
 
@@ -24,6 +24,14 @@ local Tab4 = Window:MakeTab({
 	Name = "Script Farm",
 	Icon = "rbxassetid://No",
 	PremiumOnly = false
+})
+
+-- Hiển thị liên kết Discord
+Tab:AddButton({
+	Name = "Join Discord",
+	Callback = function()
+        game:GetService("GuiService"):OpenBrowserWindow("https://discord.gg/3Tp35BhYeG")
+    end
 })
 
 -- Button for Mod Game

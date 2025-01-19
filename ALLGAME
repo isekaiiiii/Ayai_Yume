@@ -8,11 +8,11 @@ local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.
 -- Tạo cửa sổ chính
 local Window = Fluent:CreateWindow({
     Title = "Script Tổng Hợp",
-    SubTitle = "Update 1.5",
+    SubTitle = "made by Thong",
     TabWidth = 160,
     Size = UDim2.fromOffset(500, 360),
     Acrylic = true,
-    Theme = "Dark",
+    Theme = "Dark",  -- Đặt lại chủ đề sang "Dark" nếu không hỗ trợ "niger"
     MinimizeKey = Enum.KeyCode.End
 })
 
@@ -29,88 +29,102 @@ local Tabs = {
     F = Window:AddTab({ Title = "Fisch", Icon = "" }),
     PG = Window:AddTab({ Title = "Pets Go", Icon = "" }),
     E = Window:AddTab({ Title = "Evade", Icon = "" })
-})
+}
 
 -- Tạo GUI chính
 local ScreenGui = Instance.new("ScreenGui")
-local MenuButton = Instance.new("ImageButton")
+local ImageButton = Instance.new("ImageButton")
 local UICorner = Instance.new("UICorner")
-local MenuFrame = Instance.new("Frame")
-local isMenuOpen = false  -- Biến theo dõi trạng thái của menu
 
 -- Cài đặt GUI
 ScreenGui.Parent = game.CoreGui
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
--- Cấu hình nút menu (nút ẩn/hiện menu)
-MenuButton.Parent = ScreenGui
-MenuButton.BackgroundTransparency = 1
-MenuButton.ImageColor3 = Color3.fromRGB(0, 0, 0) -- Màu đen
-MenuButton.BorderSizePixel = 0
-MenuButton.Position = UDim2.new(0.10083337, 0, 0.09, 0) -- Vị trí
-MenuButton.Size = UDim2.new(0, 50, 0, 50) -- Kích thước
-MenuButton.Draggable = true
-MenuButton.Image = "http://www.roblox.com/asset/?id=<YOUR_IMAGE_ID>" -- Đặt ID hình ảnh của bạn ở đây
+-- Cấu hình ImageButton
+ImageButton.Parent = ScreenGui
+ImageButton.BackgroundTransparency = 1
+ImageButton.ImageColor3 = Color3.fromRGB(0, 0, 0) -- Màu đen
+ImageButton.BorderSizePixel = 0
+ImageButton.Position = UDim2.new(0.10083337, 0, 0.09, 0) -- Vị trí
+ImageButton.Size = UDim2.new(0, 50, 0, 50) -- Kích thước
+ImageButton.Draggable = true
+ImageButton.Image = "rbxthumb://type=Asset&id=106431844691075&w=150&h=150" -- Đặt ID hình ảnh của bạn ở đây
 UICorner.CornerRadius = UDim.new(0, 10)
-UICorner.Parent = MenuButton
+UICorner.Parent = ImageButton
 
--- Cấu hình menu (nội dung sẽ hiển thị)
-MenuFrame.Parent = ScreenGui
-MenuFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)  -- Màu nền menu
-MenuFrame.Size = UDim2.new(0, 160, 0, 300)
-MenuFrame.Position = UDim2.new(0.2, 0, 0.1, 0)  -- Vị trí của menu
-MenuFrame.Visible = false  -- Ban đầu menu sẽ ẩn
+-- Thêm sự kiện cho nút
+ImageButton.MouseButton1Down:Connect(function()
+    game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.End, false, game)
+end)
 
--- Cập nhật trạng thái mở/đóng menu
-MenuButton.MouseButton1Down:Connect(function()
-    if isMenuOpen then
-        MenuFrame.Visible = false
-        isMenuOpen = false
-    else
-        MenuFrame.Visible = true
-        isMenuOpen = true
+-- Thêm chức năng vào tab "MENU"
+Tabs.ALL:AddButton({
+    Title = "Script được tạo bởi Thong",
+    Callback = function()
+        print("Script đã chạy thành công!")
     end
-end)
+})
 
--- Thêm các nút vào menu
-local function addMenuButton(title, callback)
-    local Button = Instance.new("TextButton")
-    Button.Parent = MenuFrame
-    Button.Size = UDim2.new(1, 0, 0, 30)
-    Button.Text = title
-    Button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-    Button.TextColor3 = Color3.fromRGB(255, 255, 255)
-    Button.Font = Enum.Font.Gotham
-    Button.TextSize = 14
-    Button.BorderSizePixel = 0
+Tabs.ALL:AddButton({
+    Title = "Update 1",
+    Description = "trạng thái script No Key",
+    Callback = function()
+        _G.Settings = {
+            LowDetail = true,
+            Images = {
+                Invisible = true,
+                Destroy = false
+            },
+            ["No Particles"] = true,
+            ["No Camera Effects"] = true
+        }
+        print("Boost FPS thành công!")
+    end
+})
 
-    Button.MouseButton1Click:Connect(callback)
-end
+-- Thêm các nút vào tab "Blox Fruits"
+Tabs.BloxFruits:AddButton({
+    Title = "Alchemy Hub",
+    Description = "No Key",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/CasperFlyModz/discord.gg-rips/main/FPSBooster.lua"))()
+    end
+})
 
--- Thêm các nút chức năng vào menu
-addMenuButton("Chạy Script", function()
-    print("Script đã chạy thành công!")
-end)
+Tabs.BloxFruits:AddButton({
+    Title = "[New] Redz Hub",
+    Description = "No Key",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/realredz/BloxFruits/refs/heads/main/Source.lua"))()
+    end
+})
 
-addMenuButton("Script Boost FPS (Fix Lag)", function()
-    _G.Settings = {
-        LowDetail = true,
-        Images = {
-            Invisible = true,
-            Destroy = false
-        },
-        ["No Particles"] = true,
-        ["No Camera Effects"] = true
-    }
-    print("Boost FPS thành công!")
-end)
+Tabs.BloxFruits:AddButton({
+    Title = "Andepzai Hub Ui Giống Maru",
+    Description = "No Key",
+    Callback = function()
+        repeat wait() until game:IsLoaded() and game.Players.LocalPlayer 
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/AndepzaiHubBeta/ref/main/AndepzaiNewUpdated.lua"))()
+    end
+})
 
-addMenuButton("Alchemy Hub", function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/CasperFlyModz/discord.gg-rips/main/FPSBooster.lua"))()
-end)
+Tabs.BloxFruits:AddButton({
+    Title = "W Azure",
+    Description = "No Key",
+    Callback = function()
+        getgenv().Team = "Pirates"
+        getgenv().FixCrash = false
+        getgenv().FixCrash2 = false
+        loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/3b2169cf53bc6104dabe8e19562e5cc2.lua"))()
+    end
+})
 
-addMenuButton("[New] Redz Hub", function()
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/realredz/BloxFruits/refs/heads/main/Source.lua"))()
-end)
-
--- Các nút khác tiếp tục như trước...
+-- Các nút khác tương tự đã sửa cú pháp, nếu bạn cần thêm hãy làm theo mẫu trên
+-- Ví dụ:
+-- Tabs.BloxFruits:AddButton({
+--     Title = "Tên nút",
+--     Description = "Mô tả",
+--     Callback = function()
+--         -- Mã khi nhấn nút
+--     end
+-- })

@@ -1,4 +1,3 @@
-
 -- Tải và chạy thư viện Fluent
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 
@@ -13,7 +12,7 @@ local Window = Fluent:CreateWindow({
     TabWidth = 160,
     Size = UDim2.fromOffset(500, 360),
     Acrylic = true,
-    Theme = "Dark",  -- Đặt lại chủ đề sang "Dark" nếu không hỗ trợ "niger"
+    Theme = "Dark",
     MinimizeKey = Enum.KeyCode.End
 })
 
@@ -51,12 +50,13 @@ ImageButton.Size = UDim2.new(0, 50, 0, 50) -- Kích thước
 ImageButton.Draggable = true
 UICorner.CornerRadius = UDim.new(0, 10)
 UICorner.Parent = ImageButton
+
 -- Thêm sự kiện cho nút
 ImageButton.MouseButton1Down:Connect(function()
     game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.End, false, game)
 end)
 
--- Thêm chức năng vào tab "MENU"
+-- Thêm chức năng vào tab "ALL"
 Tabs.ALL:AddButton({
     Title = "Script được tạo bởi Thong",
     Callback = function()
@@ -66,7 +66,7 @@ Tabs.ALL:AddButton({
 
 Tabs.ALL:AddButton({
     Title = "Update 1",
-    Description = "trạng thái script No Key",
+    Description = "Trạng thái script No Key",
     Callback = function()
         _G.Settings = {
             LowDetail = true,
@@ -81,54 +81,28 @@ Tabs.ALL:AddButton({
     end
 })
 
--- Thêm các nút vào tab "Blox Fruits"
-Tabs.BloxFruits:AddButton({
-    Title = "Alchemy Hub",
-    Description = "No Key",
+-- **Nội dung thêm mới** --
+-- Nút mở Discord
+Tabs.ALL:AddButton({
+    Title = "Mở Link Discord",
+    Description = "Click để mở Discord",
     Callback = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/CasperFlyModz/discord.gg-rips/main/FPSBooster.lua"))()
+        local url = "https://discord.gg/3Tp35BhYeG"
+        if syn and syn.request then
+            syn.request({Url = url, Method = "GET"})
+        elseif request then
+            request({Url = url, Method = "GET"})
+        else
+            print("Không hỗ trợ mở URL trên nền tảng hiện tại.")
+        end
     end
 })
 
-Tabs.BloxFruits:AddButton({
-    Title = "[New] Redz Hub",
-    Description = "No Key",
+-- Nút script ví dụ khác
+Tabs.ALL:AddButton({
+    Title = "Chạy Script Mẫu",
+    Description = "Chạy một đoạn script mẫu",
     Callback = function()
-        local Settings = {
-  JoinTeam = "Pirates"; -- Pirates/Marines
-  Translator = true; -- true/false
-}
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/realredz/BloxFruits/refs/heads/main/Source.lua"))(Settings)
+        loadstring(game:HttpGet("https://example.com/sample-script.lua"))()
     end
 })
-
-Tabs.BloxFruits:AddButton({
-    Title = "Andepzai Hub Ui Giống Maru",
-    Description = "No Key",
-    Callback = function()
-        repeat wait() until game:IsLoaded() and game.Players.LocalPlayer 
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/AndepzaiHubBeta/ref/main/AndepzaiNewUpdated.lua"))()
-    end
-})
-
-Tabs.BloxFruits:AddButton({
-    Title = "W Azure",
-    Description = "No Key",
-    Callback = function()
-        getgenv().Team = "Pirates"
-        getgenv().FixCrash = false
-        getgenv().FixCrash2 = false
-        loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/3b2169cf53bc6104dabe8e19562e5cc2.lua"))()
-    end
-})
-
--- Các nút khác tương tự đã sửa cú pháp, nếu bạn cần thêm hãy làm theo mẫu trên
--- Ví dụ:
--- Tabs.BloxFruits:AddButton({
---     Title = "Tên nút",
---     Description = "Mô tả",
---     Callback = function()
---         -- Mã khi nhấn nút
---     end
--- })

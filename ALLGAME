@@ -4,24 +4,24 @@ local Window = OrionLib:MakeWindow({Name = "Script tổng hợp", HidePremium = 
 
 local Tab = Window:MakeTab({
 	Name = "Scripts Cần Key",
-	Icon = "rbxassetid://15733988007",
+	Icon = "rbxassetid://",
 	PremiumOnly = false
 })
 
 local Tab2 = Window:MakeTab({
 	Name = "Mod Client",
-	Icon = "rbxassetid://15733988007",
+	Icon = "rbxassetid://",
 	PremiumOnly = false
 })
 
 local Tab3 = Window:MakeTab({
 	Name = "Mod Game",
-	Icon = "rbxassetid://15733988007",
+	Icon = "rbxassetid://",
 	PremiumOnly = false
 })
 local Tab4 = Window:MakeTab({
 	Name = "Script Farm",
-	Icon = "rbxassetid://15733988007",
+	Icon = "rbxassetid://",
 	PremiumOnly = false
 })
 Tab3:AddButton({

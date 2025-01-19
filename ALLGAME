@@ -8,11 +8,11 @@ local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.
 -- Tạo cửa sổ chính
 local Window = Fluent:CreateWindow({
     Title = "Script Tổng Hợp",
-    SubTitle = "Update 1.5",
+    SubTitle = "made by Thông",
     TabWidth = 160,
     Size = UDim2.fromOffset(500, 360),
     Acrylic = true,
-    Theme = "niger",
+    Theme = "Aqua",
     MinimizeKey = Enum.KeyCode.End
 })
 

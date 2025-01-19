@@ -8,11 +8,11 @@ local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.
 -- Tạo cửa sổ chính
 local Window = Fluent:CreateWindow({
     Title = "Script Tổng Hợp",
-    SubTitle = "made by Thông",
+    SubTitle = "Update 1.5",
     TabWidth = 160,
     Size = UDim2.fromOffset(500, 360),
     Acrylic = true,
-    Theme = "Aqua",
+    Theme = "niger",
     MinimizeKey = Enum.KeyCode.End
 })
 
@@ -48,7 +48,7 @@ ImageButton.BorderSizePixel = 0
 ImageButton.Position = UDim2.new(0.10083337, 0, 0.09, 0) -- Vị trí
 ImageButton.Size = UDim2.new(0, 50, 0, 50) -- Kích thước
 ImageButton.Draggable = true
-ImageButton.Image = "http://www.roblox.com/asset/?id=<91409498103068>" -- Đặt ID hình ảnh của bạn ở đây
+ImageButton.Image = "http://www.roblox.com/asset/?id=<YOU>" -- Đặt ID hình ảnh của bạn ở đây
 UICorner.CornerRadius = UDim.new(0, 10)
 UICorner.Parent = ImageButton
 

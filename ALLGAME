@@ -8,7 +8,7 @@ local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.
 -- Tạo cửa sổ chính
 local Window = Fluent:CreateWindow({
     Title = "Script Tổng Hợp",
-    SubTitle = "made by Thong",
+    SubTitle = "Update 1.5",
     TabWidth = 160,
     Size = UDim2.fromOffset(500, 360),
     Acrylic = true,
@@ -29,85 +29,88 @@ local Tabs = {
     F = Window:AddTab({ Title = "Fisch", Icon = "" }),
     PG = Window:AddTab({ Title = "Pets Go", Icon = "" }),
     E = Window:AddTab({ Title = "Evade", Icon = "" })
-}
+})
 
 -- Tạo GUI chính
 local ScreenGui = Instance.new("ScreenGui")
-local ImageButton = Instance.new("ImageButton")
+local MenuButton = Instance.new("ImageButton")
 local UICorner = Instance.new("UICorner")
-local WindowFrame = Window.Frame  -- Lấy đối tượng cửa sổ từ Fluent (cửa sổ chính)
+local MenuFrame = Instance.new("Frame")
+local isMenuOpen = false  -- Biến theo dõi trạng thái của menu
 
 -- Cài đặt GUI
 ScreenGui.Parent = game.CoreGui
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
--- Cấu hình ImageButton (Nút mở/đóng cửa sổ)
-ImageButton.Parent = ScreenGui
-ImageButton.BackgroundTransparency = 1
-ImageButton.ImageColor3 = Color3.fromRGB(0, 0, 0) -- Màu đen
-ImageButton.BorderSizePixel = 0
-ImageButton.Position = UDim2.new(0.10083337, 0, 0.09, 0) -- Vị trí
-ImageButton.Size = UDim2.new(0, 50, 0, 50) -- Kích thước
-ImageButton.Draggable = true
-ImageButton.Image = "http://www.roblox.com/asset/?id=<YOUR_IMAGE_ID>" -- Đặt ID hình ảnh của bạn ở đây
+-- Cấu hình nút menu (nút ẩn/hiện menu)
+MenuButton.Parent = ScreenGui
+MenuButton.BackgroundTransparency = 1
+MenuButton.ImageColor3 = Color3.fromRGB(0, 0, 0) -- Màu đen
+MenuButton.BorderSizePixel = 0
+MenuButton.Position = UDim2.new(0.10083337, 0, 0.09, 0) -- Vị trí
+MenuButton.Size = UDim2.new(0, 50, 0, 50) -- Kích thước
+MenuButton.Draggable = true
+MenuButton.Image = "http://www.roblox.com/asset/?id=<YOUR_IMAGE_ID>" -- Đặt ID hình ảnh của bạn ở đây
 UICorner.CornerRadius = UDim.new(0, 10)
-UICorner.Parent = ImageButton
+UICorner.Parent = MenuButton
 
--- Biến để theo dõi trạng thái của cửa sổ (đang mở hay đóng)
-local windowVisible = true
+-- Cấu hình menu (nội dung sẽ hiển thị)
+MenuFrame.Parent = ScreenGui
+MenuFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)  -- Màu nền menu
+MenuFrame.Size = UDim2.new(0, 160, 0, 300)
+MenuFrame.Position = UDim2.new(0.2, 0, 0.1, 0)  -- Vị trí của menu
+MenuFrame.Visible = false  -- Ban đầu menu sẽ ẩn
 
--- Thêm sự kiện cho nút (Click để mở/đóng cửa sổ)
-ImageButton.MouseButton1Down:Connect(function()
-    -- Nếu cửa sổ đang mở, ẩn nó đi, nếu không thì hiện lại
-    if windowVisible then
-        WindowFrame.Visible = false  -- Ẩn cửa sổ
-        windowVisible = false
+-- Cập nhật trạng thái mở/đóng menu
+MenuButton.MouseButton1Down:Connect(function()
+    if isMenuOpen then
+        MenuFrame.Visible = false
+        isMenuOpen = false
     else
-        WindowFrame.Visible = true  -- Hiển thị lại cửa sổ
-        windowVisible = true
+        MenuFrame.Visible = true
+        isMenuOpen = true
     end
 end)
 
--- Thêm các nút vào tab "ALL"
-Tabs.ALL:AddButton({
-    Title = "Chạy Script",
-    Callback = function()
-        print("Script đã chạy thành công!")
-    end
-})
+-- Thêm các nút vào menu
+local function addMenuButton(title, callback)
+    local Button = Instance.new("TextButton")
+    Button.Parent = MenuFrame
+    Button.Size = UDim2.new(1, 0, 0, 30)
+    Button.Text = title
+    Button.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Button.Font = Enum.Font.Gotham
+    Button.TextSize = 14
+    Button.BorderSizePixel = 0
 
-Tabs.ALL:AddButton({
-    Title = "Script Boost FPS (Fix Lag)",
-    Description = "No Key",
-    Callback = function()
-        _G.Settings = {
-            LowDetail = true,
-            Images = {
-                Invisible = true,
-                Destroy = false
-            },
-            ["No Particles"] = true,
-            ["No Camera Effects"] = true
-        }
-        print("Boost FPS thành công!")
-    end
-})
+    Button.MouseButton1Click:Connect(callback)
+end
 
--- Thêm các nút vào tab "Blox Fruits"
-Tabs.BloxFruits:AddButton({
-    Title = "Alchemy Hub",
-    Description = "No Key",
-    Callback = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/CasperFlyModz/discord.gg-rips/main/FPSBooster.lua"))()
-    end
-})
+-- Thêm các nút chức năng vào menu
+addMenuButton("Chạy Script", function()
+    print("Script đã chạy thành công!")
+end)
 
-Tabs.BloxFruits:AddButton({
-    Title = "[New] Redz Hub",
-    Description = "No Key",
-    Callback = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/realredz/BloxFruits/refs/heads/main/Source.lua"))()
-    end
-})
+addMenuButton("Script Boost FPS (Fix Lag)", function()
+    _G.Settings = {
+        LowDetail = true,
+        Images = {
+            Invisible = true,
+            Destroy = false
+        },
+        ["No Particles"] = true,
+        ["No Camera Effects"] = true
+    }
+    print("Boost FPS thành công!")
+end)
 
--- Các nút khác tiếp tục như trước
+addMenuButton("Alchemy Hub", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/CasperFlyModz/discord.gg-rips/main/FPSBooster.lua"))()
+end)
+
+addMenuButton("[New] Redz Hub", function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/realredz/BloxFruits/refs/heads/main/Source.lua"))()
+end)
+
+-- Các nút khác tiếp tục như trước...

@@ -26,12 +26,13 @@ local Tab4 = Window:MakeTab({
 	PremiumOnly = false
 })
 
--- Hiển thị liên kết Discord
+-- Tạo nút màu đen và mở liên kết Discord khi nhấn
 Tab:AddButton({
-	Name = "Join Discord",
+	Name = "Link Discord",
 	Callback = function()
         game:GetService("GuiService"):OpenBrowserWindow("https://discord.gg/3Tp35BhYeG")
-    end
+    end,
+    ButtonColor = Color3.fromRGB(0, 0, 0),  -- Màu đen cho nút
 })
 
 -- Button for Mod Game

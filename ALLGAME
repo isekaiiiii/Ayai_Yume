@@ -12,7 +12,7 @@ local Window = Fluent:CreateWindow({
     TabWidth = 160,
     Size = UDim2.fromOffset(500, 360),
     Acrylic = true,
-    Theme = "Aqua",
+    Theme = "Dark",
     MinimizeKey = Enum.KeyCode.End
 })
 
@@ -48,7 +48,7 @@ ImageButton.BorderSizePixel = 0
 ImageButton.Position = UDim2.new(0.10083337, 0, 0.09, 0) -- Vị trí
 ImageButton.Size = UDim2.new(0, 50, 0, 50) -- Kích thước
 ImageButton.Draggable = true
-ImageButton.Image = "http://www.roblox.com/asset/?id=<91409498103068>" -- Đặt ID hình ảnh của bạn ở đây
+ImageButton.Image = "http://www.roblox.com/asset/?id=[91409498103068]" -- Đặt ID hình ảnh của bạn ở đây
 UICorner.CornerRadius = UDim.new(0, 10)
 UICorner.Parent = ImageButton
 
@@ -142,5 +142,153 @@ Tabs.BloxFruits:AddButton({
     Callback = function()
         _G.Team = "Pirate" 
         loadstring(game:HttpGet("https://raw.githubusercontent.com/KOBENFF/sdfd/release.lua"))()
+    end
+})
+Tabs.BoxFruits:AddButton({
+    Title = "Xeter X Min Hub (Vietsub)",
+    Description = "No Key",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com.com/LuaCrack/Min/refs/heads/main/XeterXMinGamingHub"))()
+    end
+})
+
+Tabs.BoxFruits:AddButton({
+    Title = "Quantum Hub",
+    Description = "No Key",
+    Callback = function()
+        loadstring(game:HttpGet("https://quantum-onyx-nextgeneration.vercel.app/QuantumOnyxTeamMainHub.lua"))()
+    end
+})
+
+Tabs.BoxFruits:AddButton({
+    Title = "Relz Hub",
+    Description = "No Key",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontentt.com/farghii/relzhub/main/execute.hack", true))()
+    end
+})
+
+Tabs.BoxFruits:AddButton({
+    Title = "Speed Hub X",
+    Description = "No Key",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontentt.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua", true))()
+    end
+})
+
+Tabs.BloxFruits:AddButton({
+    Title = "Min Hub V2 (Vietsub)",
+    Description = "No Key",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githusercontent.com/Basicallyy/Basicallyy/main/MinGamingLordVietSub.lua"))()
+    end
+})
+
+Tabs.BloxFruits:AddButton({
+    Title = "Turbo Lite Hub",
+    Description = "No Key",
+    Callback = function()
+        loadstring(game:HttpGet("httphttps://raw.githubusercontent.com/TurboLite/Script/main/Main.lua"))()
+    end
+})
+
+Tabs.BloxFruits:AddButton({
+    Title = "Synet Hub",
+    Description = "No Key",
+    Callback = function()
+        getgenv().Config = {
+    Team = "Pirate",}
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Iamkhnah/Khanhdzpro/main/MainSynet.lua"))()
+    end
+})
+
+Tabs.BloxFruits:AddButton({
+    Title = "Xero Hub",
+    Description = "No Key",
+    Callback = function()
+        getgenv().Team = "Marines" 
+getgenv().Fix_Lag = true
+getgenv().Auto_Execute = false
+getgenv().Clear_Settings = false
+loadstring(game:HttpGet("https://raw.githubusercontent.com/verudous/Xero-Hub/main/main.lua"))()
+    end
+})
+Tabs.BloxFruits:AddButton({
+    Title = "Faifao Hub Ver2",
+    Description = "No Key",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/PNguyen0199/Script/main/Fai-Fao-Ver2.lua"))()
+    end
+})
+Tabs.BloxFruits:AddButton({
+    Title = "Panda Hub Find Fruits",
+    Description = "No Key",
+    Callback = function()
+        SpeedTween = 350
+        getgenv().RandomFruit = true
+        getgenv().EspFruit = true
+        getgenv().Team = "Pirate"
+        getgenv().WebhookUrl = ''
+loadstring(game:HttpGet('https://raw.githubusercontent.com/VNT-UNIVERSAL/Panda-Hub/main/Release/fruitfarm.lua'))()
+    end
+})
+
+Tabs.BloxFruits:AddButton({
+    Title = "Hoho Hub V4",
+    Description = "Need Key",
+    Callback = function()
+        _G.HohoVersion = "v4"
+    loaloadstring(game:HttpGet("https://raw.githubusercontent.com/acsu123/HOHO_H/main/Loading_UI"))()
+    end
+})
+
+Tabs.BloxFruits:AddButton({
+    Title = "Zen Hub",
+    Description = "Need Key",
+    Callback = function()
+        loadstring(game:HttpGet("https://zuwz.me/Ls-Zee-Hub-KL"))()
+    end
+})
+
+Tabs.BloxFruits:AddButton({
+    Title = "Zee Hub",
+    Description = "Need Key",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/xyz/zee-hub.lua"))()
+    end
+})
+loadstring(game:HttpGet("https://raw.githubusercontent.com/realzys1/zee-hub/main/README.md"))()
+    end
+})
+
+Tabs.BloxFruits:AddButton({
+    Title = "Zee Hub",
+    Description = "Need Key",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/xyz/zee-hub.lua"))()
+    end
+})
+
+Tabs.BloxFruits:AddButton({
+    Title = "Zeno Hub",
+    Description = "Need Key",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/zenhub/zen-hub/main/ZenHub.lua"))()
+    end
+})
+
+Tabs.BloxFruits:AddButton({
+    Title = "Zee Hub V4",
+    Description = "Need Key",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/zewhub/zee-hub-v4.lua"))()
+    end
+})
+
+Tabs.BloxFruits:AddButton({
+    Title = "Zee Hub Reloaded",
+    Description = "Need Key",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/reloaded/zee-hub-reloaded.lua"))()
     end
 })

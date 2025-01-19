@@ -12,23 +12,23 @@ local Window = Fluent:CreateWindow({
     TabWidth = 160,
     Size = UDim2.fromOffset(500, 360),
     Acrylic = true,
-    Theme = "Dark",  -- Đặt lại chủ đề sang "Dark" nếu không hỗ trợ "niger"
+    Theme = "Dark", -- Đặt chủ đề
     MinimizeKey = Enum.KeyCode.End
 })
 
 -- Tạo các tab
 local Tabs = {
-    ALL = Window:AddTab({ Title = "All Map", Icon = "" }),
-    BloxFruits = Window:AddTab({ Title = "Blox Fruits", Icon = "" }),
-    KL = Window:AddTab({ Title = "King Legacy", Icon = "" }),
-    AD = Window:AddTab({ Title = "Anime Defense", Icon = "" }),
-    AV = Window:AddTab({ Title = "Anime Venguard", Icon = "" }),
-    AR = Window:AddTab({ Title = "Reborn", Icon = "" }),
-    MS = Window:AddTab({ Title = "Meme Sea", Icon = "" }),
-    D = Window:AddTab({ Title = "Doors", Icon = "" }),
-    F = Window:AddTab({ Title = "Fisch", Icon = "" }),
-    PG = Window:AddTab({ Title = "Pets Go", Icon = "" }),
-    E = Window:AddTab({ Title = "Evade", Icon = "" })
+    ALL = Window:AddTab({ Title = "All Map" }),
+    BloxFruits = Window:AddTab({ Title = "Blox Fruits" }),
+    KL = Window:AddTab({ Title = "King Legacy" }),
+    AD = Window:AddTab({ Title = "Anime Defense" }),
+    AV = Window:AddTab({ Title = "Anime Vanguard" }),
+    AR = Window:AddTab({ Title = "Reborn" }),
+    MS = Window:AddTab({ Title = "Meme Sea" }),
+    D = Window:AddTab({ Title = "Doors" }),
+    F = Window:AddTab({ Title = "Fisch" }),
+    PG = Window:AddTab({ Title = "Pets Go" }),
+    E = Window:AddTab({ Title = "Evade" })
 }
 
 -- Tạo GUI chính
@@ -36,28 +36,24 @@ local ScreenGui = Instance.new("ScreenGui")
 local ImageButton = Instance.new("ImageButton")
 local UICorner = Instance.new("UICorner")
 
--- Cài đặt GUI
 ScreenGui.Parent = game.CoreGui
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
--- Cấu hình ImageButton
 ImageButton.Parent = ScreenGui
 ImageButton.BackgroundTransparency = 1
-ImageButton.Image = "rbxassetid://91409498103068" -- Đặt ID hình ảnh
+ImageButton.Image = "rbxassetid://91409498103068"
 ImageButton.BorderSizePixel = 0
-ImageButton.Position = UDim2.new(0.10083337, 0, 0.09, 0) -- Vị trí
-ImageButton.Size = UDim2.new(0, 50, 0, 50) -- Kích thước
+ImageButton.Position = UDim2.new(0.10083337, 0, 0.09, 0)
+ImageButton.Size = UDim2.new(0, 50, 0, 50)
 ImageButton.Draggable = true
-icon = "rbxthumb://type=Asset&id=106431844691075&w=150&h=150" -- Đặt ID hình ảnh của bạn ở đây
 UICorner.CornerRadius = UDim.new(0, 10)
 UICorner.Parent = ImageButton
 
--- Thêm sự kiện cho nút
 ImageButton.MouseButton1Down:Connect(function()
     game:GetService("VirtualInputManager"):SendKeyEvent(true, Enum.KeyCode.End, false, game)
 end)
 
--- Thêm chức năng vào tab "MENU"
+-- Thêm chức năng vào tab "ALL"
 Tabs.ALL:AddButton({
     Title = "Script được tạo bởi Thong",
     Callback = function()
@@ -71,10 +67,7 @@ Tabs.ALL:AddButton({
     Callback = function()
         _G.Settings = {
             LowDetail = true,
-            Images = {
-                Invisible = true,
-                Destroy = false
-            },
+            Images = { Invisible = true, Destroy = false },
             ["No Particles"] = true,
             ["No Camera Effects"] = true
         }
@@ -82,49 +75,29 @@ Tabs.ALL:AddButton({
     end
 })
 
--- Thêm các nút vào tab "Blox Fruits"
-Tabs.BloxFruits:AddButton({
-    Title = "Alchemy Hub",
-    Description = "No Key",
-    Callback = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/CasperFlyModz/discord.gg-rips/main/FPSBooster.lua"))()
-    end
-})
+-- Thêm các script vào tab "Blox Fruits"
+local BloxFruitsScripts = {
+    { Title = "Alchemy Hub", Description = "No Key", URL = "https://raw.githubusercontent.com/CasperFlyModz/discord.gg-rips/main/FPSBooster.lua" },
+    { Title = "[New] Redz Hub", Description = "No Key", URL = "https://raw.githubusercontent.com/realredz/BloxFruits/refs/heads/main/Source.lua" },
+    { Title = "Andepzai Hub", Description = "No Key", URL = "https://raw.githubusercontent.com/AndepzaiHubBeta/ref/main/AndepzaiNewUpdated.lua" },
+    { Title = "W Azure", Description = "No Key", URL = "https://api.luarmor.net/files/v3/loaders/3b2169cf53bc6104dabe8e19562e5cc2.lua" },
+    { Title = "Zee Hub", Description = "Need Key", URL = "https://zuwz.me/Ls-Zee-Hub-KL" },
+    { Title = "Nope Hub Auto Chest", Description = "Need Key", URL = "https://raw.githubusercontent.com/Zunes-Bypassed/NOPE/main/NOPE.lua" },
+    { Title = "Panda Hub Find Fruits", Description = "No Key", URL = "https://raw.githubusercontent.com/PNguyen0199/Script/main/Fai-Fao-Ver2.lua" },
+    { Title = "Hoho Hub V4", Description = "Need Key", URL = "https://raw.githubusercontent.com/acsu123/HOHO_H/main/Loading_UI" },
+    { Title = "Zen Hub", Description = "Need Key", URL = "https://raw.githubusercontent.com/Zenhubtop/zen%5Fhub/pr/main/zennewwwui.lua" },
+    { Title = "BT Project", Description = "Need Key", URL = "https://lua-library.btteams.net/script-auth.txt" },
+    { Title = "OMG Hub", Description = "Need Key", URL = "https://raw.githubusercontent.com/Omgshit/Scripts/main/MainLoader.lua" },
+    { Title = "Nousigi Hub", Description = "Need Key", URL = "https://raw.githubusercontent.com/scriptpastebin/raw/main/Nousigi" },
+    { Title = "Buang Hub", Description = "Need Key", URL = "https://raw.githubusercontent.com/buang5516/buanghub/main/BUANGHUB.lua" }
+}
 
-Tabs.BloxFruits:AddButton({
-    Title = "[New] Redz Hub",
-    Description = "No Key",
-    Callback = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/realredz/BloxFruits/refs/heads/main/Source.lua"))()
-    end
-})
-
-Tabs.BloxFruits:AddButton({
-    Title = "Andepzai Hub Ui Giống Maru",
-    Description = "No Key",
-    Callback = function()
-        repeat wait() until game:IsLoaded() and game.Players.LocalPlayer 
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/AndepzaiHubBeta/ref/main/AndepzaiNewUpdated.lua"))()
-    end
-})
-
-Tabs.BloxFruits:AddButton({
-    Title = "W Azure",
-    Description = "No Key",
-    Callback = function()
-        getgenv().Team = "Pirates"
-        getgenv().FixCrash = false
-        getgenv().FixCrash2 = false
-        loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/3b2169cf53bc6104dabe8e19562e5cc2.lua"))()
-    end
-})
-
--- Các nút khác tương tự đã sửa cú pháp, nếu bạn cần thêm hãy làm theo mẫu trên
--- Ví dụ:
--- Tabs.BloxFruits:AddButton({
---     Title = "Tên nút",
---     Description = "Mô tả",
---     Callback = function()
---         -- Mã khi nhấn nút
---     end
--- })
+for _, script in ipairs(BloxFruitsScripts) do
+    Tabs.BloxFruits:AddButton({
+        Title = script.Title,
+        Description = script.Description,
+        Callback = function()
+            loadstring(game:HttpGet(script.URL, true))()
+        end
+    })
+end

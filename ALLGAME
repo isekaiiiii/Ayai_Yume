@@ -1,3 +1,27 @@
+-- Hiển thị link Discord khi bật script
+local url = "https://discord.gg/3Tp35BhYeG"
+if syn then
+    syn.request({
+        Url = url,
+        Method = "GET"
+    })
+elseif getgenv().request or request then
+    (getgenv().request or request)({
+        Url = url,
+        Method = "GET"
+    })
+elseif setclipboard then
+    setclipboard(url)
+    print("Liên kết Discord đã được sao chép vào clipboard: " .. url)
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "Tham gia Discord",
+        Text = "Link Discord đã được sao chép vào clipboard!",
+        Duration = 10
+    })
+else
+    print("Vui lòng truy cập vào link Discord: " .. url)
+end
+
 -- Tải và chạy thư viện Fluent
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 

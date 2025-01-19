@@ -43,7 +43,7 @@ ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 -- Cấu hình ImageButton
 ImageButton.Parent = ScreenGui
 ImageButton.BackgroundTransparency = 1
-ImageButton.ImageColor3 = Color3.fromRGB(0, 0, 0) -- Màu đen
+ImageButton.Image = "rbxassetid://91409498103068" -- Đặt ID hình ảnh
 ImageButton.BorderSizePixel = 0
 ImageButton.Position = UDim2.new(0.10083337, 0, 0.09, 0) -- Vị trí
 ImageButton.Size = UDim2.new(0, 50, 0, 50) -- Kích thước

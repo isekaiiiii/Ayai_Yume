@@ -1,5 +1,4 @@
-
-local OrionLib = loadstring(game:HttpGet((https://raw.githubusercontent.com/Thongdepzai2701/Ayai_Yume/refs/heads/main/Thongontop.txt')))()
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/TBoyRoblox727/TBoyRobloxYT/refs/heads/main/TBoypro.txt')))()
 
 local Window = OrionLib:MakeWindow({Name = "Script tổng hợp", HidePremium = false, SaveConfig = true, ConfigFolder = "dxl_bf"})
 

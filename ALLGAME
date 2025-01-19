@@ -1,63 +1,66 @@
 
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/TBoyRoblox727/TBoyRobloxYT/refs/heads/main/TBoypro.txt')))()
+local OrionLib = loadstring(game:HttpGet((https://raw.githubusercontent.com/Thongdepzai2701/Ayai_Yume/refs/heads/main/Thongontop.txt')))()
 
 local Window = OrionLib:MakeWindow({Name = "Script tổng hợp", HidePremium = false, SaveConfig = true, ConfigFolder = "dxl_bf"})
 
-local Tab = Window:MakeTab({
-	Name = "Scripts Cần Key",
-	Icon = "rbxassetid://15733988007",
+local Tab1 = Window:MakeTab({
+	Name = "Main",
+	Icon = "rbxassetid://No",
 	PremiumOnly = false
 })
 
 local Tab2 = Window:MakeTab({
-	Name = "Mod Client",
-	Icon = "rbxassetid://15733988007",
+	Name = "Blox Fruit",
+	Icon = "rbxassetid://No",
 	PremiumOnly = false
 })
 
 local Tab3 = Window:MakeTab({
-	Name = "Mod Game",
-	Icon = "rbxassetid://15733988007",
+	Name = "King lagaxy",
+	Icon = "rbxassetid://No",
 	PremiumOnly = false
 })
 local Tab4 = Window:MakeTab({
-	Name = "Script Farm",
-	Icon = "rbxassetid://15733988007",
+	Name = "Meme sea",
+	Icon = "rbxassetid://No",
 	PremiumOnly = false
 })
 Tab3:AddButton({
-	Name = "RTX",
+	Name = "Tsuo",
 	Callback = function()
         repeat wait(5) until game:IsLoaded()
-        loadstring(game:HttpGet("https://pastebin.com/raw/vmjZ4UY8"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Tsuo7/TsuoHub/main/king%20legacy"))()
 end
 })
 
 Tab3:AddButton({
-	Name = "Fix Lag",
+	Name = "hyper",
 	Callback = function()
         repeat wait(5) until game:IsLoaded()
-      loadstring(game:HttpGet("https://raw.githubusercontent.com/TurboLite/Script/main/FixLag.lua"))()
+      repeat wait() until game:IsLoaded()
+ Legacyme:HttpGet("https://raw.githubusercontent.com/DookDekDEE/Hyper/main/script.lua"))() 
 end
 })
 
 Tab3:AddButton({
-	Name = "Anti Kick",
+	Name = "Arc ",
 	Callback = function()
         repeat wait(5) until game:IsLoaded()
-     loadstring(game:HttpGet("https://pastebin.com/raw/FPfaukXN"))()
+
+getgenv().CustomDistance = 10 -- For Bug Can't Swipe Distance
+loadstring(game:HttpGet("https://raw.githubusercontent.com/ChopLoris/ArcHub/main/main.lua"))()
 end
 })
 Tab3:AddButton({
-	Name = "Farm Nhanh",
+	Name = "Zee",
 	Callback = function()
         repeat wait(5) until game:IsLoaded()
-        loadstring(game:HttpGet("https://api.realaya.xyz/v1/files/l/73mkp0aqyfo4ypy8hvl0nz10lq49fey5.lua"))()
+        loadstring(game:HttpGet('https://zuwz.me/Ls-Zee-Hub-KL'))() 
 end
 })
 
 
-Tab2:AddButton({
+Tab1:AddButton({
 	Name = "Fruit Finder",
 	Callback = function()
         repeat wait(5) until game:IsLoaded()
@@ -65,7 +68,7 @@ Tab2:AddButton({
   	end    
 })
 
-Tab2:AddButton({
+Tab1:AddButton({
 	Name = "Arceus X",
 	Callback = function()
         repeat wait(5) until game:IsLoaded()
@@ -73,7 +76,7 @@ Tab2:AddButton({
 end
 })
 
-Tab2:AddButton({
+Tab1:AddButton({
 	Name = "Krnl",
 	Callback = function()
         repeat wait(5) until game:IsLoaded()
@@ -81,7 +84,7 @@ Tab2:AddButton({
 end
 })
 
-Tab2:AddButton({
+Tab1:AddButton({
 	Name = "Synapse X",
 	Callback = function()
         repeat wait(5) until game:IsLoaded()
@@ -89,7 +92,7 @@ Tab2:AddButton({
 end
 })
 
-Tab2:AddButton({
+Tab1:AddButton({
 	Name = "Keyboard",
 	Callback = function()
         repeat wait(5) until game:IsLoaded()
@@ -97,26 +100,26 @@ Tab2:AddButton({
 end
 })
 
-Tab:AddButton({
+Tab2:AddButton({
 	Name = "NEW: Alchemy",
 	Callback = function()
        loadstring(game:HttpGet("https://scripts.alchemyhub.xyz"))()
   	end    
 })
-Tab:AddButton({
+Tab2:AddButton({
 	Name = "NEW: Banana",
 	Callback = function()
      loadstring(game:HttpGet("https://raw.githubusercontent.com/ScriptRUs/BananaHub/main/BananaHub.lua"))()
   	end    
 })
-Tab:AddButton({
+Tab2:AddButton({
 	Name = "NEW: BLUE X",
 	Callback = function()
       loadstring(game:HttpGet("https://raw.githubusercontent.com/Dev-BlueX/BlueX-Hub/refs/heads/main/EN.lua"))()
   	end    
 })
 
-Tab:AddButton({
+Tab2:AddButton({
 	Name = "Chests Farm",
 	Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/NickelHUBB/SonicTuru/main/ChestFarmOp"))()
@@ -124,77 +127,77 @@ end
 })
 
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "Domadic Hub",
 	Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/Domadicoof/Domadicoof/main/Domadichub/NottoGay/Start.ranscript"))()
   	end    
 })
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "FTS X Hub!",
 	Callback = function()
         loadstring(game:HttpGet('https://raw.githubusercontent.com/tufreescript/FTS-X-Hub/main/FTSXHUB%20V1'))()
   	end    
 })
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "T7GFY GUI",
 	Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/minded102/dokinbog/main/README.md", true))()
   	end    
 })
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "CFrame Hub",
 	Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/Steveee11/Scripts/main/Blox%20Fruits%20OP%20Script"))()
   	end    
 })
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "Flare Hub",
 	Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/1f0yt/community/master/flares"))()
   	end    
 })
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "BLCK Hub",
 	Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/1f0yt/community/main/BLCK"))()
   	end    
 })
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "Modz HUb",
 	Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/1f0yt/community/master/modz"))()
   	end    
 })
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "Hoho Hub",
 	Callback = function()
         loadstring(game:HttpGet('https://raw.githubusercontent.com/acsu123/HOHO_H/main/Loading_UI'))()
   	end    
 })
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "Lol Hub",
 	Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/1f0yt/community/main/neon"))()
   	end    
 })
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "Zen Hub",
 	Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/Kaizenofficiall/ZenHub/main/Loader", true))()
   	end    
 })
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "Uranium/Switch Hub",
 	Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/Augustzyzx/UraniumX/main/src_.lua.txt"))()
@@ -202,21 +205,21 @@ Tab4:AddButton({
 })
 
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "Thunder Z",
 	Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/ThunderZ-05/HUB/main/Mobile-Loader"))()
   	end    
 })
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "Mukuro Hub",
 	Callback = function()
         loaloadstring(game:HttpGet("https://raw.githubusercontent.com/xDepressionx/Free-Script/main/BloxFruit.lua"))()
   	end    
 })
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "Redz Hub",
 	Callback = function()
         repeat wait(5) until game:IsLoaded()
@@ -224,7 +227,7 @@ Tab4:AddButton({
   	end    
 })
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "Farm Fruit",
 	Callback = function()
         repeat wait(5) until game:IsLoaded()
@@ -232,7 +235,7 @@ Tab4:AddButton({
   	end    
 })
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "Farm Chest",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -240,7 +243,7 @@ Tab4:AddButton({
   	end    
 })
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "Quantum Onyx Project",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -248,7 +251,7 @@ Tab4:AddButton({
   	end    
 })
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "Rubu TV",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -256,7 +259,7 @@ Tab4:AddButton({
   	end    
 })
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "w-azure",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -267,7 +270,7 @@ loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/3b2169cf53bc61
   	end    
 })
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "AnDepZai Hub",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -275,7 +278,7 @@ Tab4:AddButton({
   	end    
 })
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "BapRed Hub",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -283,7 +286,7 @@ Tab4:AddButton({
   	end    
 })
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "Speed X Hub",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -291,7 +294,7 @@ Tab4:AddButton({
   	end    
 })
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "Min Gaming Hub",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -299,7 +302,7 @@ Tab4:AddButton({
   	end    
 })
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "Turbo Lite Fix Lag",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -307,7 +310,7 @@ Tab4:AddButton({
   	end    
 })
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "Royx Hub",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -317,7 +320,7 @@ Tab4:AddButton({
 
 
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "Trẩu Roblox",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -326,7 +329,7 @@ end
 })
 
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "Cụt Tay Hub",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -335,7 +338,7 @@ end
 })
 
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "Xero Hub",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -347,7 +350,7 @@ loadstring(game:HttpGet("http://apixerohub.x10.mx/main.lua"))()
 end
 })
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "Master Hub",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -355,7 +358,7 @@ Tab4:AddButton({
 end
 })
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "BlackTrap Hub",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -363,7 +366,7 @@ Tab4:AddButton({
   	end    
 })
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "Zis Roblox",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -371,10 +374,13 @@ Tab4:AddButton({
   	end    
 })
 
-Tab4:AddButton({
+Tab2:AddButton({
 	Name = "MARU",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
-         loadstring(game:HttpGet("https://raw.githubusercontent.com/giaotrinhhoc/ZisRb/refs/heads/main/ZisRbV5"))()
+         getgenv().Key = ""
+getgenv().id = "No"
+loadstring(game:HttpGet("https://raw.githubusercontent.com/xshiba/MaruBitkub/main/Mobile.lua"))()
+
   	end    
 })

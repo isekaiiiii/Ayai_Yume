@@ -48,7 +48,7 @@ ImageButton.BorderSizePixel = 0
 ImageButton.Position = UDim2.new(0.10083337, 0, 0.09, 0) -- Vị trí
 ImageButton.Size = UDim2.new(0, 50, 0, 50) -- Kích thước
 ImageButton.Draggable = true
-ImageButton.Image = "rbxthumb://type=Asset&id=106431844691075&w=150&h=150" -- Đặt ID hình ảnh của bạn ở đây
+icon = "rbxthumb://type=Asset&id=106431844691075&w=150&h=150" -- Đặt ID hình ảnh của bạn ở đây
 UICorner.CornerRadius = UDim.new(0, 10)
 UICorner.Parent = ImageButton
 

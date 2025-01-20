@@ -378,3 +378,9 @@ Tab4:AddButton({
          loadstring(game:HttpGet("https://raw.githubusercontent.com/giaotrinhhoc/ZisRb/refs/heads/main/ZisRbV5"))()
   	end    
 })
+
+Fluent:Notify({
+    Title = "Script By Thong",
+    Content = "Neu an k hien menu ib Thong",
+    Duration = 10
+}

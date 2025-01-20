@@ -4,25 +4,25 @@ local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Tho
 local Window = OrionLib:MakeWindow({Name = "Script tổng hợp", HidePremium = false, SaveConfig = true, ConfigFolder = "dxl_bf"})
 
 local Tab = Window:MakeTab({
-	Name = "Scripts Cần Key",
-	Icon = "rbxassetid://15733988007",
+	Name = "Script key",
+	Icon = "rbxassetid://No",
 	PremiumOnly = false
 })
 
 local Tab2 = Window:MakeTab({
 	Name = "Mod Client",
-	Icon = "rbxassetid://15733988007",
+	Icon = "rbxassetid://No",
 	PremiumOnly = false
 })
 
 local Tab3 = Window:MakeTab({
 	Name = "Mod Game",
-	Icon = "rbxassetid://15733988007",
+	Icon = "rbxassetid://No",
 	PremiumOnly = false
 })
 local Tab4 = Window:MakeTab({
-	Name = "Script Farm",
-	Icon = "rbxassetid://15733988007",
+	Name = "Script No key",
+	Icon = "rbxassetid://No",
 	PremiumOnly = false
 })
 Tab3:AddButton({
@@ -378,9 +378,3 @@ Tab4:AddButton({
          loadstring(game:HttpGet("https://raw.githubusercontent.com/giaotrinhhoc/ZisRb/refs/heads/main/ZisRbV5"))()
   	end    
 })
-
-Fluent:Notify({
-    Title = "Script By Thong",
-    Content = "Neu an k hien menu ib Thong",
-    Duration = 10
-}

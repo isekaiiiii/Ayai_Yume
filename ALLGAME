@@ -1,83 +1,102 @@
 local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/Thongdepzai2701/Ayai_Yume/refs/heads/main/Thongontop.txt"))()
 
-local Window = OrionLib:MakeWindow({Name = "Script tổng hợp", HidePremium = false, SaveConfig = true, ConfigFolder = "dxl_bf"})
+local Window = OrionLib:MakeWindow({
+    Name = "Script Tổng Hợp",
+    HidePremium = false,
+    SaveConfig = true,
+    ConfigFolder = "dxl_bf"
+})
 
+-- Tab Main
 local Tab1 = Window:MakeTab({
-	Name = "Main",
-	Icon = "rbxassetid://No",
-	PremiumOnly = false
+    Name = "Main",
+    Icon = "rbxassetid://0", -- Sửa "rbxassetid://No" thành "0" để tránh lỗi icon không hợp lệ
+    PremiumOnly = false
 })
 
+-- Tab Blox Fruit
 local Tab2 = Window:MakeTab({
-	Name = "Blox Fruit",
-	Icon = "rbxassetid://No",
-	PremiumOnly = false
+    Name = "Blox Fruit",
+    Icon = "rbxassetid://0",
+    PremiumOnly = false
 })
 
+-- Tab King Legacy
 local Tab3 = Window:MakeTab({
-	Name = "King legacy",
-	Icon = "rbxassetid://No",
-	PremiumOnly = false
+    Name = "King Legacy",
+    Icon = "rbxassetid://0",
+    PremiumOnly = false
 })
 
+-- Button: Tsuo
 Tab3:AddButton({
-	Name = "Tsuo",
-	Callback = function()
+    Name = "Tsuo",
+    Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/Tsuo7/TsuoHub/main/king%20legacy"))()
-	end
+    end
 })
 
+-- Button: Hyper
 Tab3:AddButton({
-	Name = "Hyper",
-	Callback = function()
+    Name = "Hyper",
+    Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/DookDekDEE/Hyper/main/script.lua"))()
-	end
+    end
 })
 
+-- Button: Arc
 Tab3:AddButton({
-	Name = "Arc",
-	Callback = function()
-        getgenv().CustomDistance = 10
+    Name = "Arc",
+    Callback = function()
+        getgenv().CustomDistance = 10 -- Thiết lập giá trị khoảng cách tùy chỉnh
         loadstring(game:HttpGet("https://raw.githubusercontent.com/ChopLoris/ArcHub/main/main.lua"))()
-	end
+    end
 })
 
+-- Button: Zee
 Tab3:AddButton({
-	Name = "Zee",
-	Callback = function()
+    Name = "Zee",
+    Callback = function()
         loadstring(game:HttpGet("https://zuwz.me/Ls-Zee-Hub-KL"))()
-	end
+    end
 })
 
+-- Button: Fruit Finder
 Tab1:AddButton({
-	Name = "Fruit Finder",
-	Callback = function()
+    Name = "Fruit Finder",
+    Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/AdminusGames/Blox_Fruits_Sniper/main/.lua"))()
-	end
+    end
 })
 
+-- Button: Arceus X
 Tab1:AddButton({
-	Name = "Arceus X",
-	Callback = function()
+    Name = "Arceus X",
+    Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/AZYsGithub/chillz-workshop/main/Arceus%20X%20V3"))()
-	end
+    end
 })
 
+-- Button: Krnl
 Tab1:AddButton({
-	Name = "Krnl",
-	Callback = function()
+    Name = "Krnl",
+    Callback = function()
         loadstring(game:HttpGet("https://pastebin.com/raw/M3HjLPU7"))()
-	end
+    end
 })
 
+-- Button: Synapse X
 Tab1:AddButton({
-	Name = "Synapse X",
-	Callback = function()
+    Name = "Synapse X",
+    Callback = function()
         loadstring(game:HttpGet("https://pastebin.com/raw/QmqSgQ3K"))()
-	end
+    end
 })
 
+-- Button: Keyboard (Chưa hoàn thiện)
 Tab1:AddButton({
-	Name = "Keyboard",
-	Callback = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/adv
+    Name = "Keyboard",
+    Callback = function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/adv"))() -- Link này bị cắt, cần kiểm tra và thay link đầy đủ.
+    end
+})

@@ -1,121 +1,63 @@
-local main = Instance.new("ScreenGui")
-local Frame = Instance.new("Frame")
-local up = Instance.new("TextButton")
-local down = Instance.new("TextButton")
-local onof = Instance.new("TextButton")
-local TextLabel = Instance.new("TextLabel")
-local plus = Instance.new("TextButton")
-local speed = Instance.new("TextLabel")
-local mine = Instance.new("TextButton")
-local discordButton = Instance.new("TextButton") -- Nút Discord
+-- Tạo GUI cơ bản
+local ScreenGui = Instance.new("ScreenGui")
+local MainFrame = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
 
---Properties:
+-- Thuộc tính GUI
+ScreenGui.Name = "CustomHub"
+ScreenGui.Parent = game.CoreGui
 
-main.Name = "Ayai_Yume"
-main.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-main.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+MainFrame.Name = "MainFrame"
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
+MainFrame.Position = UDim2.new(0.3, 0, 0.3, 0)
+MainFrame.Size = UDim2.new(0, 400, 0, 350)
 
-Frame.Parent = main
-Frame.BackgroundColor3 = Color3.fromRGB(163, 255, 137)
-Frame.BorderColor3 = Color3.fromRGB(103, 221, 213)
-Frame.Position = UDim2.new(0.1, 0, 0.38, 0)
-Frame.Size = UDim2.new(0, 190, 0, 57)
+Title.Name = "Title"
+Title.Parent = MainFrame
+Title.BackgroundColor3 = Color3.fromRGB(45, 45, 45)
+Title.Size = UDim2.new(0, 400, 0, 50)
+Title.Font = Enum.Font.SourceSans
+Title.Text = "Tổng Hợp Scripts - MARU HUB"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 20
 
-up.Name = "up"
-up.Parent = Frame
-up.BackgroundColor3 = Color3.fromRGB(79, 255, 152)
-up.Size = UDim2.new(0, 44, 0, 28)
-up.Font = Enum.Font.SourceSans
-up.Text = "UP"
-up.TextColor3 = Color3.fromRGB(0, 0, 0)
-up.TextSize = 14.000
+-- Tạo các nút chức năng
+local function createButton(name, position, action)
+    local Button = Instance.new("TextButton")
+    Button.Name = name
+    Button.Parent = MainFrame
+    Button.BackgroundColor3 = Color3.fromRGB(55, 55, 55)
+    Button.Position = position
+    Button.Size = UDim2.new(0, 350, 0, 40)
+    Button.Font = Enum.Font.SourceSans
+    Button.Text = name
+    Button.TextColor3 = Color3.fromRGB(255, 255, 255)
+    Button.TextSize = 18
+    Button.MouseButton1Click:Connect(action)
+end
 
-down.Name = "down"
-down.Parent = Frame
-down.BackgroundColor3 = Color3.fromRGB(215, 255, 121)
-down.Position = UDim2.new(0, 0, 0.491, 0)
-down.Size = UDim2.new(0, 44, 0, 28)
-down.Font = Enum.Font.SourceSans
-down.Text = "DOWN"
-down.TextColor3 = Color3.fromRGB(0, 0, 0)
-down.TextSize = 14.000
+-- Các chức năng
+createButton("MARU HUB", UDim2.new(0, 25, 0, 60), function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Thongdepzai2701/Ayai_Yume/refs/heads/main/ALLGAME"))()
+end)
 
-onof.Name = "onof"
-onof.Parent = Frame
-onof.BackgroundColor3 = Color3.fromRGB(255, 249, 74)
-onof.Position = UDim2.new(0.7, 0, 0.491, 0)
-onof.Size = UDim2.new(0, 56, 0, 28)
-onof.Font = Enum.Font.SourceSans
-onof.Text = "FLY"
-onof.TextColor3 = Color3.fromRGB(0, 0, 0)
-onof.TextSize = 14.000
+createButton("Redz Hub", UDim2.new(0, 25, 0, 110), function()
+    loadstring(game:HttpGet("https://link_to_redz_hub"))()
+end)
 
-TextLabel.Parent = Frame
-TextLabel.BackgroundColor3 = Color3.fromRGB(242, 60, 255)
-TextLabel.Position = UDim2.new(0.47, 0, 0, 0)
-TextLabel.Size = UDim2.new(0, 100, 0, 28)
-TextLabel.Font = Enum.Font.SourceSans
-TextLabel.Text = "Ayai_Yume"
-TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
-TextLabel.TextScaled = true
-TextLabel.TextSize = 14.000
-TextLabel.TextWrapped = true
+createButton("Farm Fruit", UDim2.new(0, 25, 0, 160), function()
+    loadstring(game:HttpGet("https://link_to_farm_fruit"))()
+end)
 
-plus.Name = "plus"
-plus.Parent = Frame
-plus.BackgroundColor3 = Color3.fromRGB(133, 145, 255)
-plus.Position = UDim2.new(0.23, 0, 0, 0)
-plus.Size = UDim2.new(0, 45, 0, 28)
-plus.Font = Enum.Font.SourceSans
-plus.Text = "+"
-plus.TextColor3 = Color3.fromRGB(0, 0, 0)
-plus.TextScaled = true
-plus.TextSize = 14.000
-plus.TextWrapped = true
+createButton("Farm Chest", UDim2.new(0, 25, 0, 210), function()
+    loadstring(game:HttpGet("https://link_to_farm_chest"))()
+end)
 
-speed.Name = "speed"
-speed.Parent = Frame
-speed.BackgroundColor3 = Color3.fromRGB(255, 85, 0)
-speed.Position = UDim2.new(0.47, 0, 0.491, 0)
-speed.Size = UDim2.new(0, 44, 0, 28)
-speed.Font = Enum.Font.SourceSans
-speed.Text = "1"
-speed.TextColor3 = Color3.fromRGB(0, 0, 0)
-speed.TextScaled = true
-speed.TextSize = 14.000
-speed.TextWrapped = true
+createButton("Quantum Onyx Project", UDim2.new(0, 25, 0, 260), function()
+    loadstring(game:HttpGet("https://link_to_onyx_project"))()
+end)
 
-mine.Name = "mine"
-mine.Parent = Frame
-mine.BackgroundColor3 = Color3.fromRGB(123, 255, 247)
-mine.Position = UDim2.new(0.23, 0, 0.491, 0)
-mine.Size = UDim2.new(0, 45, 0, 29)
-mine.Font = Enum.Font.SourceSans
-mine.Text = "-"
-mine.TextColor3 = Color3.fromRGB(0, 0, 0)
-mine.TextScaled = true
-mine.TextSize = 14.000
-mine.TextWrapped = true
-
--- Nút Discord
-discordButton.Name = "discordButton"
-discordButton.Parent = main
-discordButton.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
-discordButton.Position = UDim2.new(0.85, 0, 0.1, 0) -- Vị trí bên phải
-discordButton.Size = UDim2.new(0, 100, 0, 100) -- 1cm x 1cm (100x100 pixel)
-discordButton.Font = Enum.Font.SourceSans
-discordButton.Text = "Link Discord"
-discordButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-discordButton.TextScaled = true
-discordButton.TextSize = 14.000
-discordButton.TextWrapped = true
-
--- Mở link Discord
-discordButton.MouseButton1Click:Connect(function()
-    setclipboard("https://discord.gg/3Tp35BhYeG") -- Copy link vào clipboard
-    game:GetService("StarterGui"):SetCore("SendNotification", {
-        Title = "Discord Link";
-        Text = "Link đã được sao chép vào clipboard!";
-        Duration = 5;
-    })
+createButton("Rubu TV", UDim2.new(0, 25, 0, 310), function()
+    loadstring(game:HttpGet("https://link_to_rubu_tv"))()
 end)

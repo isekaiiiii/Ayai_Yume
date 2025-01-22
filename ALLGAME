@@ -5,7 +5,7 @@ local Window = OrionLib:MakeWindow({Name = "Script Tổng hợp", HidePremium = 
 -- Tab BLOX FRUIT (Tab1)
 local Tab1 = Window:MakeTab({
 	Name = "BLOX FRUIT",
-	Icon = "rbxassetid://No",
+	Icon = "rbxassetid://76492791415535",
 	PremiumOnly = false
 })
 

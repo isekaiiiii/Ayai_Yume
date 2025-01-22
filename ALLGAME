@@ -5,7 +5,7 @@ local Window = OrionLib:MakeWindow({Name = "Script Tổng hợp", HidePremium = 
 -- Tab Script Farm (Tab1)
 local Tab1 = Window:MakeTab({
 	Name = "Script Farm",
-	Icon = "rbxassetid://83190276951914",
+	Icon = "rbxassetid://No",
 	PremiumOnly = false
 })
 

@@ -2,18 +2,26 @@ local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Tho
 
 local Window = OrionLib:MakeWindow({Name = "Script Tổng hợp", HidePremium = false, SaveConfig = true, ConfigFolder = "dxl_bf"})
 
--- Tab BLOX FRUIT (Tab1)
+-- Thông báo khi bật script
+OrionLib:MakeNotification({
+	Name = "Script Bởi Thong",
+	Content = "Join Discord: https://discord.gg/3Tp35BhYeG để lấy script mới nhất.",
+	Image = "rbxassetid://4483345998",
+	Time = 10 -- Thời gian thông báo hiển thị (giây)
+})
+
+-- Tab Script Farm (Tab1)
 local Tab1 = Window:MakeTab({
 	Name = "BLOX FRUIT",
 	Icon = "rbxassetid://90651385845028",
-	PremiumOnly = True
+	PremiumOnly = false
 })
 
 -- MARU HUB (Đứng đầu Tab 1)
 Tab1:AddButton({
 	Name = "MARU HUB",
 	Callback = function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/Ghost-1198/Main/refs/heads/main/PearCatHubNew.lua"))()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Thongdepzai2701/Ayai_Yume/refs/heads/main/ALLGAME"))()
 	end
 })
 

@@ -4,10 +4,10 @@ local Window = OrionLib:MakeWindow({Name = "Script Tổng hợp", HidePremium = 
 
 -- Thông báo khi bật script
 OrionLib:MakeNotification({
-	Name = "Script Bởi Thong",
+	Name = "Script made by Thong",
 	Content = "Join Discord: https://discord.gg/3Tp35BhYeG để lấy script mới nhất.",
 	Image = "rbxassetid://4483345998",
-	Time = 10 -- Thời gian thông báo hiển thị (giây)
+	Time = 30 -- Thời gian thông báo hiển thị (giây)
 })
 
 -- Tab Script Farm (Tab1)

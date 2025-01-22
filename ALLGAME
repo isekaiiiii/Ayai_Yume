@@ -2,9 +2,9 @@ local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/Tho
 
 local Window = OrionLib:MakeWindow({Name = "Script Tổng hợp", HidePremium = false, SaveConfig = true, ConfigFolder = "dxl_bf"})
 
--- Tab Script Farm (Tab1)
+-- Tab BLOX FRUIT (Tab1)
 local Tab1 = Window:MakeTab({
-	Name = "Script Farm",
+	Name = "BLOX FRUIT",
 	Icon = "rbxassetid://No",
 	PremiumOnly = false
 })

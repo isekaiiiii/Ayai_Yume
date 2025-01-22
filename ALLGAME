@@ -4,21 +4,113 @@ local Window = OrionLib:MakeWindow({Name = "Script Tổng hợp", HidePremium = 
 
 -- Thông báo khi bật script
 OrionLib:MakeNotification({
-	Name = "Script made by Thong",
+	Name = "Script Bởi Thong",
 	Content = "Join Discord: https://discord.gg/3Tp35BhYeG để lấy script mới nhất.",
 	Image = "rbxassetid://4483345998",
-	Time = 30 -- Thời gian thông báo hiển thị (giây)
+	Time = 10 -- Thời gian thông báo hiển thị (giây)
 })
 
--- Tab Script Farm (Tab1)
-local Tab1 = Window:MakeTab({
+-- Tab Main(Tap1)
+local TabMain = Window:MakeTab({
+	Name = "Main",
+	Icon = "rbxassetid://83190276951914",
+	PremiumOnly = false
+})
+
+-- Các nút trong Tab Main
+TabMain:AddButton({
+	Name = "Check FPS",
+	Callback = function()
+		print("FPS hiện tại: " .. tostring(1 / wait()))
+	end
+})
+
+TabMain:AddButton({
+	Name = "Reset Character",
+	Callback = function()
+		local player = game.Players.LocalPlayer
+		if player.Character then
+			player.Character:BreakJoints()
+		end
+	end
+})
+
+TabMain:AddButton({
+	Name = "Enable Shift Lock",
+	Callback = function()
+		game.Players.LocalPlayer.DevEnableMouseLock = true
+		print("Shift Lock đã được bật!")
+	end
+})
+
+TabMain:AddButton({
+	Name = "Change WalkSpeed",
+	Callback = function()
+		local player = game.Players.LocalPlayer
+		if player.Character and player.Character:FindFirstChild("Humanoid") then
+			player.Character.Humanoid.WalkSpeed = 50
+			print("WalkSpeed đã đổi thành 50!")
+		end
+	end
+})
+
+-- Thêm script bay (fly script)
+TabMain:AddButton({
+	Name = "Fly Script",
+	Callback = function()
+		-- Script bay
+		local player = game.Players.LocalPlayer
+		local mouse = player:GetMouse()
+		local flying = false
+		local speed = 50
+		local bodyGyro, bodyVelocity
+
+		mouse.KeyDown:Connect(function(key)
+			if key == "e" then
+				if not flying then
+					flying = true
+					local character = player.Character or player.CharacterAdded:Wait()
+					local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+					
+					bodyGyro = Instance.new("BodyGyro", humanoidRootPart)
+					bodyGyro.P = 9e4
+					bodyGyro.MaxTorque = Vector3.new(9e9, 9e9, 9e9)
+					bodyGyro.CFrame = humanoidRootPart.CFrame
+
+					bodyVelocity = Instance.new("BodyVelocity", humanoidRootPart)
+					bodyVelocity.Velocity = Vector3.zero
+					bodyVelocity.MaxForce = Vector3.new(9e9, 9e9, 9e9)
+
+					while flying do
+						wait()
+						bodyGyro.CFrame = humanoidRootPart.CFrame
+						bodyVelocity.Velocity = humanoidRootPart.CFrame.LookVector * speed
+					end
+				else
+					flying = false
+					if bodyGyro then bodyGyro:Destroy() end
+					if bodyVelocity then bodyVelocity:Destroy() end
+				end
+			elseif key == "r" and flying then
+				speed = speed + 10
+				print("Speed tăng: " .. speed)
+			elseif key == "f" and flying then
+				speed = speed - 10
+				print("Speed giảm: " .. speed)
+			end
+		end)
+	end
+})
+
+-- Tab BLOXFRUIT (Tab2)
+local Tab2 = Window:MakeTab({
 	Name = "BLOX FRUIT",
 	Icon = "rbxassetid://90651385845028",
 	PremiumOnly = false
 })
 
--- MARU HUB (Đứng đầu Tab 1)
-Tab1:AddButton({
+-- MARU HUB (Đứng đầu Tab 2)
+Tab2:AddButton({
 	Name = "MARU HUB",
 	Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/Thongdepzai2701/Ayai_Yume/refs/heads/main/ALLGAME"))()
@@ -26,98 +118,98 @@ Tab1:AddButton({
 })
 
 -- Các nút còn lại
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "Domadic Hub",
 	Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/Domadicoof/Domadicoof/main/Domadichub/NottoGay/Start.ranscript"))()
   	end    
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "FTS X Hub!",
 	Callback = function()
         loadstring(game:HttpGet('https://raw.githubusercontent.com/tufreescript/FTS-X-Hub/main/FTSXHUB%20V1'))()
   	end    
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "T7GFY GUI",
 	Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/minded102/dokinbog/main/README.md", true))()
   	end    
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "CFrame Hub",
 	Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/Steveee11/Scripts/main/Blox%20Fruits%20OP%20Script"))()
   	end    
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "Flare Hub",
 	Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/1f0yt/community/master/flares"))()
   	end    
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "BLCK Hub",
 	Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/1f0yt/community/main/BLCK"))()
   	end    
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "Modz Hub",
 	Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/1f0yt/community/master/modz"))()
   	end    
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "Hoho Hub",
 	Callback = function()
         loadstring(game:HttpGet('https://raw.githubusercontent.com/acsu123/HOHO_H/main/Loading_UI'))()
   	end    
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "Lol Hub",
 	Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/1f0yt/community/main/neon"))()
   	end    
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "Zen Hub",
 	Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/Kaizenofficiall/ZenHub/main/Loader", true))()
   	end    
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "Uranium/Switch Hub",
 	Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/Augustzyzx/UraniumX/main/src_.lua.txt"))()
   	end    
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "Thunder Z",
 	Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/ThunderZ-05/HUB/main/Mobile-Loader"))()
   	end    
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "Mukuro Hub",
 	Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/xDepressionx/Free-Script/main/BloxFruit.lua"))()
   	end    
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "Redz Hub",
 	Callback = function()
         repeat wait(5) until game:IsLoaded()
@@ -125,7 +217,7 @@ Tab1:AddButton({
   	end    
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "Farm Fruit",
 	Callback = function()
         repeat wait(5) until game:IsLoaded()
@@ -133,7 +225,7 @@ Tab1:AddButton({
   	end    
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "Farm Chest",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -141,7 +233,7 @@ Tab1:AddButton({
   	end    
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "Quantum Onyx Project",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -149,7 +241,7 @@ Tab1:AddButton({
   	end    
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "Rubu TV",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -157,7 +249,7 @@ Tab1:AddButton({
   	end    
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "w-azure",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -168,7 +260,7 @@ Tab1:AddButton({
   	end    
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "AnDepZai Hub",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -176,7 +268,7 @@ Tab1:AddButton({
   	end    
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "BapRed Hub",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -184,7 +276,7 @@ Tab1:AddButton({
   	end    
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "Speed X Hub",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -192,7 +284,7 @@ Tab1:AddButton({
   	end    
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "Min Gaming Hub",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -200,7 +292,7 @@ Tab1:AddButton({
   	end    
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "Turbo Lite Fix Lag",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -208,7 +300,7 @@ Tab1:AddButton({
   	end    
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "Royx Hub",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -216,7 +308,7 @@ Tab1:AddButton({
   	end    
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "Trẩu Roblox",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -224,7 +316,7 @@ Tab1:AddButton({
 	end
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "Cụt Tay Hub",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -232,7 +324,7 @@ Tab1:AddButton({
 	end
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "Xero Hub",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -244,7 +336,7 @@ Tab1:AddButton({
 	end
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "Master Hub",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -252,7 +344,7 @@ Tab1:AddButton({
 	end
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "BlackTrap Hub",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()
@@ -260,7 +352,7 @@ Tab1:AddButton({
   	end    
 })
 
-Tab1:AddButton({
+Tab2:AddButton({
 	Name = "Zis Roblox",
 	Callback = function()
          repeat wait(5) until game:IsLoaded()

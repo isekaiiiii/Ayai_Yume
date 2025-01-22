@@ -6,7 +6,7 @@ local Window = OrionLib:MakeWindow({Name = "Script Tổng hợp", HidePremium = 
 local Tab1 = Window:MakeTab({
 	Name = "BLOX FRUIT",
 	Icon = "rbxassetid://90651385845028",
-	PremiumOnly = false
+	PremiumOnly = True
 })
 
 -- MARU HUB (Đứng đầu Tab 1)

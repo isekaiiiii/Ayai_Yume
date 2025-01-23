@@ -114,6 +114,7 @@ Tab2:AddButton({
 	Name = "MARU HUB",
 	Callback = function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/Ghost-1198/Main/refs/heads/main/PearCatHubNew.lua"))()
+        end
 })
 
 -- Các nút còn lại

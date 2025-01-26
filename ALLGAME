@@ -1,55 +1,101 @@
--- Tải thư viện Orion (thay thế bằng thư viện bạn đang sử dụng)
-local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/daucobonhi/Ui-Redz-V2/refs/heads/main/UiREDzV2.lua"))()
-
--- Thông báo khi bật script
-OrionLib:MakeNotification({
-    Name = "Script Bởi Thong",
-    Content = "Join Discord: https://discord.gg/3Tp35BhYeG để lấy script mới nhất.",
-    Image = "rbxassetid://4483345998",
-    Time = 60
-})
-
--- Tạo cửa sổ giao diện
-local Window = OrionLib:MakeWindow({
-    Name = "Thong Roblox",
-    SaveConfig = true,
-    ConfigFolder = "ThongHub"
-})
-
--- Tạo các tab
-local TabMain = Window:MakeTab({Name = "Chính"})
-local TabBloxFruits = Window:MakeTab({Name = "Blox Fruits"})
-local TabKingLegacy = Window:MakeTab({Name = "King Legacy"})
-
--- Thêm nội dung vào tab "Chính"
-TabMain:AddLabel("Script này được tạo bởi Thong")
-TabMain:AddLabel("Join Discord: https://discord.gg/3Tp35BhYeG để lấy script mới nhất")
-TabMain:AddLabel("UPDATE: 24/1/2025")
-TabMain:AddLabel("Trạng thái cập nhật: Đang update")
-
--- Các nút bấm trong Tab "King Legacy"
-local buttons = {
-    {Name = "KIMP GAMING V1", URL = "https://raw.githubusercontent.com/tuyenkimp/KimP-Hub/refs/heads/main/luxucuthanh.txt"},
-    {Name = "KIMP GAMING V2", URL = "https://raw.githubusercontent.com/Tuyenhuu1122/KimP-Ver2/refs/heads/main/Kimproblox"},
-    {Name = "SPEED HUB", URL = "https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua"},
-    {Name = "BAP RED", URL = "https://raw.githubusercontent.com/LuaCrack/BapRed/main/BapRedHub"},
-    {Name = "RAITO HUB", URL = "https://raw.githubusercontent.com/Efe0626/RaitoHub/refs/heads/main/Script"},
-    {Name = "BLUE X", URL = "https://raw.githubusercontent.com/Dev-BlueX/BlueX-Hub/refs/heads/main/EN.lua"},
-    {Name = "REDZ HUB", Callback = function()
-        local Settings = {JoinTeam = "Pirates", Translator = true};
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/realredz/BloxFruits/refs/heads/main/Source.lua"))(Settings)
-    end}
-}
-
--- Tạo các nút bấm từ danh sách
-for _, button in ipairs(buttons) do
-    TabKingLegacy:AddButton({
-        Name = button.Name,
-        Callback = button.Callback or function()
-            loadstring(game:HttpGet(button.URL))()
-        end
+do
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/daucobonhi/Ui-Redz-V2/refs/heads/main/UiREDzV2.lua"))()
+    
+    local keyEntered = false
+    local correctKey = "1234"  -- Đặt key bạn muốn
+    local Window = MakeWindow({
+        Hub = { Title = "KimP Roblox", Animation = "KimP Roblox" },
+        Key = {
+            KeySystem = true,
+            Title = "Key System",
+            Description = "",
+            KeyLink = "https://flux.li/android/external/start.php?HWID=441b6db98b3c59b9f3b32bf2d831a4633682f38a031658493e9c9f54e5bf6077c323ceb576a5f72bc1fd98be6e966faf",
+            Keys = { correctKey },
+            Notifi = {
+                Notifications = true,
+                CorrectKey = "Running the Script...",
+                Incorrectkey = "The key is incorrect",
+                CopyKeyLink = "Copied to Clipboard"
+            }
+        }
     })
+
+    MinimizeButton({
+        Image = "http://www.roblox.com/asset/?id=74510980295786",
+        Size = { 50, 50 },
+        Color = Color3.fromRGB(10, 10, 10),
+        Corner = true,
+        Stroke = false,
+        StrokeColor = Color3.fromRGB(255, 0, 0)
+    })
+
+    local Tab1o = MakeTab({ Name = "Script Mới" })
+
+    local scripts = {
+        { Name = "KIMP GAMING V1", Link = "https://raw.githubusercontent.com/tuyenkimp/KimP-Hub/refs/heads/main/luxucuthanh.txt" },
+        { Name = "KIMP GAMING V2", Link = "https://raw.githubusercontent.com/Tuyenhuu1122/KimP-Ver2/refs/heads/main/Kimproblox" },
+        { Name = "KIMP GAMING V3", Link = "https://raw.githubusercontent.com/LuaCrack/KimP/refs/heads/main/KimPGaming" },
+        { Name = "SPEED HUB", Link = "https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua" },
+        { Name = "BAP RED", Link = "https://raw.githubusercontent.com/LuaCrack/BapRed/main/BapRedHub" },
+        { Name = "TỰ ĐỘNG ĐỔI SEVER", Link = "https://raw.githubusercontent.com/tuyenkimp/sever/refs/heads/main/kimpsever" },
+        { Name = "ZEE HUB", Link = "https://zuwz.me/Ls-Zee-Hub" },
+        { Name = "VĂN THÀNH IOS V1", Link = "https://raw.githubusercontent.com/VanThanhIOS/VanThanhKamuy/refs/heads/main/KamuyAlex_Copy.txt" },
+        { Name = "VĂN THÀNH IOS V2", Link = "https://raw.githubusercontent.com/VanThanhIOS/TrollVietNam/refs/heads/main/VanThanhIOS.txt" },
+        { Name = "QUANTUM ONYX HUB", Link = "https://raw.githubusercontent.com/Trustmenotcondom/QTONYX/refs/heads/main/QuantumOnyx.lua" },
+        { Name = "RAITO HUB", Link = "https://raw.githubusercontent.com/Efe0626/RaitoHub/refs/heads/main/Script" },
+        { Name = "BLUE X", Link = "https://raw.githubusercontent.com/Dev-BlueX/BlueX-Hub/refs/heads/main/EN.lua" },
+        { Name = "STRIX MIN GAMING", Link = "https://scriptroblox.onrender.com/strix" },
+        { Name = "KAITUN", Link = "https://raw.githubusercontent.com/simple-hubs/contents/refs/heads/main/bloxfruit-kaitan-main.lua" },
+        { Name = "ANNIE HUB", Link = "https://raw.githubusercontent.com/DarkMuscles/Games/Roblox/Bloxfruits/AnnieHub.lua" },
+        { Name = "RUBU V2", Link = "https://raw.githubusercontent.com/Bubu2k/Rubutv/refs/heads/main/rubuhubv2" },
+        { Name = "RUBU V3", Link = "https://raw.githubusercontent.com/Bubu2k/Rubutv/refs/heads/main/RubuHubV3.txt" },
+        { Name = "GANTENG HUB", Link = "https://api.luarmor.net/files/v3/loaders/a5c3af437cd698d64379cf75cacb9281.lua" },
+        { Name = "COKKA HUB", Link = "https://raw.githubusercontent.com/UserDevEthical/Loadstring/main/CokkaHub.lua" },
+        { Name = "MIN GAMING", Link = "https://raw.githubusercontent.com/LuaCrack/Min/refs/heads/main/MinAE" },
+        { Name = "RONIX HUB", Link = "https://api.luarmor.net/files/v3/loaders/181a446dc91008ccb45d746e773229a1.lua" },
+        { Name = "ZIS TIẾNG VIỆT V7", Link = "https://raw.githubusercontent.com/LuaCrack/Zis/refs/heads/main/ZisRb7" },
+        { Name = "REDZ HUB", Link = "https://raw.githubusercontent.com/realredz/BloxFruits/refs/heads/main/Source.lua" },
+        { Name = "W-AZURE", Link = "https://api.luarmor.net/files/v3/loaders/3b2169cf53bc6104dabe8e19562e5cc2.lua" },
+        { Name = "ANDEPZAI", Link = "https://raw.githubusercontent.com/AnDepZaiHub/AnDepZaiHubBeta/refs/heads/main/AnDepZaiHubNewUpdated.lua" },
+        { Name = "OMG HUB", Link = "https://raw.githubusercontent.com/Omgshit/Scripts/main/MainLoader.lua" },
+        { Name = "XERO HUB", Link = "https://apixerohub.x10.mx/main.lua" },
+        { Name = "BLACKTRAP HUB", Link = "https://lua-library.btteam.net/script-auth.txt" },
+        { Name = "ALCHEMY Hub", Link = "https://scripts.alchemyhub.xyz" }
+    }
+
+    for _, script in ipairs(scripts) do
+        AddButton(Tab1o, {
+            Name = script.Name,
+            Callback = function() loadstring(game:HttpGet(script.Link))() end
+        })
+    end
 end
 
--- Khởi chạy giao diện
-OrionLib:Init()
+    }
+
+    -- Hàm kiểm tra key
+    local function checkKeyAndExecute(scriptLink)
+        if keyEntered then
+            loadstring(game:HttpGet(scriptLink))()
+        else
+            print("Please enter the correct key.")
+        end
+    end
+
+    -- Thêm nút với chức năng kiểm tra key
+    for _, script in ipairs(scripts) do
+        AddButton(Tab1o, {
+            Name = script.Name,
+            Callback = function() 
+                -- Kiểm tra key trước khi chạy script
+                local enteredKey = game:GetService("Players").LocalPlayer.PlayerGui:WaitForChild("KeyInputField").Text
+                if enteredKey == correctKey then
+                    keyEntered = true
+                    checkKeyAndExecute(script.Link)
+                else
+                    print("Incorrect key.")
+                end
+            end
+        })
+    end
+end

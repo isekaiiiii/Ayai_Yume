@@ -1,116 +1,55 @@
-loadstring(game:HttpGet("https://raw.githubusercontent.com/daucobonhi/Ui-Redz-V2/refs/heads/main/UiREDzV2.lua"))();
+-- Tải thư viện Orion (thay thế bằng thư viện bạn đang sử dụng)
+local OrionLib = loadstring(game:HttpGet("https://raw.githubusercontent.com/daucobonhi/Ui-Redz-V2/refs/heads/main/UiREDzV2.lua"))()
 
 -- Thông báo khi bật script
 OrionLib:MakeNotification({
-	Name = "Script Bởi Thong",
-	Content = "Join Discord: https://discord.gg/3Tp35BhYeG để lấy script mới nhất.",
-	Image = "rbxassetid://4483345998",
-	Time = 60 -- Thời gian thông báo hiển thị (giây)
+    Name = "Script Bởi Thong",
+    Content = "Join Discord: https://discord.gg/3Tp35BhYeG để lấy script mới nhất.",
+    Image = "rbxassetid://4483345998",
+    Time = 60
 })
 
-local Window = MakeWindow({
-    Hub = {
-        Title = "Thong Roblox",
-        Animation = "Thong Roblox"
-    },
-    Key = {
-        KeySystem = false,
-        Title = "Key System",
-        Description = "",
-        KeyLink = "",
-        Keys = {"1234"},
-        Notifi = {
-            Notifications = true,
-            CorrectKey = "Running the Script...",
-            Incorrectkey = "The key is incorrect",
-            CopyKeyLink = "Copied to Clipboard"
-        }
-    }
-});
+-- Tạo cửa sổ giao diện
+local Window = OrionLib:MakeWindow({
+    Name = "Thong Roblox",
+    SaveConfig = true,
+    ConfigFolder = "ThongHub"
+})
 
-MinimizeButton({
-    Image = "http://www.roblox.com/asset/?id=16711784624",
-    Size = {50, 50},
-    Color = Color3.fromRGB(10, 10, 10),
-    Corner = true,
-    Stroke = false,
-    StrokeColor = Color3.fromRGB(255, 0, 0)
-});
+-- Tạo các tab
+local TabMain = Window:MakeTab({Name = "Chính"})
+local TabBloxFruits = Window:MakeTab({Name = "Blox Fruits"})
+local TabKingLegacy = Window:MakeTab({Name = "King Legacy"})
 
-local Tab1o = MakeTab({Name = "main"});
-local Tab2o = MakeTab({Name = "Blox Fruits"});
-local Tab3o = MakeTab({Name = "King lagaxy"});
-
---Tab1o
-
--- Dòng giới thiệu
+-- Thêm nội dung vào tab "Chính"
 TabMain:AddLabel("Script này được tạo bởi Thong")
-
--- Dòng liên kết Discord
 TabMain:AddLabel("Join Discord: https://discord.gg/3Tp35BhYeG để lấy script mới nhất")
-
--- Dòng thông tin cập nhật
 TabMain:AddLabel("UPDATE: 24/1/2025")
-
--- Dòng trạng thái cập nhật
 TabMain:AddLabel("Trạng thái cập nhật: Đang update")
-          end
 
--- Các nút bấm
+-- Các nút bấm trong Tab "King Legacy"
 local buttons = {
     {Name = "KIMP GAMING V1", URL = "https://raw.githubusercontent.com/tuyenkimp/KimP-Hub/refs/heads/main/luxucuthanh.txt"},
     {Name = "KIMP GAMING V2", URL = "https://raw.githubusercontent.com/Tuyenhuu1122/KimP-Ver2/refs/heads/main/Kimproblox"},
-    {Name = "KIMP GAMING V3", URL = "https://raw.githubusercontent.com/LuaCrack/KimP/refs/heads/main/KimPGaming"},
     {Name = "SPEED HUB", URL = "https://raw.githubusercontent.com/AhmadV99/Speed-Hub-X/main/Speed%20Hub%20X.lua"},
     {Name = "BAP RED", URL = "https://raw.githubusercontent.com/LuaCrack/BapRed/main/BapRedHub"},
-    {Name = "TỰ ĐỘNG ĐỔI SEVER", URL = "https://raw.githubusercontent.com/tuyenkimp/sever/refs/heads/main/kimpsever"},
-    {Name = "ZEE HUB", URL = "https://zuwz.me/Ls-Zee-Hub"},
-    {Name = "VĂN THÀNH IOS V1", URL = "https://raw.githubusercontent.com/VanThanhIOS/VanThanhKamuy/refs/heads/main/KamuyAlex_Copy.txt"},
-    {Name = "VĂN THÀNH IOS V2", URL = "https://raw.githubusercontent.com/VanThanhIOS/TrollVietNam/refs/heads/main/VanThanhIOS.txt"},
-    {Name = "QUANTUM ONYX HUB", URL = "https://raw.githubusercontent.com/Trustmenotcondom/QTONYX/refs/heads/main/QuantumOnyx.lua"},
     {Name = "RAITO HUB", URL = "https://raw.githubusercontent.com/Efe0626/RaitoHub/refs/heads/main/Script"},
     {Name = "BLUE X", URL = "https://raw.githubusercontent.com/Dev-BlueX/BlueX-Hub/refs/heads/main/EN.lua"},
-    {Name = "STRIX MIN GAMING", URL = "https://scriptroblox.onrender.com/strix"},
-    {Name = "KAITUN", URL = "https://raw.githubusercontent.com/simple-hubs/contents/refs/heads/main/bloxfruit-kaitan-main.lua"},
-    {Name = "ANNIE HUB", URL = "https://raw.githubusercontent.com/DarkMuscles/Games/Roblox/Bloxfruits/AnnieHub.lua"},
-    {Name = "RUBU V2", URL = "https://raw.githubusercontent.com/Bubu2k/Rubutv/refs/heads/main/rubuhubv2"},
-    {Name = "RUBU V3", URL = "https://raw.githubusercontent.com/Bubu2k/Rubutv/refs/heads/main/RubuHubV3.txt"},
-    {Name = "GANTENG HUB", URL = "https://api.luarmor.net/files/v3/loaders/a5c3af437cd698d64379cf75cacb9281.lua"},
-    {Name = "COKKA HUB", URL = "https://raw.githubusercontent.com/UserDevEthical/Loadstring/main/CokkaHub.lua"},
-    {Name = "MIN GAMING", URL = "https://raw.githubusercontent.com/LuaCrack/Min/refs/heads/main/MinAE"},
-    {Name = "RONIX HUB", URL = "https://api.luarmor.net/files/v3/loaders/181a446dc91008ccb45d746e773229a1.lua"},
-    {Name = "ZIS TIẾNG VIỆT V7", URL = "https://raw.githubusercontent.com/LuaCrack/Zis/refs/heads/main/ZisRb7"},
     {Name = "REDZ HUB", Callback = function()
         local Settings = {JoinTeam = "Pirates", Translator = true};
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/realredz/BloxFruits/refs/heads/main/Source.lua"))(Settings);
-    end},
-    {Name = "W-AZURE", Callback = function()
-        getgenv().Team = "Pirates";
-        getgenv().FixCrash = false;
-        getgenv().FixCrash2 = false;
-        loadstring(game:HttpGet("https://api.luarmor.net/files/v3/loaders/3b2169cf53bc6104dabe8e19562e5cc2.lua"))();
-    end},
-    {Name = "ANDEPZAI", Callback = function()
-        repeat wait(); until game:IsLoaded() and game.Players.LocalPlayer
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/AnDepZaiHub/AnDepZaiHubBeta/refs/heads/main/AnDepZaiHubNewUpdated.lua"))();
-    end},
-    {Name = "OMG HUB", URL = "https://raw.githubusercontent.com/Omgshit/Scripts/main/MainLoader.lua"},
-    {Name = "XERO HUB", Callback = function()
-        getgenv().Team = "Marines";
-        getgenv().Hide_Menu = false;
-        loadstring(game:HttpGet("https://apixerohub.x10.mx/main.lua"))();
-    end},
-    {Name = "BLACKTRAP HUB", URL = "https://lua-library.btteam.net/script-auth.txt"},
-    {Name = "ALCHEMY Hub", URL = "https://scripts.alchemyhub.xyz"}
-};
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/realredz/BloxFruits/refs/heads/main/Source.lua"))(Settings)
+    end}
+}
 
--- Tạo các nút từ danh sách trên
+-- Tạo các nút bấm từ danh sách
 for _, button in ipairs(buttons) do
-    AddButton(Tab3o, {
+    TabKingLegacy:AddButton({
         Name = button.Name,
         Callback = button.Callback or function()
-            loadstring(game:HttpGet(button.URL))();
+            loadstring(game:HttpGet(button.URL))()
         end
-    });
+    })
 end
 
+-- Khởi chạy giao diện
+OrionLib:Init()

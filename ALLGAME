@@ -93,3 +93,29 @@ for _, button in ipairs(buttons) do
     });
 end
 
+-- Các nút bấm
+local buttons = {
+    {Name = "KING LEGACY AUTO FARM", URL = "https://raw.githubusercontent.com/somelink/KL-AutoFarm/main/AutoFarm.lua"},
+    {Name = "KING LEGACY ESP", URL = "https://raw.githubusercontent.com/somelink/KL-ESP/main/ESP.lua"},
+    {Name = "KING LEGACY AUTO QUEST", URL = "https://raw.githubusercontent.com/somelink/KL-AutoQuest/main/AutoQuest.lua"},
+    {Name = "KING LEGACY DEVIL FRUIT ESP", URL = "https://raw.githubusercontent.com/somelink/KL-DevilFruitESP/main/DFESP.lua"},
+    {Name = "KING LEGACY AUTO SKILL", URL = "https://raw.githubusercontent.com/somelink/KL-AutoSkill/main/AutoSkill.lua"},
+    {Name = "KING LEGACY AUTO BOSS", URL = "https://raw.githubusercontent.com/somelink/KL-AutoBoss/main/AutoBoss.lua"},
+    {Name = "KING LEGACY TELEPORT", URL = "https://raw.githubusercontent.com/somelink/KL-Teleport/main/Teleport.lua"},
+    {Name = "KING LEGACY AUTO BUY FRUIT", URL = "https://raw.githubusercontent.com/somelink/KL-AutoBuyFruit/main/AutoBuy.lua"},
+    {Name = "KING LEGACY SPEED HACK", URL = "https://raw.githubusercontent.com/somelink/KL-SpeedHack/main/SpeedHack.lua"},
+    {Name = "KING LEGACY GOD MODE", URL = "https://raw.githubusercontent.com/somelink/KL-GodMode/main/GodMode.lua"},
+    {Name = "KING LEGACY INFINITE JUMP", URL = "https://raw.githubusercontent.com/somelink/KL-InfiniteJump/main/InfiniteJump.lua"},
+    {Name = "KING LEGACY AUTO STATS", URL = "https://raw.githubusercontent.com/somelink/KL-AutoStats/main/AutoStats.lua"}
+};
+
+-- Tạo các nút từ danh sách trên
+for _, button in ipairs(buttons) do
+    AddButton(Tab2o, {
+        Name = button.Name,
+        Callback = button.Callback or function()
+            loadstring(game:HttpGet(button.URL))();
+        end
+    });
+end
+

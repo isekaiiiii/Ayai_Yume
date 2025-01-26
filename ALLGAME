@@ -1,15 +1,23 @@
 loadstring(game:HttpGet("https://raw.githubusercontent.com/daucobonhi/Ui-Redz-V2/refs/heads/main/UiREDzV2.lua"))();
 
+-- Thông báo khi bật script
+OrionLib:MakeNotification({
+	Name = "Script Bởi Thong",
+	Content = "Join Discord: https://discord.gg/3Tp35BhYeG để lấy script mới nhất.",
+	Image = "rbxassetid://4483345998",
+	Time = 60 -- Thời gian thông báo hiển thị (giây)
+})
+
 local Window = MakeWindow({
     Hub = {
         Title = "Thong Roblox",
         Animation = "Thong Roblox"
     },
     Key = {
-        KeySystem = True,
+        KeySystem = false,
         Title = "Key System",
         Description = "",
-        KeyLink = "https://flux.li/android/external/start.php?HWID=441b6db98b3c59b9f3b32bf2d831a4633682f38a031658493e9c9f54e5bf6077c323ceb576a5f72bc1fd98be6e966faf",
+        KeyLink = "",
         Keys = {"1234"},
         Notifi = {
             Notifications = true,
@@ -33,7 +41,8 @@ local Tab1o = MakeTab({Name = "main"});
 local Tab2o = MakeTab({Name = "Blox Fruits"});
 local Tab3o = MakeTab({Name = "King lagaxy"});
 
---Các nút bấm
+--Tab1o
+
 -- Dòng giới thiệu
 TabMain:AddLabel("Script này được tạo bởi Thong")
 
@@ -45,15 +54,7 @@ TabMain:AddLabel("UPDATE: 24/1/2025")
 
 -- Dòng trạng thái cập nhật
 TabMain:AddLabel("Trạng thái cập nhật: Đang update")
--- Tạo các nút từ danh sách trên
-for _, button in ipairs(buttons) do
-    AddButton(Tab1o, {
-        Name = button.Name,
-        Callback = button.Callback or function()
-            loadstring(game:HttpGet(button.URL))();
-        end
-    });
-end
+          end
 
 -- Các nút bấm
 local buttons = {

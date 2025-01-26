@@ -6,10 +6,10 @@ local Window = MakeWindow({
         Animation = "Thong Roblox"
     },
     Key = {
-        KeySystem = false,
+        KeySystem = True,
         Title = "Key System",
         Description = "",
-        KeyLink = "",
+        KeyLink = "https://flux.li/android/external/start.php?HWID=441b6db98b3c59b9f3b32bf2d831a4633682f38a031658493e9c9f54e5bf6077c323ceb576a5f72bc1fd98be6e966faf",
         Keys = {"1234"},
         Notifi = {
             Notifications = true,
@@ -29,11 +29,31 @@ MinimizeButton({
     StrokeColor = Color3.fromRGB(255, 0, 0)
 });
 
-local Tab1o = MakeTab({Name = "Blox Fruits"});
-local Tab2o = MakeTab({Name = "King lagaxy"});
-local Tab3o = MakeTab({Name = "a"});
+local Tab1o = MakeTab({Name = "main"});
+local Tab2o = MakeTab({Name = "Blox Fruits"});
+local Tab3o = MakeTab({Name = "King lagaxy"});
 
-Toggle = AddToggle(Tab1o, {Name = "a", Default = false, Callback = function() end});
+--Các nút bấm
+-- Dòng giới thiệu
+TabMain:AddLabel("Script này được tạo bởi Thong")
+
+-- Dòng liên kết Discord
+TabMain:AddLabel("Join Discord: https://discord.gg/3Tp35BhYeG để lấy script mới nhất")
+
+-- Dòng thông tin cập nhật
+TabMain:AddLabel("UPDATE: 24/1/2025")
+
+-- Dòng trạng thái cập nhật
+TabMain:AddLabel("Trạng thái cập nhật: Đang update")
+-- Tạo các nút từ danh sách trên
+for _, button in ipairs(buttons) do
+    AddButton(Tab1o, {
+        Name = button.Name,
+        Callback = button.Callback or function()
+            loadstring(game:HttpGet(button.URL))();
+        end
+    });
+end
 
 -- Các nút bấm
 local buttons = {
@@ -85,33 +105,7 @@ local buttons = {
 
 -- Tạo các nút từ danh sách trên
 for _, button in ipairs(buttons) do
-    AddButton(Tab1o, {
-        Name = button.Name,
-        Callback = button.Callback or function()
-            loadstring(game:HttpGet(button.URL))();
-        end
-    });
-end
-
--- Các nút bấm
-local buttons = {
-    {Name = "KING LEGACY AUTO FARM", URL = "https://raw.githubusercontent.com/somelink/KL-AutoFarm/main/AutoFarm.lua"},
-    {Name = "KING LEGACY ESP", URL = "https://raw.githubusercontent.com/somelink/KL-ESP/main/ESP.lua"},
-    {Name = "KING LEGACY AUTO QUEST", URL = "https://raw.githubusercontent.com/somelink/KL-AutoQuest/main/AutoQuest.lua"},
-    {Name = "KING LEGACY DEVIL FRUIT ESP", URL = "https://raw.githubusercontent.com/somelink/KL-DevilFruitESP/main/DFESP.lua"},
-    {Name = "KING LEGACY AUTO SKILL", URL = "https://raw.githubusercontent.com/somelink/KL-AutoSkill/main/AutoSkill.lua"},
-    {Name = "KING LEGACY AUTO BOSS", URL = "https://raw.githubusercontent.com/somelink/KL-AutoBoss/main/AutoBoss.lua"},
-    {Name = "KING LEGACY TELEPORT", URL = "https://raw.githubusercontent.com/somelink/KL-Teleport/main/Teleport.lua"},
-    {Name = "KING LEGACY AUTO BUY FRUIT", URL = "https://raw.githubusercontent.com/somelink/KL-AutoBuyFruit/main/AutoBuy.lua"},
-    {Name = "KING LEGACY SPEED HACK", URL = "https://raw.githubusercontent.com/somelink/KL-SpeedHack/main/SpeedHack.lua"},
-    {Name = "KING LEGACY GOD MODE", URL = "https://raw.githubusercontent.com/somelink/KL-GodMode/main/GodMode.lua"},
-    {Name = "KING LEGACY INFINITE JUMP", URL = "https://raw.githubusercontent.com/somelink/KL-InfiniteJump/main/InfiniteJump.lua"},
-    {Name = "KING LEGACY AUTO STATS", URL = "https://raw.githubusercontent.com/somelink/KL-AutoStats/main/AutoStats.lua"}
-};
-
--- Tạo các nút từ danh sách trên
-for _, button in ipairs(buttons) do
-    AddButton(Tab2o, {
+    AddButton(Tab3o, {
         Name = button.Name,
         Callback = button.Callback or function()
             loadstring(game:HttpGet(button.URL))();

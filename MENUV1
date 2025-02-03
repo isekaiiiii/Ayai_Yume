@@ -31,11 +31,15 @@ local function checkKey(userInput)
             showMessage("Cảm ơn bạn đã mua key Premium", 10) -- Hiển thị 10 giây
             wait(5) -- Đợi thêm 5 giây
             showMessage("Loading Script...", 3) -- Hiển thị "Loading Script..." trong 3 giây
+        elseif userInput == "thongdepzai" then
+            showMessage("Key Free, nếu bạn muốn sử dụng tốt hơn thì mua Premium", 10) -- Hiển thị 10 giây
+            wait(5) -- Đợi thêm 5 giây
+            showMessage("Loading Script...", 3) -- Hiển thị "Loading Script..." trong 3 giây
         end
         wait(3) -- Đợi trước khi chạy script
         loadstring(game:HttpGet(keys[userInput]))()
-        
-        -- Ẩn ô nhập key và nút sau khi key đúng
+
+        -- Ẩn menu nhập key khi key đúng
         TextBox.Visible = false
         SubmitButton.Visible = false
     else

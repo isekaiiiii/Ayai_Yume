@@ -12,7 +12,6 @@ Frame.BackgroundColor3 = Color3.fromRGB(44, 47, 51) -- Nền xám như Roblox
 Frame.BorderSizePixel = 0
 Frame.Parent = ScreenGui
 
--- Bo góc Frame
 local UICorner = Instance.new("UICorner")
 UICorner.CornerRadius = UDim.new(0, 10)
 UICorner.Parent = Frame
@@ -31,14 +30,13 @@ Title.Parent = Frame
 local TextBox = Instance.new("TextBox")
 TextBox.Size = UDim2.new(0.8, 0, 0.25, 0)
 TextBox.Position = UDim2.new(0.1, 0, 0.35, 0)
-TextBox.BackgroundColor3 = Color3.fromRGB(35, 39, 42) -- Nền xám đậm
-TextBox.TextColor3 = Color3.fromRGB(255, 255, 255) -- Chữ trắng
+TextBox.BackgroundColor3 = Color3.fromRGB(35, 39, 42)
+TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
 TextBox.PlaceholderText = "Nhập Key..."
 TextBox.TextScaled = true
 TextBox.Font = Enum.Font.SourceSans
 TextBox.Parent = Frame
 
--- Bo góc TextBox
 local TextBoxCorner = Instance.new("UICorner")
 TextBoxCorner.CornerRadius = UDim.new(0, 8)
 TextBoxCorner.Parent = TextBox
@@ -47,25 +45,24 @@ TextBoxCorner.Parent = TextBox
 local SubmitButton = Instance.new("TextButton")
 SubmitButton.Size = UDim2.new(0.6, 0, 0.25, 0)
 SubmitButton.Position = UDim2.new(0.2, 0, 0.7, 0)
-SubmitButton.BackgroundColor3 = Color3.fromRGB(0, 162, 255) -- Xanh Roblox
+SubmitButton.BackgroundColor3 = Color3.fromRGB(0, 162, 255)
 SubmitButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 SubmitButton.Text = "Xác nhận"
 SubmitButton.TextScaled = true
 SubmitButton.Font = Enum.Font.SourceSansBold
 SubmitButton.Parent = Frame
 
--- Bo góc SubmitButton
 local ButtonCorner = Instance.new("UICorner")
 ButtonCorner.CornerRadius = UDim.new(0, 8)
 ButtonCorner.Parent = SubmitButton
 
--- Hiệu ứng khi bấm nút
+-- Hiệu ứng hover
 SubmitButton.MouseEnter:Connect(function()
-    SubmitButton.BackgroundColor3 = Color3.fromRGB(0, 145, 230) -- Đổi màu khi di chuột vào
+    SubmitButton.BackgroundColor3 = Color3.fromRGB(0, 145, 230)
 end)
 
 SubmitButton.MouseLeave:Connect(function()
-    SubmitButton.BackgroundColor3 = Color3.fromRGB(0, 162, 255) -- Trở lại màu gốc
+    SubmitButton.BackgroundColor3 = Color3.fromRGB(0, 162, 255)
 end)
 
 -- Danh sách Key
@@ -74,19 +71,25 @@ local keys = {
     ["thongdepzai"] = "https://raw.githubusercontent.com/Gojo-Satoru27/Ayai_Yume/refs/heads/main/KAITUN"
 }
 
--- Hiển thị thông báo
+-- Hiển thị thông báo (hiệu ứng mượt)
 local function showMessage(message, duration)
     Title.Text = message
     wait(duration)
     Title.Text = "Nhập Key Để Tiếp Tục"
 end
 
+-- Hiệu ứng biến mất mượt
+local function fadeOut(frame)
+    for i = 1, 10 do
+        frame.BackgroundTransparency = i * 0.1
+        wait(0.05)
+    end
+    frame.Visible = false
+end
+
 -- Kiểm tra Key
 local function checkKey(userInput)
     if keys[userInput] then
-        -- Ẩn Frame sau khi nhập đúng Key
-        Frame.Visible = false
-        
         if userInput == "thongdeptrai" then
             showMessage("Cảm ơn bạn đã mua key Premium", 3)
         elseif userInput == "thongdepzai" then
@@ -102,6 +105,10 @@ local function checkKey(userInput)
 
         if success and scriptContent then
             print("Script tải về thành công!")
+            showMessage("Đang chạy script...", 2)
+            wait(1)
+            fadeOut(Frame) -- Hiệu ứng biến mất
+
             local runSuccess, err = pcall(loadstring(scriptContent))
             if not runSuccess then
                 warn("Lỗi khi chạy script: " .. err)

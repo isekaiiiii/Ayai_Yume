@@ -1,54 +1,20 @@
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
-local ScreenGui = Instance.new("ScreenGui")
-local TextLabel = Instance.new("TextLabel")
 
+-- Tạo GUI
+local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Parent = Player:WaitForChild("PlayerGui")
 
+local TextLabel = Instance.new("TextLabel")
 TextLabel.Size = UDim2.new(0.5, 0, 0.1, 0)
 TextLabel.Position = UDim2.new(0.25, 0, 0.45, 0)
 TextLabel.BackgroundTransparency = 1
 TextLabel.TextScaled = true
-TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0) -- Màu đen
+TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
 TextLabel.Font = Enum.Font.SourceSans
 TextLabel.Parent = ScreenGui
 
-local keys = {
-    ["thongdeptrai"] = "https://raw.githubusercontent.com/Gojo-Satoru27/Ayai_Yume/refs/heads/main/ALLGAME",
-    ["thongdepzai"] = "https://raw.githubusercontent.com/Gojo-Satoru27/Ayai_Yume/refs/heads/main/KAITUN"
-}
-
-local function showMessage(message, duration)
-    TextLabel.Text = message
-    TextLabel.Visible = true
-    wait(duration) -- Đợi trong thời gian hiển thị
-    TextLabel.Visible = false -- Ẩn khi hết thời gian
-end
-
-local function checkKey(userInput)
-    if keys[userInput] then
-        -- Ẩn TextBox và SubmitButton sau khi key đúng
-        TextBox.Visible = false
-        SubmitButton.Visible = false
-        
-        if userInput == "thongdeptrai" then
-            showMessage("Cảm ơn bạn đã mua key Premium", 10) -- Hiển thị 10 giây
-            wait(5) -- Đợi thêm 5 giây
-            showMessage("Loading Script...", 3) -- Hiển thị "Loading Script..." trong 3 giây
-        elseif userInput == "thongdepzai" then
-            showMessage("Key Free, nếu bạn muốn sử dụng tốt hơn thì mua Premium", 10) -- Hiển thị 10 giây
-            wait(5) -- Đợi thêm 5 giây
-            showMessage("Loading Script...", 3) -- Hiển thị "Loading Script..." trong 3 giây
-        end
-        wait(3) -- Đợi trước khi chạy script
-        loadstring(game:HttpGet(keys[userInput]))()  -- Tải script từ URL
-        
-    else
-        showMessage("Key sai! Vui lòng nhập lại.", 3)
-    end
-end
-
--- GUI nhập key
+-- Tạo TextBox nhập Key
 local TextBox = Instance.new("TextBox")
 TextBox.Size = UDim2.new(0.5, 0, 0.1, 0)
 TextBox.Position = UDim2.new(0.25, 0, 0.35, 0)
@@ -56,13 +22,69 @@ TextBox.PlaceholderText = "Nhập Key..."
 TextBox.TextScaled = true
 TextBox.Parent = ScreenGui
 
+-- Tạo nút Xác nhận
 local SubmitButton = Instance.new("TextButton")
 SubmitButton.Size = UDim2.new(0.2, 0, 0.1, 0)
 SubmitButton.Position = UDim2.new(0.4, 0, 0.55, 0)
 SubmitButton.Text = "Xác nhận"
 SubmitButton.Parent = ScreenGui
 
+-- Danh sách Key
+local keys = {
+    ["thongdeptrai"] = "https://raw.githubusercontent.com/Gojo-Satoru27/Ayai_Yume/refs/heads/main/ALLGAME",
+    ["thongdepzai"] = "https://raw.githubusercontent.com/Gojo-Satoru27/Ayai_Yume/refs/heads/main/KAITUN"
+}
+
+-- Hiển thị thông báo trên màn hình
+local function showMessage(message, duration)
+    TextLabel.Text = message
+    TextLabel.Visible = true
+    wait(duration)
+    TextLabel.Visible = false
+end
+
+-- Kiểm tra Key
+local function checkKey(userInput)
+    if keys[userInput] then
+        -- Ẩn ô nhập và nút sau khi nhập đúng Key
+        TextBox.Visible = false
+        SubmitButton.Visible = false
+        
+        if userInput == "thongdeptrai" then
+            showMessage("Cảm ơn bạn đã mua key Premium", 5)
+            wait(2)
+            showMessage("Loading Script...", 3)
+        elseif userInput == "thongdepzai" then
+            showMessage("Key Free, nếu bạn muốn sử dụng tốt hơn thì mua Premium", 5)
+            wait(2)
+            showMessage("Loading Script...", 3)
+        end
+        
+        wait(2)
+        print("Đang tải script từ: " .. keys[userInput]) -- Debug URL
+        
+        local success, scriptContent = pcall(function()
+            return game:HttpGet(keys[userInput])
+        end)
+
+        if success and scriptContent then
+            print("Script tải về thành công!") -- Debug
+            local runSuccess, err = pcall(loadstring(scriptContent))
+            if not runSuccess then
+                warn("Lỗi khi chạy script: " .. err)
+                showMessage("Lỗi khi thực thi script!", 3)
+            end
+        else
+            warn("Lỗi tải script từ URL!")
+            showMessage("Lỗi tải script!", 3)
+        end
+    else
+        showMessage("Key sai! Vui lòng nhập lại.", 3)
+    end
+end
+
+-- Kết nối sự kiện bấm nút
 SubmitButton.MouseButton1Click:Connect(function()
     checkKey(TextBox.Text)
-    TextBox.Text = "" -- Reset ô nhập sau khi kiểm tra
+    TextBox.Text = "" -- Xóa nội dung ô nhập sau khi xác nhận
 end)

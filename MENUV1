@@ -1,33 +1,72 @@
 local Players = game:GetService("Players")
 local Player = Players.LocalPlayer
 
--- Tạo GUI
+-- Tạo GUI chính
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Parent = Player:WaitForChild("PlayerGui")
 
-local TextLabel = Instance.new("TextLabel")
-TextLabel.Size = UDim2.new(0.5, 0, 0.1, 0)
-TextLabel.Position = UDim2.new(0.25, 0, 0.45, 0)
-TextLabel.BackgroundTransparency = 1
-TextLabel.TextScaled = true
-TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0)
-TextLabel.Font = Enum.Font.SourceSans
-TextLabel.Parent = ScreenGui
+local Frame = Instance.new("Frame")
+Frame.Size = UDim2.new(0.3, 0, 0.25, 0)
+Frame.Position = UDim2.new(0.35, 0, 0.35, 0)
+Frame.BackgroundColor3 = Color3.fromRGB(44, 47, 51) -- Nền xám như Roblox
+Frame.BorderSizePixel = 0
+Frame.Parent = ScreenGui
 
--- Tạo TextBox nhập Key
+-- Bo góc Frame
+local UICorner = Instance.new("UICorner")
+UICorner.CornerRadius = UDim.new(0, 10)
+UICorner.Parent = Frame
+
+-- Tiêu đề
+local Title = Instance.new("TextLabel")
+Title.Size = UDim2.new(1, 0, 0.2, 0)
+Title.BackgroundTransparency = 1
+Title.Text = "Nhập Key Để Tiếp Tục"
+Title.TextScaled = true
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.Font = Enum.Font.SourceSansBold
+Title.Parent = Frame
+
+-- Ô nhập Key
 local TextBox = Instance.new("TextBox")
-TextBox.Size = UDim2.new(0.5, 0, 0.1, 0)
-TextBox.Position = UDim2.new(0.25, 0, 0.35, 0)
+TextBox.Size = UDim2.new(0.8, 0, 0.25, 0)
+TextBox.Position = UDim2.new(0.1, 0, 0.35, 0)
+TextBox.BackgroundColor3 = Color3.fromRGB(35, 39, 42) -- Nền xám đậm
+TextBox.TextColor3 = Color3.fromRGB(255, 255, 255) -- Chữ trắng
 TextBox.PlaceholderText = "Nhập Key..."
 TextBox.TextScaled = true
-TextBox.Parent = ScreenGui
+TextBox.Font = Enum.Font.SourceSans
+TextBox.Parent = Frame
 
--- Tạo nút Xác nhận
+-- Bo góc TextBox
+local TextBoxCorner = Instance.new("UICorner")
+TextBoxCorner.CornerRadius = UDim.new(0, 8)
+TextBoxCorner.Parent = TextBox
+
+-- Nút xác nhận
 local SubmitButton = Instance.new("TextButton")
-SubmitButton.Size = UDim2.new(0.2, 0, 0.1, 0)
-SubmitButton.Position = UDim2.new(0.4, 0, 0.55, 0)
+SubmitButton.Size = UDim2.new(0.6, 0, 0.25, 0)
+SubmitButton.Position = UDim2.new(0.2, 0, 0.7, 0)
+SubmitButton.BackgroundColor3 = Color3.fromRGB(0, 162, 255) -- Xanh Roblox
+SubmitButton.TextColor3 = Color3.fromRGB(255, 255, 255)
 SubmitButton.Text = "Xác nhận"
-SubmitButton.Parent = ScreenGui
+SubmitButton.TextScaled = true
+SubmitButton.Font = Enum.Font.SourceSansBold
+SubmitButton.Parent = Frame
+
+-- Bo góc SubmitButton
+local ButtonCorner = Instance.new("UICorner")
+ButtonCorner.CornerRadius = UDim.new(0, 8)
+ButtonCorner.Parent = SubmitButton
+
+-- Hiệu ứng khi bấm nút
+SubmitButton.MouseEnter:Connect(function()
+    SubmitButton.BackgroundColor3 = Color3.fromRGB(0, 145, 230) -- Đổi màu khi di chuột vào
+end)
+
+SubmitButton.MouseLeave:Connect(function()
+    SubmitButton.BackgroundColor3 = Color3.fromRGB(0, 162, 255) -- Trở lại màu gốc
+end)
 
 -- Danh sách Key
 local keys = {
@@ -35,40 +74,34 @@ local keys = {
     ["thongdepzai"] = "https://raw.githubusercontent.com/Gojo-Satoru27/Ayai_Yume/refs/heads/main/KAITUN"
 }
 
--- Hiển thị thông báo trên màn hình
+-- Hiển thị thông báo
 local function showMessage(message, duration)
-    TextLabel.Text = message
-    TextLabel.Visible = true
+    Title.Text = message
     wait(duration)
-    TextLabel.Visible = false
+    Title.Text = "Nhập Key Để Tiếp Tục"
 end
 
 -- Kiểm tra Key
 local function checkKey(userInput)
     if keys[userInput] then
-        -- Ẩn ô nhập và nút sau khi nhập đúng Key
-        TextBox.Visible = false
-        SubmitButton.Visible = false
+        -- Ẩn Frame sau khi nhập đúng Key
+        Frame.Visible = false
         
         if userInput == "thongdeptrai" then
-            showMessage("Cảm ơn bạn đã mua key Premium", 5)
-            wait(2)
-            showMessage("Loading Script...", 3)
+            showMessage("Cảm ơn bạn đã mua key Premium", 3)
         elseif userInput == "thongdepzai" then
-            showMessage("Key Free, nếu bạn muốn sử dụng tốt hơn thì mua Premium", 5)
-            wait(2)
-            showMessage("Loading Script...", 3)
+            showMessage("Key Free, nếu muốn dùng tốt hơn hãy mua Premium!", 3)
         end
         
         wait(2)
-        print("Đang tải script từ: " .. keys[userInput]) -- Debug URL
-        
+        print("Đang tải script từ: " .. keys[userInput])
+
         local success, scriptContent = pcall(function()
             return game:HttpGet(keys[userInput])
         end)
 
         if success and scriptContent then
-            print("Script tải về thành công!") -- Debug
+            print("Script tải về thành công!")
             local runSuccess, err = pcall(loadstring(scriptContent))
             if not runSuccess then
                 warn("Lỗi khi chạy script: " .. err)
@@ -86,5 +119,5 @@ end
 -- Kết nối sự kiện bấm nút
 SubmitButton.MouseButton1Click:Connect(function()
     checkKey(TextBox.Text)
-    TextBox.Text = "" -- Xóa nội dung ô nhập sau khi xác nhận
+    TextBox.Text = ""
 end)

@@ -1,39 +1,59 @@
-
-local key_dung = "thongdeptrai"
-
+local Players = game:GetService("Players")
+local Player = Players.LocalPlayer
 local ScreenGui = Instance.new("ScreenGui")
-local Frame = Instance.new("Frame")
-local TextBox = Instance.new("TextBox")
-local Button = Instance.new("TextButton")
-local UICorner = Instance.new("UICorner")
+local TextLabel = Instance.new("TextLabel")
 
-ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-Frame.Parent = ScreenGui
-Frame.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-Frame.Position = UDim2.new(0.35, 0, 0.4, 0)
-Frame.Size = UDim2.new(0, 300, 0, 150)
+ScreenGui.Parent = Player:WaitForChild("PlayerGui")
 
-UICorner.Parent = Frame
+TextLabel.Size = UDim2.new(0.5, 0, 0.1, 0)
+TextLabel.Position = UDim2.new(0.25, 0, 0.45, 0)
+TextLabel.BackgroundTransparency = 1
+TextLabel.TextScaled = true
+TextLabel.TextColor3 = Color3.fromRGB(0, 0, 0) -- Màu đen
+TextLabel.Font = Enum.Font.SourceSans
+TextLabel.Parent = ScreenGui
 
-TextBox.Parent = Frame
-TextBox.PlaceholderText = "Nhập key..."
-TextBox.Position = UDim2.new(0.1, 0, 0.2, 0)
-TextBox.Size = UDim2.new(0.8, 0, 0.3, 0)
-TextBox.Text = ""
-TextBox.TextScaled = true
+local keys = {
+    ["thongdeptrai"] = "https://raw.githubusercontent.com/Gojo-Satoru27/Ayai_Yume/refs/heads/main/ALLGAME",
+    ["thongdepzai"] = "https://raw.githubusercontent.com/Gojo-Satoru27/Ayai_Yume/refs/heads/main/KAITUNVIP"
+}
 
-Button.Parent = Frame
-Button.Text = "Xác nhận"
-Button.Position = UDim2.new(0.3, 0, 0.6, 0)
-Button.Size = UDim2.new(0.4, 0, 0.3, 0)
+local function showMessage(message, duration)
+    TextLabel.Text = message
+    TextLabel.Visible = true
+    wait(duration)
+    TextLabel.Visible = false
+end
 
-Button.MouseButton1Click:Connect(function()
-    if TextBox.Text == key_dung then
-        ScreenGui:Destroy()
-        print("Key chính xác! Đang chạy script...")
-        -- Load script gốc từ file KEY.txt
-        loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+local function checkKey(userInput)
+    if keys[userInput] then
+        if userInput == "thongdeptrai" then
+            showMessage("Cảm ơn bạn đã mua key Premium", 10) -- Hiển thị 10 giây
+            wait(5) -- Đợi thêm 5 giây
+            showMessage("Loading Script...", 3) -- Hiển thị "Loading Script..." trong 3 giây
+        end
+        wait(3) -- Đợi trước khi chạy script
+        loadstring(game:HttpGet(keys[userInput]))()
     else
-        TextBox.Text = "Sai key!"
+        showMessage("Key sai! Vui lòng nhập lại.", 3)
     end
+end
+
+-- GUI nhập key
+local TextBox = Instance.new("TextBox")
+TextBox.Size = UDim2.new(0.5, 0, 0.1, 0)
+TextBox.Position = UDim2.new(0.25, 0, 0.35, 0)
+TextBox.PlaceholderText = "Nhập Key..."
+TextBox.TextScaled = true
+TextBox.Parent = ScreenGui
+
+local SubmitButton = Instance.new("TextButton")
+SubmitButton.Size = UDim2.new(0.2, 0, 0.1, 0)
+SubmitButton.Position = UDim2.new(0.4, 0, 0.55, 0)
+SubmitButton.Text = "Xác nhận"
+SubmitButton.Parent = ScreenGui
+
+SubmitButton.MouseButton1Click:Connect(function()
+    checkKey(TextBox.Text)
+    TextBox.Text = "" -- Reset ô nhập sau khi kiểm tra
 end)

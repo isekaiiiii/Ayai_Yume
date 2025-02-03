@@ -34,6 +34,10 @@ local function checkKey(userInput)
         end
         wait(3) -- Đợi trước khi chạy script
         loadstring(game:HttpGet(keys[userInput]))()
+        
+        -- Ẩn ô nhập key và nút sau khi key đúng
+        TextBox.Visible = false
+        SubmitButton.Visible = false
     else
         showMessage("Key sai! Vui lòng nhập lại.", 3)
     end

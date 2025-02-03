@@ -27,6 +27,10 @@ end
 
 local function checkKey(userInput)
     if keys[userInput] then
+        -- Ẩn TextBox và SubmitButton sau khi key đúng
+        TextBox.Visible = false
+        SubmitButton.Visible = false
+        
         if userInput == "thongdeptrai" then
             showMessage("Cảm ơn bạn đã mua key Premium", 10) -- Hiển thị 10 giây
             wait(5) -- Đợi thêm 5 giây
@@ -38,10 +42,6 @@ local function checkKey(userInput)
         end
         wait(3) -- Đợi trước khi chạy script
         loadstring(game:HttpGet(keys[userInput]))()
-
-        -- Ẩn menu nhập key khi key đúng
-        TextBox.Visible = false
-        SubmitButton.Visible = false
     else
         showMessage("Key sai! Vui lòng nhập lại.", 3)
     end
@@ -63,5 +63,5 @@ SubmitButton.Parent = ScreenGui
 
 SubmitButton.MouseButton1Click:Connect(function()
     checkKey(TextBox.Text)
-    TextBox.Text = "" -- Reset ô nhập sau khi kiểm tra
+    TextBox.Text = "nhập key vào đây" -- Reset ô nhập sau khi kiểm tra
 end)

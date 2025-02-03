@@ -1,3 +1,61 @@
+-- Hệ thống nhập key
+local validKey = "thongdeptrai"  -- Key hợp lệ
+
+-- Hàm kiểm tra key
+local function checkKey(inputKey)
+    return inputKey == validKey
+end
+
+-- Hộp thoại nhập key
+local UserInputService = game:GetService("UserInputService")
+
+local function promptForKey()
+    local gui = Instance.new("ScreenGui")
+    local frame = Instance.new("Frame")
+    local textBox = Instance.new("TextBox")
+    local button = Instance.new("TextButton")
+    local message = Instance.new("TextLabel")
+
+    gui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+
+    frame.Size = UDim2.new(0, 300, 0, 150)
+    frame.Position = UDim2.new(0.5, -150, 0.5, -75)
+    frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+    frame.Parent = gui
+
+    textBox.Size = UDim2.new(0, 260, 0, 40)
+    textBox.Position = UDim2.new(0.5, -130, 0.5, -30)
+    textBox.PlaceholderText = "Nhập Key vào đây..."
+    textBox.Text = ""
+    textBox.Parent = frame
+
+    button.Size = UDim2.new(0, 260, 0, 30)
+    button.Position = UDim2.new(0.5, -130, 0.5, 20)
+    button.Text = "Xác Nhận"
+    button.Parent = frame
+
+    message.Size = UDim2.new(0, 260, 0, 30)
+    message.Position = UDim2.new(0.5, -130, 0.5, 60)
+    message.Text = ""
+    message.TextColor3 = Color3.fromRGB(255, 0, 0)
+    message.Parent = frame
+
+    button.MouseButton1Click:Connect(function()
+        local inputKey = textBox.Text
+        if checkKey(inputKey) then
+            gui:Destroy() -- Xóa giao diện
+            print("Key chính xác! Đang chạy script...")
+            loadstring(original_script)() -- Chạy script chính
+        else
+            message.Text = "Key sai! Vui lòng thử lại."
+            textBox.Text = ""  -- Xóa nội dung nếu key sai
+        end
+    end)
+end
+
+-- Chạy hệ thống nhập key
+promptForKey()
+
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/SaveManager.lua"))()
 local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/dawid-scripts/Fluent/master/Addons/InterfaceManager.lua"))()

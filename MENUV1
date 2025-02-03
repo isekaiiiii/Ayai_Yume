@@ -1,41 +1,53 @@
 -- Hệ thống nhập key
 local validKey = "thongdeptrai"  -- Key hợp lệ
+local scriptContent = [[
+    -- Đây là nơi script chính của bạn sẽ chạy sau khi nhập key đúng
+    print("Script chính đang chạy...")
+    -- Bạn có thể thêm code gốc của mình vào đây
+]]
 
 -- Hàm kiểm tra key
 local function checkKey(inputKey)
     return inputKey == validKey
 end
 
--- Hộp thoại nhập key
+-- Hộp thoại nhập key với hình ảnh
 local UserInputService = game:GetService("UserInputService")
 
 local function promptForKey()
     local gui = Instance.new("ScreenGui")
     local frame = Instance.new("Frame")
+    local image = Instance.new("ImageLabel")
     local textBox = Instance.new("TextBox")
     local button = Instance.new("TextButton")
     local message = Instance.new("TextLabel")
 
     gui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
-    frame.Size = UDim2.new(0, 300, 0, 150)
-    frame.Position = UDim2.new(0.5, -150, 0.5, -75)
+    frame.Size = UDim2.new(0, 300, 0, 200)
+    frame.Position = UDim2.new(0.5, -150, 0.5, -100)
     frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
     frame.Parent = gui
 
+    -- Thêm hình ảnh vào hộp thoại
+    image.Size = UDim2.new(0, 100, 0, 100)
+    image.Position = UDim2.new(0.5, -50, 0, 10)
+    image.Image = "rbxassetid://111982589088426"
+    image.Parent = frame
+
     textBox.Size = UDim2.new(0, 260, 0, 40)
-    textBox.Position = UDim2.new(0.5, -130, 0.5, -30)
+    textBox.Position = UDim2.new(0.5, -130, 0.5, -10)
     textBox.PlaceholderText = "Nhập Key vào đây..."
     textBox.Text = ""
     textBox.Parent = frame
 
     button.Size = UDim2.new(0, 260, 0, 30)
-    button.Position = UDim2.new(0.5, -130, 0.5, 20)
+    button.Position = UDim2.new(0.5, -130, 0.5, 40)
     button.Text = "Xác Nhận"
     button.Parent = frame
 
     message.Size = UDim2.new(0, 260, 0, 30)
-    message.Position = UDim2.new(0.5, -130, 0.5, 60)
+    message.Position = UDim2.new(0.5, -130, 0.5, 80)
     message.Text = ""
     message.TextColor3 = Color3.fromRGB(255, 0, 0)
     message.Parent = frame
@@ -45,7 +57,7 @@ local function promptForKey()
         if checkKey(inputKey) then
             gui:Destroy() -- Xóa giao diện
             print("Key chính xác! Đang chạy script...")
-            loadstring(original_script)() -- Chạy script chính
+            loadstring(scriptContent)() -- Chạy script chính
         else
             message.Text = "Key sai! Vui lòng thử lại."
             textBox.Text = ""  -- Xóa nội dung nếu key sai

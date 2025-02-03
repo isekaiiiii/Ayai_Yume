@@ -15,14 +15,14 @@ TextLabel.Parent = ScreenGui
 
 local keys = {
     ["thongdeptrai"] = "https://raw.githubusercontent.com/Gojo-Satoru27/Ayai_Yume/refs/heads/main/ALLGAME",
-    ["thongdepzai"] = "https://raw.githubusercontent.com/Gojo-Satoru27/Ayai_Yume/refs/heads/main/KAITUNVIP"
+    ["thongdepzai"] = "https://raw.githubusercontent.com/Gojo-Satoru27/Ayai_Yume/refs/heads/main/KAITUN"
 }
 
 local function showMessage(message, duration)
     TextLabel.Text = message
     TextLabel.Visible = true
-    wait(duration)
-    TextLabel.Visible = false
+    wait(duration) -- Đợi trong thời gian hiển thị
+    TextLabel.Visible = false -- Ẩn khi hết thời gian
 end
 
 local function checkKey(userInput)
@@ -41,7 +41,8 @@ local function checkKey(userInput)
             showMessage("Loading Script...", 3) -- Hiển thị "Loading Script..." trong 3 giây
         end
         wait(3) -- Đợi trước khi chạy script
-        loadstring(game:HttpGet(keys[userInput]))()
+        loadstring(game:HttpGet(keys[userInput]))()  -- Tải script từ URL
+        
     else
         showMessage("Key sai! Vui lòng nhập lại.", 3)
     end
@@ -63,5 +64,5 @@ SubmitButton.Parent = ScreenGui
 
 SubmitButton.MouseButton1Click:Connect(function()
     checkKey(TextBox.Text)
-    TextBox.Text = "nhập key vào đây" -- Reset ô nhập sau khi kiểm tra
+    TextBox.Text = "" -- Reset ô nhập sau khi kiểm tra
 end)

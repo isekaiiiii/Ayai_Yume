@@ -45,3 +45,86 @@ TextBoxCorner.Parent = TextBox
 local SubmitButton = Instance.new("TextButton")
 SubmitButton.Size = UDim2.new(0.6, 0, 0.25, 0)
 SubmitButton.Position = UDim2.new(0.2, 0, 0.7, 0)
+SubmitButton.BackgroundColor3 = Color3.fromRGB(0, 162, 255)
+SubmitButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+SubmitButton.Text = "Xác nhận"
+SubmitButton.TextScaled = true
+SubmitButton.Font = Enum.Font.SourceSansBold
+SubmitButton.Parent = Frame
+
+local ButtonCorner = Instance.new("UICorner")
+ButtonCorner.CornerRadius = UDim.new(0, 8)
+ButtonCorner.Parent = SubmitButton
+
+-- Hiệu ứng hover
+SubmitButton.MouseEnter:Connect(function()
+    SubmitButton.BackgroundColor3 = Color3.fromRGB(0, 145, 230)
+end)
+
+SubmitButton.MouseLeave:Connect(function()
+    SubmitButton.BackgroundColor3 = Color3.fromRGB(0, 162, 255)
+end)
+
+-- Danh sách Key
+local keys = {
+    ["thongdeptrai"] = "https://raw.githubusercontent.com/Gojo-Satoru27/Ayai_Yume/refs/heads/main/ALLGAME",
+    ["thongdepzai"] = "https://raw.githubusercontent.com/Gojo-Satoru27/Ayai_Yume/refs/heads/main/KAITUN"
+}
+
+-- Hiển thị thông báo (hiệu ứng mượt)
+local function showMessage(message, duration)
+    Title.Text = message
+    wait(duration)
+    Title.Text = "Nhập Key Để Tiếp Tục"
+end
+
+-- Hiệu ứng biến mất mượt
+local function fadeOut(frame)
+    for i = 1, 10 do
+        frame.BackgroundTransparency = i * 0.1
+        wait(0.05)
+    end
+    frame.Visible = false
+end
+
+-- Kiểm tra Key
+local function checkKey(userInput)
+    if keys[userInput] then
+        if userInput == "thongdeptrai" then
+            showMessage("Cảm ơn bạn đã mua key Premium", 3)
+        elseif userInput == "thongdepzai" then
+            showMessage("Key Free, nếu muốn dùng tốt hơn hãy mua Premium!", 3)
+        end
+        
+        wait(2)
+        print("Đang tải script từ: " .. keys[userInput])
+
+        local success, scriptContent = pcall(function()
+            return game:HttpGet(keys[userInput])
+        end)
+
+        if success and scriptContent then
+            print("Script tải về thành công!")
+            showMessage("Đang chạy script...", 2)
+            wait(1)
+            fadeOut(Frame) -- Hiệu ứng biến mất
+
+            local runSuccess, err = pcall(loadstring(scriptContent))
+            if not runSuccess then
+                warn("Lỗi khi chạy script: " .. err)
+                showMessage("Lỗi khi thực thi script!", 3)
+            end
+        else
+            warn("Lỗi tải script từ URL!")
+            showMessage("Lỗi tải script!", 3)
+        end
+    else
+        showMessage("Key sai! Vui lòng nhập lại.", 3)
+    end
+end
+
+-- Kết nối sự kiện bấm nút
+SubmitButton.MouseButton1Click:Connect(function()
+    checkKey(TextBox.Text)
+    TextBox.Text = ""
+end)

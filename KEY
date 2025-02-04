@@ -67,8 +67,9 @@ end)
 
 -- Danh sách Key
 local keys = {
-    ["thongdeptrai"] = "https://raw.githubusercontent.com/Gojo-Satoru27/Ayai_Yume/refs/heads/main/ALLGAME",
-    ["thongdepzai"] = "https://raw.githubusercontent.com/Gojo-Satoru27/Ayai_Yume/refs/heads/main/KAITUN"
+    ["TONGHOP"] = "https://raw.githubusercontent.com/Gojo-Satoru27/Ayai_Yume/refs/heads/main/ALLGAME",
+    ["KAITUN"] = "https://raw.githubusercontent.com/Gojo-Satoru27/Ayai_Yume/refs/heads/main/KAITUN",
+    ["FLY"] = "https://raw.githubusercontent.com/Gojo-Satoru27/Ayai_Yume/refs/heads/main/FLY" -- Thay bằng link thực của script bay
 }
 
 -- Hiển thị thông báo (hiệu ứng mượt)
@@ -89,11 +90,19 @@ end
 
 -- Kiểm tra Key
 local function checkKey(userInput)
+    showMessage("Check Key...", 1.5) -- Hiển thị thông báo Check Key
+    wait(1.5) -- Đợi 1.5 giây trước khi kiểm tra key
+
     if keys[userInput] then
-        if userInput == "thongdeptrai" then
-            showMessage("Cảm ơn bạn đã mua key Premium", 3)
-        elseif userInput == "thongdepzai" then
-            showMessage("Key Free, nếu muốn dùng tốt hơn hãy mua Premium!", 3)
+        if userInput == "TONGHOP" then
+            showMessage("Key đúng đang chạy script tổng hợp", 3)
+        elseif userInput == "KAITUN" then
+            showMessage(" Đang kích hoạt chế độ kaitun-Blox Fruits!", 3)
+        elseif userInput == "FLY" then
+            showMessage(" Đang kích hoạt chế độ bay...", 3)
+            wait(2)
+            showMessage("Script Made by Thong", 3) -- Hiển thị thông báo tác giả script
+            wait(3)
         end
         
         wait(2)

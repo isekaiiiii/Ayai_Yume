@@ -26,15 +26,24 @@ local Tabs = {
 
 local Options = Fluent.Options
 
--- Thêm hình nền mới
+-- 🌟 Thêm hình nền vào MENU FLUENT 🌟
+Window.Container.BackgroundTransparency = 1  -- Đặt nền menu trong suốt
+local bg = Instance.new("ImageLabel", Window.Container)
+bg.Size = UDim2.new(1, 0, 1, 0)  -- Phủ toàn bộ menu
+bg.Position = UDim2.new(0, 0, 0, 0)
+bg.Image = "rbxassetid://111982589088426"  -- Đặt hình nền menu
+bg.ScaleType = Enum.ScaleType.Stretch  -- Căng ảnh phủ toàn menu
+bg.BackgroundTransparency = 1  -- Ẩn nền để hiển thị hình ảnh
+
+-- 🌟 Thêm hình nền toàn màn hình (nếu cần) 🌟
 local screenGui = Instance.new("ScreenGui")
 screenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
 
 local background = Instance.new("ImageLabel")
 background.Size = UDim2.new(1, 0, 1, 0)  -- Full màn hình
 background.Position = UDim2.new(0, 0, 0, 0)
-background.Image = "rbxassetid://111982589088426"  -- Đổi thành hình nền từ Roblox
-background.BackgroundTransparency = 1  -- Ẩn màu nền để hiển thị hình ảnh
+background.Image = "rbxassetid://111982589088426"  -- Hình nền toàn màn hình
+background.BackgroundTransparency = 1  
 background.Parent = screenGui
 
 -- Sửa lỗi hình ảnh trong ImageButton
@@ -54,4 +63,4 @@ b.Image="rbxassetid://111982589088426" -- Sửa lỗi khoảng trắng và dùng
 
 c.Parent=b
 
-print("Script Ayai_Yume đã chạy thành công với hình nền mới!")
+print("Script Ayai_Yume đã chạy thành công !")

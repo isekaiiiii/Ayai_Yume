@@ -1,7 +1,7 @@
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
-local StarterGui = game:GetService("StarterGui")
+local CoreGui = game:GetService("CoreGui")
 
 local LocalPlayer = Players.LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
@@ -10,13 +10,23 @@ local AutoAimEnabled = false -- Trạng thái bật/tắt
 local ImageID = "rbxassetid://111982589088426" -- ID hình ảnh
 
 -- Tạo GUI hiển thị trạng thái Auto Aim
-local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
-local ImageLabel = Instance.new("ImageLabel", ScreenGui)
+local ScreenGui = Instance.new("ScreenGui", CoreGui)
 
-ImageLabel.Size = UDim2.new(0, 100, 0, 100) -- Kích thước ảnh
-ImageLabel.Position = UDim2.new(0.9, 0, 0.1, 0) -- Vị trí góc phải trên màn hình
-ImageLabel.Image = ImageID
-ImageLabel.Visible = false -- Ẩn khi chưa bật Auto Aim
+local BackgroundImage = Instance.new("ImageLabel", ScreenGui)
+BackgroundImage.Size = UDim2.new(0, 200, 0, 50) -- Kích thước
+BackgroundImage.Position = UDim2.new(0.5, -100, 0.05, 0) -- Giữa màn hình
+BackgroundImage.Image = ImageID
+BackgroundImage.BackgroundTransparency = 1 -- Không có nền đen
+BackgroundImage.Visible = false
+
+local StatusText = Instance.new("TextLabel", BackgroundImage)
+StatusText.Size = UDim2.new(1, 0, 1, 0)
+StatusText.Position = UDim2.new(0, 0, 0, 0)
+StatusText.BackgroundTransparency = 1
+StatusText.TextScaled = true
+StatusText.TextColor3 = Color3.fromRGB(255, 255, 255) -- Chữ màu trắng
+StatusText.Font = Enum.Font.SourceSansBold
+StatusText.Text = "Ayai_Yume OFF"
 
 -- Hàm lấy kẻ địch gần nhất
 function getClosestPlayer()
@@ -37,7 +47,7 @@ function getClosestPlayer()
     return closestPlayer
 end
 
--- Hàm điều chỉnh tâm nhắm vào mục tiêu
+-- Điều chỉnh tâm nhắm khi bật Auto Aim
 RunService.RenderStepped:Connect(function()
     if AutoAimEnabled then
         local target = getClosestPlayer()
@@ -51,12 +61,14 @@ end)
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
     if input.KeyCode == Enum.KeyCode.V and not gameProcessed then
         AutoAimEnabled = not AutoAimEnabled
-        ImageLabel.Visible = AutoAimEnabled -- Hiện/Ẩn ảnh
+        BackgroundImage.Visible = true -- Hiện UI
 
         if AutoAimEnabled then
-            print("Auto Aim: ON")
+            StatusText.Text = "Ayai_Yume ON"
+            StatusText.TextColor3 = Color3.fromRGB(0, 255, 0) -- Màu xanh khi bật
         else
-            print("Auto Aim: OFF")
+            StatusText.Text = "Ayai_Yume OFF"
+            StatusText.TextColor3 = Color3.fromRGB(255, 0, 0) -- Màu đỏ khi tắt
         end
     end
 end)

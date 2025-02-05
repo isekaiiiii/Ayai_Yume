@@ -8,24 +8,20 @@ local LocalPlayer = Players.LocalPlayer
 local Camera = workspace.CurrentCamera
 local AutoAimEnabled = false
 
--- GUI hiển thị trạng thái Auto Aim
+-- Tạo GUI
 local ScreenGui = Instance.new("ScreenGui")
 ScreenGui.Parent = LocalPlayer:FindFirstChildOfClass("PlayerGui")
 
-local StatusFrame = Instance.new("Frame", ScreenGui)
+local StatusFrame = Instance.new("TextButton", ScreenGui) -- Đổi từ Frame thành TextButton
 StatusFrame.Size = UDim2.new(0, 200, 0, 50)
 StatusFrame.Position = UDim2.new(0.5, -100, 0.05, 0)
 StatusFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 StatusFrame.BorderSizePixel = 2
 StatusFrame.BorderColor3 = Color3.fromRGB(255, 255, 255)
-
-local StatusText = Instance.new("TextLabel", StatusFrame)
-StatusText.Size = UDim2.new(1, 0, 1, 0)
-StatusText.BackgroundTransparency = 1
-StatusText.TextScaled = true
-StatusText.TextColor3 = Color3.fromRGB(255, 0, 0) -- Mặc định là đỏ (OFF)
-StatusText.Font = Enum.Font.SourceSansBold
-StatusText.Text = "Auto Aim OFF"
+StatusFrame.TextScaled = true
+StatusFrame.Font = Enum.Font.SourceSansBold
+StatusFrame.TextColor3 = Color3.fromRGB(255, 0, 0) -- Mặc định là đỏ (OFF)
+StatusFrame.Text = "Auto Aim OFF"
 
 -- Hàm lấy kẻ địch gần nhất
 function getClosestPlayer()
@@ -60,16 +56,14 @@ RunService.RenderStepped:Connect(function()
     end
 end)
 
--- Bật/Tắt Auto Aim khi nhấn phím "V"
-UserInputService.InputBegan:Connect(function(input, gameProcessed)
-    if input.KeyCode == Enum.KeyCode.V and not gameProcessed then
-        AutoAimEnabled = not AutoAimEnabled
-        if AutoAimEnabled then
-            StatusText.Text = "Auto Aim ON"
-            StatusText.TextColor3 = Color3.fromRGB(0, 255, 0) -- Xanh khi bật
-        else
-            StatusText.Text = "Auto Aim OFF"
-            StatusText.TextColor3 = Color3.fromRGB(255, 0, 0) -- Đỏ khi tắt
-        end
+-- Chuyển đổi Auto Aim khi nhấn vào nút
+StatusFrame.MouseButton1Click:Connect(function()
+    AutoAimEnabled = not AutoAimEnabled
+    if AutoAimEnabled then
+        StatusFrame.Text = "Auto Aim ON"
+        StatusFrame.TextColor3 = Color3.fromRGB(0, 255, 0) -- Xanh khi bật
+    else
+        StatusFrame.Text = "Auto Aim OFF"
+        StatusFrame.TextColor3 = Color3.fromRGB(255, 0, 0) -- Đỏ khi tắt
     end
 end)

@@ -7,7 +7,7 @@ local LocalPlayer = Players.LocalPlayer
 local Mouse = LocalPlayer:GetMouse()
 
 local AutoAimEnabled = false -- Trạng thái bật/tắt
-local ImageID = "rbxassetid://111982589088426" -- ID hình ảnh
+local ImageID = "https://www.roblox.com/asset/?id=111982589088426" -- ID hình ảnh
 
 -- Tạo GUI hiển thị trạng thái Auto Aim
 local ScreenGui = Instance.new("ScreenGui", CoreGui)

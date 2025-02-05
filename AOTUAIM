@@ -1,0 +1,62 @@
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local StarterGui = game:GetService("StarterGui")
+
+local LocalPlayer = Players.LocalPlayer
+local Mouse = LocalPlayer:GetMouse()
+
+local AutoAimEnabled = false -- Trạng thái bật/tắt
+local ImageID = "rbxassetid://111982589088426" -- ID hình ảnh
+
+-- Tạo GUI hiển thị trạng thái Auto Aim
+local ScreenGui = Instance.new("ScreenGui", game.CoreGui)
+local ImageLabel = Instance.new("ImageLabel", ScreenGui)
+
+ImageLabel.Size = UDim2.new(0, 100, 0, 100) -- Kích thước ảnh
+ImageLabel.Position = UDim2.new(0.9, 0, 0.1, 0) -- Vị trí góc phải trên màn hình
+ImageLabel.Image = ImageID
+ImageLabel.Visible = false -- Ẩn khi chưa bật Auto Aim
+
+-- Hàm lấy kẻ địch gần nhất
+function getClosestPlayer()
+    local closestPlayer = nil
+    local shortestDistance = math.huge
+
+    for _, player in pairs(Players:GetPlayers()) do
+        if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+            local pos = player.Character.HumanoidRootPart.Position
+            local distance = (LocalPlayer.Character.HumanoidRootPart.Position - pos).magnitude
+
+            if distance < shortestDistance then
+                closestPlayer = player
+                shortestDistance = distance
+            end
+        end
+    end
+    return closestPlayer
+end
+
+-- Hàm điều chỉnh tâm nhắm vào mục tiêu
+RunService.RenderStepped:Connect(function()
+    if AutoAimEnabled then
+        local target = getClosestPlayer()
+        if target and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
+            Mouse.Hit = target.Character.HumanoidRootPart.CFrame
+        end
+    end
+end)
+
+-- Bật/Tắt Auto Aim khi nhấn phím "V"
+UserInputService.InputBegan:Connect(function(input, gameProcessed)
+    if input.KeyCode == Enum.KeyCode.V and not gameProcessed then
+        AutoAimEnabled = not AutoAimEnabled
+        ImageLabel.Visible = AutoAimEnabled -- Hiện/Ẩn ảnh
+
+        if AutoAimEnabled then
+            print("Auto Aim: ON")
+        else
+            print("Auto Aim: OFF")
+        end
+    end
+end)

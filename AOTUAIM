@@ -1,32 +1,31 @@
+-- Dịch vụ Roblox
 local Players = game:GetService("Players")
 local UserInputService = game:GetService("UserInputService")
 local RunService = game:GetService("RunService")
-local CoreGui = game:GetService("CoreGui")
 
+-- Biến chính
 local LocalPlayer = Players.LocalPlayer
-local Mouse = LocalPlayer:GetMouse()
+local Camera = workspace.CurrentCamera
+local AutoAimEnabled = false
 
-local AutoAimEnabled = false -- Trạng thái bật/tắt
-local ImageID = "https://www.roblox.com/asset/?id=111982589088426" -- ID hình ảnh
+-- GUI hiển thị trạng thái Auto Aim
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.Parent = LocalPlayer:FindFirstChildOfClass("PlayerGui")
 
--- Tạo GUI hiển thị trạng thái Auto Aim
-local ScreenGui = Instance.new("ScreenGui", CoreGui)
+local StatusFrame = Instance.new("Frame", ScreenGui)
+StatusFrame.Size = UDim2.new(0, 200, 0, 50)
+StatusFrame.Position = UDim2.new(0.5, -100, 0.05, 0)
+StatusFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+StatusFrame.BorderSizePixel = 2
+StatusFrame.BorderColor3 = Color3.fromRGB(255, 255, 255)
 
-local BackgroundImage = Instance.new("ImageLabel", ScreenGui)
-BackgroundImage.Size = UDim2.new(0, 200, 0, 50) -- Kích thước
-BackgroundImage.Position = UDim2.new(0.5, -100, 0.05, 0) -- Giữa màn hình
-BackgroundImage.Image = ImageID
-BackgroundImage.BackgroundTransparency = 1 -- Không có nền đen
-BackgroundImage.Visible = false
-
-local StatusText = Instance.new("TextLabel", BackgroundImage)
+local StatusText = Instance.new("TextLabel", StatusFrame)
 StatusText.Size = UDim2.new(1, 0, 1, 0)
-StatusText.Position = UDim2.new(0, 0, 0, 0)
 StatusText.BackgroundTransparency = 1
 StatusText.TextScaled = true
-StatusText.TextColor3 = Color3.fromRGB(255, 255, 255) -- Chữ màu trắng
+StatusText.TextColor3 = Color3.fromRGB(255, 0, 0) -- Mặc định là đỏ (OFF)
 StatusText.Font = Enum.Font.SourceSansBold
-StatusText.Text = "Ayai_Yume OFF"
+StatusText.Text = "Auto Aim OFF"
 
 -- Hàm lấy kẻ địch gần nhất
 function getClosestPlayer()
@@ -36,7 +35,8 @@ function getClosestPlayer()
     for _, player in pairs(Players:GetPlayers()) do
         if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
             local pos = player.Character.HumanoidRootPart.Position
-            local distance = (LocalPlayer.Character.HumanoidRootPart.Position - pos).magnitude
+            local distance = (LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") and 
+                (LocalPlayer.Character.HumanoidRootPart.Position - pos).magnitude) or math.huge
 
             if distance < shortestDistance then
                 closestPlayer = player
@@ -47,12 +47,15 @@ function getClosestPlayer()
     return closestPlayer
 end
 
--- Điều chỉnh tâm nhắm khi bật Auto Aim
+-- Hàm Auto Aim (chỉ hoạt động khi bật ON)
 RunService.RenderStepped:Connect(function()
     if AutoAimEnabled then
         local target = getClosestPlayer()
         if target and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then
-            Mouse.Hit = target.Character.HumanoidRootPart.CFrame
+            local screenPoint, onScreen = Camera:WorldToViewportPoint(target.Character.HumanoidRootPart.Position)
+            if onScreen then
+                mousemoverel((screenPoint.X - Camera.ViewportSize.X / 2) * 0.1, (screenPoint.Y - Camera.ViewportSize.Y / 2) * 0.1)
+            end
         end
     end
 end)
@@ -61,14 +64,12 @@ end)
 UserInputService.InputBegan:Connect(function(input, gameProcessed)
     if input.KeyCode == Enum.KeyCode.V and not gameProcessed then
         AutoAimEnabled = not AutoAimEnabled
-        BackgroundImage.Visible = true -- Hiện UI
-
         if AutoAimEnabled then
-            StatusText.Text = "Ayai_Yume ON"
-            StatusText.TextColor3 = Color3.fromRGB(0, 255, 0) -- Màu xanh khi bật
+            StatusText.Text = "Auto Aim ON"
+            StatusText.TextColor3 = Color3.fromRGB(0, 255, 0) -- Xanh khi bật
         else
-            StatusText.Text = "Ayai_Yume OFF"
-            StatusText.TextColor3 = Color3.fromRGB(255, 0, 0) -- Màu đỏ khi tắt
+            StatusText.Text = "Auto Aim OFF"
+            StatusText.TextColor3 = Color3.fromRGB(255, 0, 0) -- Đỏ khi tắt
         end
     end
 end)

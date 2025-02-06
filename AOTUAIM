@@ -20,17 +20,11 @@ NotificationFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 NotificationFrame.BorderSizePixel = 2
 NotificationFrame.BorderColor3 = Color3.fromRGB(255, 255, 255)
 
--- Ảnh đại diện Roblox
-local ImageLabel = Instance.new("ImageLabel", NotificationFrame)
-ImageLabel.Size = UDim2.new(0, 80, 0, 80)
-ImageLabel.Position = UDim2.new(0, 10, 0.5, -40)
-ImageLabel.Image = "rbxthumb://type=AvatarHeadShot&id=111982589088426&w=150&h=150"
-
 -- Nội dung thông báo
 local NotificationLabel = Instance.new("TextLabel", NotificationFrame)
-NotificationLabel.Size = UDim2.new(1, -100, 1, 0)
-NotificationLabel.Position = UDim2.new(0, 100, 0, 0)
-NotificationLabel.Text = "Script được tạo bởi Thong\nID Roblox: 111982589088426"
+NotificationLabel.Size = UDim2.new(1, 0, 1, 0)
+NotificationLabel.Position = UDim2.new(0, 0, 0, 0)
+NotificationLabel.Text = "Script được tạo bởi Thong"
 NotificationLabel.TextScaled = true
 NotificationLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 NotificationLabel.Font = Enum.Font.SourceSansBold

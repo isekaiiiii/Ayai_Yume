@@ -54,73 +54,88 @@ StatusFrame.Font = Enum.Font.SourceSansBold
 StatusFrame.TextColor3 = Color3.fromRGB(255, 0, 0) -- Mặc định là đỏ (OFF)
 StatusFrame.Text = "Auto Aim OFF"
 
--- 📌 Bảng hiển thị khoảng cách
-local DistanceFrame = Instance.new("Frame", ScreenGui)
-DistanceFrame.Size = UDim2.new(0, 300, 0, 400)
-DistanceFrame.Position = UDim2.new(0.02, 0, 0.1, 0)
-DistanceFrame.BackgroundTransparency = 0.5
-DistanceFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+-- 📌 Bảng khoảng cách trên đầu người chơi
+local DistanceLabels = {}
 
-local DistanceLabel = Instance.new("TextLabel", DistanceFrame)
-DistanceLabel.Size = UDim2.new(1, 0, 1, 0)
-DistanceLabel.TextScaled = true
-DistanceLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-DistanceLabel.Font = Enum.Font.SourceSansBold
-DistanceLabel.Text = "Khoảng cách người chơi:\n"
-DistanceLabel.TextYAlignment = Enum.TextYAlignment.Top
-
--- 📌 Hàm lấy danh sách khoảng cách người chơi
-function getPlayersDistance()
-    local distances = {}
-
+function updateDistanceLabels()
     for _, player in pairs(Players:GetPlayers()) do
         if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
             local pos = player.Character.HumanoidRootPart.Position
             local distance = (LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") and 
                 (LocalPlayer.Character.HumanoidRootPart.Position - pos).magnitude) or math.huge
             
-            if distance < 500 then -- Chỉ hiển thị người trong phạm vi 500m
-                table.insert(distances, {player.Name, math.floor(distance)})
+            if distance < 500 then
+                -- Tạo label nếu chưa có
+                if not DistanceLabels[player] then
+                    local label = Instance.new("BillboardGui", player.Character.HumanoidRootPart)
+                    label.Size = UDim2.new(0, 100, 0, 50)
+                    label.StudsOffset = Vector3.new(0, 3, 0) -- Hiển thị trên đầu
+                    label.AlwaysOnTop = true
+                    
+                    local text = Instance.new("TextLabel", label)
+                    text.Size = UDim2.new(1, 0, 1, 0)
+                    text.BackgroundTransparency = 1
+                    text.TextScaled = true
+                    text.Font = Enum.Font.SourceSansBold
+                    text.TextColor3 = Color3.fromRGB(255, 255, 0) -- Màu vàng
+
+                    DistanceLabels[player] = text
+                end
+                
+                -- Cập nhật khoảng cách
+                DistanceLabels[player].Text = math.floor(distance) .. "m"
+            else
+                -- Xóa label nếu ngoài phạm vi
+                if DistanceLabels[player] then
+                    DistanceLabels[player]:Destroy()
+                    DistanceLabels[player] = nil
+                end
             end
         end
     end
-
-    -- Sắp xếp theo khoảng cách gần nhất
-    table.sort(distances, function(a, b) return a[2] < b[2] end)
-    return distances
 end
 
--- 📌 Cập nhật danh sách khoảng cách mỗi giây
+-- Cập nhật khoảng cách mỗi giây
 spawn(function()
     while true do
         if AutoAimEnabled then
-            local distances = getPlayersDistance()
-            local displayText = "Khoảng cách người chơi:\n"
-            
-            for _, data in pairs(distances) do
-                displayText = displayText .. data[1] .. ": " .. data[2] .. "m\n"
-            end
-
-            DistanceLabel.Text = displayText
+            updateDistanceLabels()
         else
-            DistanceLabel.Text = "Auto Aim đang tắt!"
+            -- Xóa tất cả label khi Auto Aim tắt
+            for player, label in pairs(DistanceLabels) do
+                if label then
+                    label:Destroy()
+                end
+            end
+            DistanceLabels = {}
         end
-
-        wait(1) -- Cập nhật mỗi giây
+        wait(1)
     end
 end)
 
 -- 📌 Auto Aim (Nhắm vào người gần nhất)
 RunService.RenderStepped:Connect(function()
     if AutoAimEnabled then
-        local target = getPlayersDistance()[1] -- Lấy người gần nhất
-        if target then
-            local player = Players:FindFirstChild(target[1])
-            if player and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-                local screenPoint, onScreen = Camera:WorldToViewportPoint(player.Character.HumanoidRootPart.Position)
-                if onScreen then
-                    mousemoverel((screenPoint.X - Camera.ViewportSize.X / 2) * 0.1, (screenPoint.Y - Camera.ViewportSize.Y / 2) * 0.1)
+        local closestPlayer = nil
+        local shortestDistance = math.huge
+
+        for _, player in pairs(Players:GetPlayers()) do
+            if player ~= LocalPlayer and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
+                local pos = player.Character.HumanoidRootPart.Position
+                local distance = (LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") and 
+                    (LocalPlayer.Character.HumanoidRootPart.Position - pos).magnitude) or math.huge
+
+                if distance < shortestDistance then
+                    closestPlayer = player
+                    shortestDistance = distance
                 end
+            end
+        end
+
+        if closestPlayer and closestPlayer.Character and closestPlayer.Character:FindFirstChild("HumanoidRootPart") then
+            local screenPoint, onScreen = Camera:WorldToViewportPoint(closestPlayer.Character.HumanoidRootPart.Position)
+            if onScreen then
+                mousemoverel((screenPoint.X - Camera.ViewportSize.X / 2) * 0.1, (screenPoint.Y - Camera.ViewportSize.Y / 2) * 0.1)
             end
         end
     end

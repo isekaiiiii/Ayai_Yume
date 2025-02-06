@@ -1,5 +1,16 @@
+--[[ 
+    LƯU Ý:
+    • Script này chờ 15 giây sau khi chạy để bạn có thời gian chọn phe (nếu server hiện thị menu chọn phe).
+      Nếu bạn đã chọn phe, GUI tự tạo sẽ xuất hiện sau thời gian chờ.
+    • Nếu bạn không chọn phe, mặc định game sẽ tự chọn (thường là Hải Quân) và script sẽ chạy sau thời gian chờ.
+    • Điều chỉnh thời gian chờ bằng cách thay đổi giá trị của waitTime bên dưới.
+    • Sử dụng script có thể vi phạm chính sách của Roblox. Hãy cân nhắc trước khi sử dụng.
+--]]
+
 _G.AutoCollectFruits = true   -- Bật/tắt Auto nhặt trái
 _G.AutoServerHop = true       -- Bật/tắt Auto đổi server nếu không có trái
+
+local waitTime = 15  -- Thời gian chờ (giây) cho phe chọn, bạn có thể điều chỉnh
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -11,8 +22,13 @@ local player = Players.LocalPlayer
 local fruitsCollected = 0
 local startTime = os.time()
 
+-- Chờ cho đến khi nhân vật load xong (và cho bạn thời gian chọn phe)
+repeat wait() until player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+print("Nhân vật đã load. Đợi " .. waitTime .. " giây cho việc chọn phe...")
+wait(waitTime)
+
 ---------------------------------------------------
--- 🖥️ TẠO GUI GIAO DIỆN
+-- TẠO GUI MENU (như ảnh mẫu)
 ---------------------------------------------------
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "AutoFruitMenu"
@@ -66,10 +82,10 @@ discordButton.Text = "Join Discord"
 discordButton.Parent = mainFrame
 discordButton.MouseButton1Click:Connect(function()
     setclipboard("https://discord.gg/3Tp35BhYeG")
-    statusLabel.Text = "Link đã sao chép!"
+    statusLabel.Text = "Link Discord đã sao chép!"
 end)
 
--- Cập nhật thời gian chạy mỗi giây
+-- Cập nhật thời gian chạy trên GUI
 spawn(function()
     while _G.AutoCollectFruits do
         local elapsed = os.time() - startTime
@@ -79,12 +95,23 @@ spawn(function()
 end)
 
 ---------------------------------------------------
--- 🔍 TÌM TRÁI ÁC QUỶ GẦN NHẤT
+-- HÀM THÔNG BÁO (có thể hiển thị qua output hoặc StarterGui)
+---------------------------------------------------
+local function Notify(msg)
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "Auto Fruit Collector",
+        Text = msg,
+        Duration = 3
+    })
+end
+
+---------------------------------------------------
+-- TÌM TRÁI ÁC QUỶ GẦN NHẤT
 ---------------------------------------------------
 local function FindNearestFruit()
     local nearestFruit, nearestDistance = nil, math.huge
-    if not player.Character or not player.Character:FindFirstChild("HumanoidRootPart") then return nil end
-    local hrp = player.Character.HumanoidRootPart
+    local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+    if not hrp then return nil end
     for _, fruit in pairs(game.Workspace:GetChildren()) do
         if fruit:IsA("Model") and fruit:FindFirstChild("Handle") and string.find(fruit.Name, "Fruit") then
             local distance = (hrp.Position - fruit.Handle.Position).Magnitude
@@ -97,30 +124,31 @@ local function FindNearestFruit()
 end
 
 ---------------------------------------------------
--- ⚡ TELEPORT SIÊU NHANH (ANTI-KICK)
+-- TELEPORT SIÊU NHANH (sử dụng Tween để di chuyển nhanh mà ít bị kick)
 ---------------------------------------------------
 local function TeleportToFruit(fruit)
     if not fruit or not fruit:FindFirstChild("Handle") then return end
-    if not player.Character or not player.Character:FindFirstChild("HumanoidRootPart") then return end
-    local hrp = player.Character.HumanoidRootPart
-    local targetPos = fruit.Handle.Position
+    local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
+    if not hrp then return end
 
+    local targetPos = fruit.Handle.Position
     local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Linear)
     local tween = TweenService:Create(hrp, tweenInfo, {CFrame = CFrame.new(targetPos)})
     tween:Play()
-
-    wait(0.5) -- Chờ để nhặt
+    tween.Completed:Wait()
+    
+    wait(0.2)  -- chờ ổn định
     local prompt = fruit.Handle:FindFirstChildWhichIsA("ProximityPrompt")
     if prompt then
         fireproximityprompt(prompt)
         statusLabel.Text = "Nhặt thành công: " .. fruit.Name
     else
-        statusLabel.Text = "Không tìm thấy prompt!"
+        statusLabel.Text = "Không tìm thấy prompt trên trái!"
     end
 end
 
 ---------------------------------------------------
--- 📦 LƯU TRÁI VÀO KHO
+-- LƯU TRÁI VÀO KHO
 ---------------------------------------------------
 local function StoreFruit()
     local fruitTool = player.Backpack:FindFirstChildWhichIsA("Tool")
@@ -132,7 +160,7 @@ local function StoreFruit()
 end
 
 ---------------------------------------------------
--- 🔄 ĐỔI SERVER NẾU KHÔNG CÓ TRÁI
+-- ĐỔI SERVER NẾU KHÔNG CÓ TRÁI
 ---------------------------------------------------
 local function ServerHop()
     local url = "https://games.roblox.com/v1/games/2753915549/servers/Public?sortOrder=Asc&limit=100"
@@ -147,7 +175,7 @@ local function ServerHop()
 end
 
 ---------------------------------------------------
--- 🔄 AUTO NHẶT TRÁI
+-- VÒNG LẶP AUTO NHẶT TRÁI
 ---------------------------------------------------
 while _G.AutoCollectFruits do
     local fruit = FindNearestFruit()
@@ -161,5 +189,5 @@ while _G.AutoCollectFruits do
             ServerHop()
         end
     end
-    wait(5) -- Kiểm tra lại mỗi 5 giây
+    wait(5)  -- Kiểm tra lại mỗi 5 giây
 end

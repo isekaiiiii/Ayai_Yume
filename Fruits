@@ -1,0 +1,90 @@
+_G.AutoCollectFruits = true  -- Bật/tắt Auto nhặt trái
+_G.AutoServerHop = true      -- Bật/tắt Auto đổi server nếu hết trái
+
+local HttpService = game:GetService("HttpService")
+local TeleportService = game:GetService("TeleportService")
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local function Notify(msg)
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "Auto Fruit Collector",
+        Text = msg,
+        Duration = 3
+    })
+end
+
+local function FindNearestFruit()
+    local nearestFruit, nearestDistance = nil, math.huge
+    for _, fruit in pairs(game.Workspace:GetChildren()) do
+        if fruit:IsA("Model") and fruit:FindFirstChild("Handle") and string.find(fruit.Name, "Fruit") then
+            local distance = (Players.LocalPlayer.Character.HumanoidRootPart.Position - fruit.Handle.Position).magnitude
+            if distance < nearestDistance then
+                nearestFruit, nearestDistance = fruit, distance
+            end
+        end
+    end
+    return nearestFruit
+end
+
+local function CollectFruit(fruit)
+    if fruit and fruit:FindFirstChild("Handle") then
+        Players.LocalPlayer.Character.HumanoidRootPart.CFrame = fruit.Handle.CFrame
+        wait(0.5) -- Chờ một chút để nhặt trái
+        fireproximityprompt(fruit.Handle:FindFirstChildWhichIsA("ProximityPrompt"))
+        Notify("Nhặt thành công: " .. fruit.Name)
+    end
+end
+
+local function StoreFruit()
+    local fruitTool = Players.LocalPlayer.Backpack:FindFirstChildWhichIsA("Tool")
+    if fruitTool then
+        local args = {"StoreFruit", fruitTool}
+        ReplicatedStorage.Remotes.CommF_:InvokeServer(unpack(args))
+        Notify("Đã lưu vào kho: " .. fruitTool.Name)
+    end
+end
+
+-- Bảng thống kê
+local fruitsCollected = 0
+local startTime = os.time()
+
+local function DisplayStats()
+    while _G.AutoCollectFruits do
+        local elapsedTime = os.time() - startTime
+        rconsoleprint("\n--- THỐNG KÊ AUTO NHẶT TRÁI ---")
+        rconsoleprint("\n🕒 Thời gian chạy: " .. elapsedTime .. " giây")
+        rconsoleprint("\n🍏 Số trái đã nhặt: " .. fruitsCollected)
+        wait(5)
+    end
+end
+
+-- Tự động đổi server nếu không có trái
+local function ServerHop()
+    local servers = HttpService:JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/2753915549/servers/Public?sortOrder=Asc&limit=100")).data
+    for _, server in pairs(servers) do
+        if server.playing < server.maxPlayers and server.id ~= game.JobId then
+            Notify("Không có trái! Đang chuyển server...")
+            TeleportService:TeleportToPlaceInstance(game.PlaceId, server.id, Players.LocalPlayer)
+            break
+        end
+    end
+end
+
+-- Chạy Auto nhặt trái
+spawn(DisplayStats)
+
+while _G.AutoCollectFruits do
+    local fruit = FindNearestFruit()
+    if fruit then
+        CollectFruit(fruit)
+        fruitsCollected = fruitsCollected + 1
+        StoreFruit()
+    else
+        Notify("Không tìm thấy trái ác quỷ!")
+        if _G.AutoServerHop then
+            ServerHop()
+        end
+    end
+    wait(10) -- Kiểm tra lại mỗi 10 giây
+end

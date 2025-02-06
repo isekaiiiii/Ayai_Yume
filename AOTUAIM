@@ -36,17 +36,48 @@ spawn(function()
     NotificationFrame:Destroy()
 end)
 
--- 📌 Nút bật/tắt Auto Aim
+-- 📌 Nút bật/tắt Auto Aim với ảnh đại diện làm nền
 local StatusFrame = Instance.new("TextButton", ScreenGui)
 StatusFrame.Size = UDim2.new(0, 200, 0, 50)
 StatusFrame.Position = UDim2.new(0.5, -100, 0.05, 0)
-StatusFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
 StatusFrame.BorderSizePixel = 2
 StatusFrame.BorderColor3 = Color3.fromRGB(255, 255, 255)
 StatusFrame.TextScaled = true
 StatusFrame.Font = Enum.Font.SourceSansBold
 StatusFrame.TextColor3 = Color3.fromRGB(255, 0, 0) -- Mặc định là đỏ (OFF)
 StatusFrame.Text = "Auto Aim OFF"
+
+-- Đặt ảnh đại diện làm nền cho nút
+local userId = 111982589088426
+local thumbType = Enum.ThumbnailType.HeadShot
+local thumbSize = Enum.ThumbnailSize.Size150x150
+local content, isReady = Players:GetUserThumbnailAsync(userId, thumbType, thumbSize)
+
+if isReady then
+    local imageLabel = Instance.new("ImageLabel")
+    imageLabel.Size = UDim2.new(1, 0, 1, 0)
+    imageLabel.Image = content
+    imageLabel.Parent = StatusFrame
+    imageLabel.ZIndex = 0
+    StatusFrame.Text = "Auto Aim OFF"
+    StatusFrame.TextColor3 = Color3.fromRGB(255, 0, 0) -- Đỏ khi tắt
+    StatusFrame.ZIndex = 1
+else
+    -- Nếu không lấy được ảnh đại diện, đặt màu nền mặc định
+    StatusFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+end
+
+-- 📌 Chuyển đổi Auto Aim khi nhấn vào nút
+StatusFrame.MouseButton1Click:Connect(function()
+    AutoAimEnabled = not AutoAimEnabled
+    if AutoAimEnabled then
+        StatusFrame.Text = "Auto Aim ON"
+        StatusFrame.TextColor3 = Color3.fromRGB(0, 255, 0) -- Xanh khi bật
+    else
+        StatusFrame.Text = "Auto Aim OFF"
+        StatusFrame.TextColor3 = Color3.fromRGB(255, 0, 0) -- Đỏ khi tắt
+    end
+end)
 
 -- 📌 Bảng khoảng cách trên đầu người chơi
 local DistanceLabels = {}
@@ -132,17 +163,5 @@ RunService.RenderStepped:Connect(function()
                 mousemoverel((screenPoint.X - Camera.ViewportSize.X / 2) * 0.1, (screenPoint.Y - Camera.ViewportSize.Y / 2) * 0.1)
             end
         end
-    end
-end)
-
--- 📌 Chuyển đổi Auto Aim khi nhấn vào nút
-StatusFrame.MouseButton1Click:Connect(function()
-    AutoAimEnabled = not AutoAimEnabled
-    if AutoAimEnabled then
-        StatusFrame.Text = "Auto Aim ON"
-        StatusFrame.TextColor3 = Color3.fromRGB(0, 255, 0) -- Xanh khi bật
-    else
-        StatusFrame.Text = "Auto Aim OFF"
-        StatusFrame.TextColor3 = Color3.fromRGB(255, 0, 0) -- Đỏ khi tắt
     end
 end)

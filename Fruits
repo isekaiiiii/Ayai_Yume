@@ -1,51 +1,75 @@
-_G.AutoCollectFruits = true   -- Bật/tắt auto nhặt trái (true: bật)
-_G.AutoServerHop = true       -- Bật/tắt auto đổi server nếu không có trái
+_G.AutoCollectFruits = true   -- Bật/tắt Auto nhặt trái
+_G.AutoServerHop = true       -- Bật/tắt Auto đổi server nếu không có trái
 
 local Players = game:GetService("Players")
-local TweenService = game:GetService("TweenService")
-local HttpService = game:GetService("HttpService")
-local TeleportService = game:GetService("TeleportService")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local RunService = game:GetService("RunService")
+local TeleportService = game:GetService("TeleportService")
+local HttpService = game:GetService("HttpService")
+local TweenService = game:GetService("TweenService")
 
 local player = Players.LocalPlayer
+local fruitsCollected = 0
+local startTime = os.time()
 
 ---------------------------------------------------
--- Tạo GUI hiển thị tên người dùng và thời gian chạy
+-- 🖥️ TẠO GUI GIAO DIỆN
 ---------------------------------------------------
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "AutoFruitMenu"
 screenGui.Parent = player:WaitForChild("PlayerGui")
 
 local mainFrame = Instance.new("Frame")
-mainFrame.Size = UDim2.new(0, 250, 0, 80)
-mainFrame.Position = UDim2.new(0, 10, 0, 10)
-mainFrame.BackgroundTransparency = 0.5
+mainFrame.Size = UDim2.new(0, 280, 0, 120)
+mainFrame.Position = UDim2.new(0.5, -140, 0.1, 0)
+mainFrame.BackgroundTransparency = 0.4
 mainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 mainFrame.Parent = screenGui
 
-local usernameLabel = Instance.new("TextLabel")
-usernameLabel.Size = UDim2.new(1, 0, 0.5, 0)
-usernameLabel.Position = UDim2.new(0, 0, 0, 0)
-usernameLabel.BackgroundTransparency = 1
-usernameLabel.TextColor3 = Color3.new(1, 1, 1)
-usernameLabel.Font = Enum.Font.SourceSansBold
-usernameLabel.TextScaled = true
-usernameLabel.Text = "User: " .. player.Name
-usernameLabel.Parent = mainFrame
+local titleLabel = Instance.new("TextLabel")
+titleLabel.Size = UDim2.new(1, 0, 0.2, 0)
+titleLabel.BackgroundTransparency = 1
+titleLabel.TextColor3 = Color3.new(1, 1, 1)
+titleLabel.Font = Enum.Font.SourceSansBold
+titleLabel.TextScaled = true
+titleLabel.Text = "Auto Fruit - Blox Fruits"
+titleLabel.Parent = mainFrame
 
 local timeLabel = Instance.new("TextLabel")
-timeLabel.Size = UDim2.new(1, 0, 0.5, 0)
-timeLabel.Position = UDim2.new(0, 0, 0.5, 0)
+timeLabel.Size = UDim2.new(1, 0, 0.2, 0)
+timeLabel.Position = UDim2.new(0, 0, 0.2, 0)
 timeLabel.BackgroundTransparency = 1
 timeLabel.TextColor3 = Color3.new(1, 1, 1)
-timeLabel.Font = Enum.Font.SourceSansBold
+timeLabel.Font = Enum.Font.SourceSans
 timeLabel.TextScaled = true
 timeLabel.Text = "Time: 0s"
 timeLabel.Parent = mainFrame
 
+local statusLabel = Instance.new("TextLabel")
+statusLabel.Size = UDim2.new(1, 0, 0.2, 0)
+statusLabel.Position = UDim2.new(0, 0, 0.4, 0)
+statusLabel.BackgroundTransparency = 1
+statusLabel.TextColor3 = Color3.new(1, 1, 1)
+statusLabel.Font = Enum.Font.SourceSans
+statusLabel.TextScaled = true
+statusLabel.Text = "Tìm trái..."
+statusLabel.Parent = mainFrame
+
+local discordButton = Instance.new("TextButton")
+discordButton.Size = UDim2.new(1, 0, 0.2, 0)
+discordButton.Position = UDim2.new(0, 0, 0.6, 0)
+discordButton.BackgroundTransparency = 0.2
+discordButton.BackgroundColor3 = Color3.fromRGB(30, 144, 255)
+discordButton.TextColor3 = Color3.new(1, 1, 1)
+discordButton.Font = Enum.Font.SourceSansBold
+discordButton.TextScaled = true
+discordButton.Text = "Join Discord"
+discordButton.Parent = mainFrame
+discordButton.MouseButton1Click:Connect(function()
+    setclipboard("https://discord.gg/3Tp35BhYeG")
+    statusLabel.Text = "Link đã sao chép!"
+end)
+
 -- Cập nhật thời gian chạy mỗi giây
-local startTime = os.time()
 spawn(function()
     while _G.AutoCollectFruits do
         local elapsed = os.time() - startTime
@@ -55,18 +79,7 @@ spawn(function()
 end)
 
 ---------------------------------------------------
--- Các hàm thông báo
----------------------------------------------------
-local function Notify(msg)
-    game.StarterGui:SetCore("SendNotification", {
-        Title = "Auto Fruit Collector",
-        Text = msg,
-        Duration = 3
-    })
-end
-
----------------------------------------------------
--- Tìm trái ác quỷ gần nhất trong Workspace
+-- 🔍 TÌM TRÁI ÁC QUỶ GẦN NHẤT
 ---------------------------------------------------
 local function FindNearestFruit()
     local nearestFruit, nearestDistance = nil, math.huge
@@ -84,61 +97,49 @@ local function FindNearestFruit()
 end
 
 ---------------------------------------------------
--- Bay dần đến trái bằng BodyVelocity (không dùng Teleport)
+-- ⚡ TELEPORT SIÊU NHANH (ANTI-KICK)
 ---------------------------------------------------
-local function FlyToFruit(fruit)
+local function TeleportToFruit(fruit)
     if not fruit or not fruit:FindFirstChild("Handle") then return end
     if not player.Character or not player.Character:FindFirstChild("HumanoidRootPart") then return end
     local hrp = player.Character.HumanoidRootPart
     local targetPos = fruit.Handle.Position
-    local speed = 50  -- Tốc độ bay
-    local threshold = 5  -- Khoảng cách dừng khi đã gần trái
 
-    -- Tạo BodyVelocity để bay
-    local bv = Instance.new("BodyVelocity")
-    bv.MaxForce = Vector3.new(1e5, 1e5, 1e5)
-    bv.P = 1250
-    bv.Parent = hrp
+    local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Linear)
+    local tween = TweenService:Create(hrp, tweenInfo, {CFrame = CFrame.new(targetPos)})
+    tween:Play()
 
-    while (targetPos - hrp.Position).Magnitude > threshold and _G.AutoCollectFruits do
-        local direction = (targetPos - hrp.Position).Unit
-        bv.Velocity = direction * speed
-        wait()
-    end
-
-    bv:Destroy()
-    wait(0.5) -- Chờ ổn định
-    -- Nhặt trái bằng proximity prompt
+    wait(0.5) -- Chờ để nhặt
     local prompt = fruit.Handle:FindFirstChildWhichIsA("ProximityPrompt")
     if prompt then
         fireproximityprompt(prompt)
-        Notify("Nhặt thành công: " .. fruit.Name)
+        statusLabel.Text = "Nhặt thành công: " .. fruit.Name
     else
-        Notify("Không tìm thấy ProximityPrompt trên trái!")
+        statusLabel.Text = "Không tìm thấy prompt!"
     end
 end
 
 ---------------------------------------------------
--- Lưu trái vào kho
+-- 📦 LƯU TRÁI VÀO KHO
 ---------------------------------------------------
 local function StoreFruit()
     local fruitTool = player.Backpack:FindFirstChildWhichIsA("Tool")
     if fruitTool then
         local args = {"StoreFruit", fruitTool}
         ReplicatedStorage.Remotes.CommF_:InvokeServer(unpack(args))
-        Notify("Đã lưu vào kho: " .. fruitTool.Name)
+        statusLabel.Text = "Đã lưu vào kho: " .. fruitTool.Name
     end
 end
 
 ---------------------------------------------------
--- Auto đổi server nếu không có trái
+-- 🔄 ĐỔI SERVER NẾU KHÔNG CÓ TRÁI
 ---------------------------------------------------
 local function ServerHop()
     local url = "https://games.roblox.com/v1/games/2753915549/servers/Public?sortOrder=Asc&limit=100"
     local servers = HttpService:JSONDecode(game:HttpGet(url)).data
     for _, server in pairs(servers) do
         if server.playing < server.maxPlayers and server.id ~= game.JobId then
-            Notify("Không có trái! Đang chuyển server...")
+            statusLabel.Text = "Đang đổi server..."
             TeleportService:TeleportToPlaceInstance(game.PlaceId, server.id, player)
             break
         end
@@ -146,33 +147,19 @@ local function ServerHop()
 end
 
 ---------------------------------------------------
--- Bảng thống kê (in ra console)
----------------------------------------------------
-local fruitsCollected = 0
-spawn(function()
-    while _G.AutoCollectFruits do
-        local elapsedTime = os.time() - startTime
-        rconsoleprint("\n--- THỐNG KÊ AUTO NHẶT TRÁI ---")
-        rconsoleprint("\nThời gian chạy: " .. elapsedTime .. " giây")
-        rconsoleprint("\nSố trái đã nhặt: " .. fruitsCollected)
-        wait(5)
-    end
-end)
-
----------------------------------------------------
--- Vòng lặp chính
+-- 🔄 AUTO NHẶT TRÁI
 ---------------------------------------------------
 while _G.AutoCollectFruits do
     local fruit = FindNearestFruit()
     if fruit then
-        FlyToFruit(fruit)
+        TeleportToFruit(fruit)
         fruitsCollected = fruitsCollected + 1
         StoreFruit()
     else
-        Notify("Không tìm thấy trái ác quỷ!")
+        statusLabel.Text = "Không tìm thấy trái!"
         if _G.AutoServerHop then
             ServerHop()
         end
     end
-    wait(10) -- Kiểm tra lại mỗi 10 giây
+    wait(5) -- Kiểm tra lại mỗi 5 giây
 end

@@ -9328,3 +9328,27 @@ v14:Notify({
     Content = "Tải Xong",
     Duration = 10
 });
+
+
+-- Tạo nút đóng/mở menu
+local vToggleMenuButton = CreateObject("ImageButton", {
+    Name = "ToggleMenu",
+    Parent = game.CoreGui.Core, -- Đảm bảo nó thuộc GUI chính
+    Position = UDim2.new(0, 20, 0, 20), -- Vị trí góc trên bên trái
+    Size = UDim2.new(0, 50, 0, 50), -- Kích thước nút
+    BackgroundTransparency = 1, -- Làm nền trong suốt
+    Image = "rbxassetid://111982589088426" -- Hình ảnh nút
+})
+
+-- Tạo biến theo dõi trạng thái menu
+local menuVisible = true
+
+-- Hàm ẩn/hiện menu
+local function ToggleMenu()
+    menuVisible = not menuVisible
+    game.CoreGui.Core.Main.Visible = menuVisible
+end
+
+-- Gán sự kiện nhấn nút
+vToggleMenuButton.MouseButton1Click:Connect(ToggleMenu)
+

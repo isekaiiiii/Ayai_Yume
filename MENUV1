@@ -1,7 +1,7 @@
 -- discord.gg/25ms
 
 
-shared.LoaderTitle = "discord https://discord.gg/baGVBKvVAs";
+shared.LoaderTitle = "Premium";
 shared.LoaderKeyFrames = {
     [1] = {
         1,

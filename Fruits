@@ -2,8 +2,8 @@ _G.AutoCollectFruits = true   -- Bật/tắt Auto nhặt trái
 _G.AutoCollectBerries = true  -- Bật/tắt Auto nhặt Berry
 _G.AutoServerHop = true       -- Bật/tắt Auto đổi server nếu không có trái hoặc Berry
 
+local speed = 350  -- Tốc độ bay khi teleport
 local startTime = os.time()  -- Thời gian bắt đầu script (không reset)
-local fruitsCollected = 0    -- Đếm số lượng trái đã nhặt
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -22,14 +22,13 @@ screenGui.Parent = player:WaitForChild("PlayerGui")
 local mainFrame = Instance.new("Frame")
 mainFrame.Size = UDim2.new(0, 300, 0, 200)
 mainFrame.Position = UDim2.new(0.5, -150, 0.1, 0)
-mainFrame.BackgroundTransparency = 0.4
-mainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+mainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)  -- Full đen
 mainFrame.Parent = screenGui
 
 local titleLabel = Instance.new("TextLabel")
 titleLabel.Size = UDim2.new(1, 0, 0.15, 0)
 titleLabel.BackgroundTransparency = 1
-titleLabel.TextColor3 = Color3.new(1, 1, 1)
+titleLabel.TextColor3 = Color3.new(1, 1, 1)  -- Chữ trắng
 titleLabel.Font = Enum.Font.SourceSansBold
 titleLabel.TextScaled = true
 titleLabel.Text = "Auto Fruit & Berry - Blox Fruits"
@@ -39,21 +38,21 @@ local usernameLabel = Instance.new("TextLabel")
 usernameLabel.Size = UDim2.new(1, 0, 0.15, 0)
 usernameLabel.Position = UDim2.new(0, 0, 0.15, 0)
 usernameLabel.BackgroundTransparency = 1
-usernameLabel.TextColor3 = Color3.new(1, 1, 1)
+usernameLabel.TextColor3 = Color3.new(1, 1, 1)  -- Chữ trắng
 usernameLabel.Font = Enum.Font.SourceSans
 usernameLabel.TextScaled = true
 usernameLabel.Text = "Người chơi: " .. player.Name
 usernameLabel.Parent = mainFrame
 
-local fruitCountLabel = Instance.new("TextLabel")
-fruitCountLabel.Size = UDim2.new(1, 0, 0.15, 0)
-fruitCountLabel.Position = UDim2.new(0, 0, 0.3, 0)
-fruitCountLabel.BackgroundTransparency = 1
-fruitCountLabel.TextColor3 = Color3.new(1, 1, 1)
-fruitCountLabel.Font = Enum.Font.SourceSans
-fruitCountLabel.TextScaled = true
-fruitCountLabel.Text = "Trái đã nhặt: 0"
-fruitCountLabel.Parent = mainFrame
+local discordLabel = Instance.new("TextLabel")
+discordLabel.Size = UDim2.new(1, 0, 0.15, 0)
+discordLabel.Position = UDim2.new(0, 0, 0.3, 0)
+discordLabel.BackgroundTransparency = 1
+discordLabel.TextColor3 = Color3.new(1, 1, 1)  -- Chữ trắng
+discordLabel.Font = Enum.Font.SourceSans
+discordLabel.TextScaled = true
+discordLabel.Text = "Discord: https://discord.gg/3Tp35BhYeG"
+discordLabel.Parent = mainFrame
 
 local userImage = Instance.new("ImageLabel")
 userImage.Size = UDim2.new(0, 60, 0, 60)
@@ -66,7 +65,7 @@ local timeLabel = Instance.new("TextLabel")
 timeLabel.Size = UDim2.new(1, 0, 0.15, 0)
 timeLabel.Position = UDim2.new(0, 0, 0.75, 0)
 timeLabel.BackgroundTransparency = 1
-timeLabel.TextColor3 = Color3.new(1, 1, 1)
+timeLabel.TextColor3 = Color3.new(1, 1, 1)  -- Chữ trắng
 timeLabel.Font = Enum.Font.SourceSans
 timeLabel.TextScaled = true
 timeLabel.Text = "Thời gian chạy: 00:00:00"
@@ -107,13 +106,8 @@ local function TeleportToItem(item)
     local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
     if not hrp then return end
 
-    local targetPos = item.Handle.Position
-    local tweenInfo = TweenInfo.new(0.3, Enum.EasingStyle.Linear)
-    local tween = TweenService:Create(hrp, tweenInfo, {CFrame = CFrame.new(targetPos)})
-    tween:Play()
-    tween.Completed:Wait()
-
-    wait(0.2)  -- Chờ ổn định
+    hrp.CFrame = CFrame.new(item.Handle.Position)
+    wait(0.3)  -- Chờ ổn định
     local prompt = item.Handle:FindFirstChildWhichIsA("ProximityPrompt")
     if prompt then
         fireproximityprompt(prompt)
@@ -125,10 +119,16 @@ local function StoreFruit()
     local fruitTool = player.Backpack:FindFirstChildWhichIsA("Tool")
     if fruitTool then
         local args = {"StoreFruit", fruitTool}
-        ReplicatedStorage.Remotes.CommF_:InvokeServer(unpack(args))
-        fruitsCollected = fruitsCollected + 1
-        fruitCountLabel.Text = "Trái đã nhặt: " .. fruitsCollected
+        local success, _ = pcall(function()
+            return ReplicatedStorage.Remotes.CommF_:InvokeServer(unpack(args))
+        end)
+        
+        if not success then
+            return false  -- Không lưu được
+        end
+        return true  -- Đã lưu thành công
     end
+    return false  -- Không có trái trong túi
 end
 
 -- ĐỔI SERVER
@@ -146,12 +146,14 @@ end
 -- VÒNG LẶP AUTO NHẶT
 while _G.AutoCollectFruits or _G.AutoCollectBerries do
     local foundItem = false
-    
+
     if _G.AutoCollectFruits then
         local fruit = FindNearestItem("Fruit")
         if fruit then
             TeleportToItem(fruit)
-            StoreFruit()
+            if not StoreFruit() then
+                continue  -- Nếu không lưu được, tìm trái khác
+            end
             foundItem = true
         end
     end
@@ -167,6 +169,6 @@ while _G.AutoCollectFruits or _G.AutoCollectBerries do
     if not foundItem and _G.AutoServerHop then
         ServerHop()
     end
-    
+
     wait(5)  -- Kiểm tra lại sau mỗi 5 giây
 end

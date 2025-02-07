@@ -1,5 +1,3 @@
--- discord.gg/25ms
-
 
 shared.LoaderTitle = "Đang tải";
 shared.LoaderKeyFrames = {
@@ -81,6 +79,28 @@ local v5 = CreateObject("ScreenGui", {
     Name = "Core",
     Parent = game.CoreGui
 });
+-- Tạo nút đóng/mở menu
+local vToggleMenuButton = CreateObject("ImageButton", {
+    Name = "ToggleMenu",
+    Parent = game.CoreGui.Core, -- Đảm bảo nó thuộc GUI chính
+    Position = UDim2.new(0, 20, 0, 20), -- Vị trí góc trên bên trái
+    Size = UDim2.new(0, 50, 0, 50), -- Kích thước nút
+    BackgroundTransparency = 1, -- Làm nền trong suốt
+    Image = "rbxassetid://111982589088426" -- Hình ảnh nút
+})
+
+-- Tạo biến theo dõi trạng thái menu
+local menuVisible = true
+
+-- Hàm ẩn/hiện menu
+local function ToggleMenu()
+    menuVisible = not menuVisible
+    game.CoreGui.Core.Main.Visible = menuVisible
+end
+
+-- Gán sự kiện nhấn nút
+vToggleMenuButton.MouseButton1Click:Connect(ToggleMenu)
+});
 local v6 = CreateObject("Frame", {
     Name = "Main",
     Parent = v5,
@@ -105,7 +125,7 @@ local v8 = CreateObject("TextLabel", {
     Name = "UserName",
     Parent = v6,
     BackgroundTransparency = 1,
-    Text = "gardan hub",
+    Text = "Ayai_Yume",
     Position = UDim2.new(0, 75, 0, 10),
     Size = UDim2.new(0, 200, 0, 50),
     Font = Enum.Font.GothamBold,
@@ -9049,14 +9069,14 @@ v165:OnChanged(function(v397)
 end);
 local v166 = v16.Sea:AddParagraph({
     Title = "Complete trials draco V4 (wait for leaves)",
-    Content = "done draco v4 trials|xong trials draco"
+    Content = "done draco v4 trials"
 });
 local v167 = v16.Sea:AddToggle("ToggleTrialTeleport", {
-    Title = "teleport to draco race trials",
-    Description = "teleport to draco race when defense done volcano|dịch chuyển đến cửa trials draco",
+    Title = "đi trail tộc rồng",
+    Description = "dịch chuyển đến cửa trials draco",
     Default = false
 });
-v167:OnChanged(function(v398)
+v167:OnChanged(function(v398
     _G.AutoTrialTeleport = v398;
 end);
 spawn(function()
@@ -9249,7 +9269,7 @@ spawn(function()
     end
 end);
 local v175 = v16.Sea:AddToggle("ToggleKillAura", {
-    Title = "farm golems aurora",
+    Title = "farm golems",
     Description = "auto protect volcano | bảo vệ volcano",
     Default = false
 });
@@ -9276,8 +9296,8 @@ spawn(function()
     end
 end);
 local v176 = v16.Sea:AddToggle("ToggleCollectBone", {
-    Title = "get bones",
-    Description = "auto gets bones when done volcano|lấy trứng khi xong volcano xương",
+    Title = "nhặt xương ",
+    Description = "lấy xương khi xong đảo núi lửa",
     Default = false
 });
 v176:OnChanged(function(v414)
@@ -9295,8 +9315,8 @@ spawn(function()
     end
 end);
 local v177 = v16.Sea:AddToggle("ToggleCollectEgg", {
-    Title = "gets eggs",
-    Description = "auto gets eggs when defense volcano done|lấy trứng khi xong volcano",
+    Title = "nhặt trứng ",
+    Description = "lấy trứng khi xong volcano",
     Default = false
 });
 v177:OnChanged(function(v415)
@@ -9328,27 +9348,3 @@ v14:Notify({
     Content = "Tải Xong",
     Duration = 10
 });
-
-
--- Tạo nút đóng/mở menu
-local vToggleMenuButton = CreateObject("ImageButton", {
-    Name = "ToggleMenu",
-    Parent = game.CoreGui.Core, -- Đảm bảo nó thuộc GUI chính
-    Position = UDim2.new(0, 20, 0, 20), -- Vị trí góc trên bên trái
-    Size = UDim2.new(0, 50, 0, 50), -- Kích thước nút
-    BackgroundTransparency = 1, -- Làm nền trong suốt
-    Image = "rbxassetid://111982589088426" -- Hình ảnh nút
-})
-
--- Tạo biến theo dõi trạng thái menu
-local menuVisible = true
-
--- Hàm ẩn/hiện menu
-local function ToggleMenu()
-    menuVisible = not menuVisible
-    game.CoreGui.Core.Main.Visible = menuVisible
-end
-
--- Gán sự kiện nhấn nút
-vToggleMenuButton.MouseButton1Click:Connect(ToggleMenu)
-

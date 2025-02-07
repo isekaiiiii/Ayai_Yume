@@ -1,8 +1,8 @@
 _G.AutoCollectFruits = true   -- Bật/tắt Auto nhặt trái
 _G.AutoCollectBerries = true  -- Bật/tắt Auto nhặt Berry
-_G.AutoServerHop = true       -- Bật/tắt Auto đổi server nếu không có trái hoặc Berry
+_G.AutoServerHop = true       -- Bật/tắt Auto đổi server nếu không có gì để nhặt
 
-local speed = 350  -- Tốc độ bay khi teleport
+local speed = 350  -- Tốc độ bay đến mục tiêu
 local startTime = os.time()  -- Thời gian bắt đầu script (không reset)
 
 local Players = game:GetService("Players")
@@ -20,7 +20,7 @@ screenGui.Name = "AutoFruitMenu"
 screenGui.Parent = player:WaitForChild("PlayerGui")
 
 local mainFrame = Instance.new("Frame")
-mainFrame.Size = UDim2.new(0, 300, 0, 200)
+mainFrame.Size = UDim2.new(0, 300, 0, 220)
 mainFrame.Position = UDim2.new(0.5, -150, 0.1, 0)
 mainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)  -- Full đen
 mainFrame.Parent = screenGui
@@ -35,37 +35,40 @@ titleLabel.Text = "Auto Fruit & Berry - Blox Fruits"
 titleLabel.Parent = mainFrame
 
 local usernameLabel = Instance.new("TextLabel")
-usernameLabel.Size = UDim2.new(1, 0, 0.15, 0)
+usernameLabel.Size = UDim2.new(1, 0, 0.12, 0)
 usernameLabel.Position = UDim2.new(0, 0, 0.15, 0)
 usernameLabel.BackgroundTransparency = 1
-usernameLabel.TextColor3 = Color3.new(1, 1, 1)  -- Chữ trắng
+usernameLabel.TextColor3 = Color3.new(1, 1, 1)
 usernameLabel.Font = Enum.Font.SourceSans
 usernameLabel.TextScaled = true
 usernameLabel.Text = "Người chơi: " .. player.Name
 usernameLabel.Parent = mainFrame
 
-local discordLabel = Instance.new("TextLabel")
-discordLabel.Size = UDim2.new(1, 0, 0.15, 0)
-discordLabel.Position = UDim2.new(0, 0, 0.3, 0)
-discordLabel.BackgroundTransparency = 1
-discordLabel.TextColor3 = Color3.new(1, 1, 1)  -- Chữ trắng
-discordLabel.Font = Enum.Font.SourceSans
-discordLabel.TextScaled = true
-discordLabel.Text = "Discord: https://discord.gg/3Tp35BhYeG"
-discordLabel.Parent = mainFrame
-
 local userImage = Instance.new("ImageLabel")
 userImage.Size = UDim2.new(0, 60, 0, 60)
-userImage.Position = UDim2.new(0.5, -30, 0.45, 0)
+userImage.Position = UDim2.new(0.5, -30, 0.3, 0)
 userImage.BackgroundTransparency = 1
 userImage.Image = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. player.UserId .. "&width=420&height=420&format=png"
 userImage.Parent = mainFrame
 
+local discordButton = Instance.new("TextButton")
+discordButton.Size = UDim2.new(0.6, 0, 0.12, 0)
+discordButton.Position = UDim2.new(0.2, 0, 0.6, 0)
+discordButton.BackgroundColor3 = Color3.fromRGB(30, 144, 255)
+discordButton.TextColor3 = Color3.new(1, 1, 1)
+discordButton.Font = Enum.Font.SourceSansBold
+discordButton.TextScaled = true
+discordButton.Text = "💬 Discord"
+discordButton.Parent = mainFrame
+discordButton.MouseButton1Click:Connect(function()
+    setclipboard("https://discord.gg/3Tp35BhYeG")
+end)
+
 local timeLabel = Instance.new("TextLabel")
-timeLabel.Size = UDim2.new(1, 0, 0.15, 0)
+timeLabel.Size = UDim2.new(1, 0, 0.12, 0)
 timeLabel.Position = UDim2.new(0, 0, 0.75, 0)
 timeLabel.BackgroundTransparency = 1
-timeLabel.TextColor3 = Color3.new(1, 1, 1)  -- Chữ trắng
+timeLabel.TextColor3 = Color3.new(1, 1, 1)
 timeLabel.Font = Enum.Font.SourceSans
 timeLabel.TextScaled = true
 timeLabel.Text = "Thời gian chạy: 00:00:00"
@@ -100,13 +103,18 @@ local function FindNearestItem(itemName)
     return nearestItem
 end
 
--- TELEPORT NHANH
-local function TeleportToItem(item)
+-- BAY ĐẾN MỤC TIÊU (KHÔNG TELEPORT)
+local function FlyToItem(item)
     if not item or not item:FindFirstChild("Handle") then return end
     local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
     if not hrp then return end
 
-    hrp.CFrame = CFrame.new(item.Handle.Position)
+    local targetPos = item.Handle.Position
+    local tweenInfo = TweenInfo.new((hrp.Position - targetPos).Magnitude / speed, Enum.EasingStyle.Linear)
+    local tween = TweenService:Create(hrp, tweenInfo, {CFrame = CFrame.new(targetPos)})
+    tween:Play()
+    tween.Completed:Wait()
+
     wait(0.3)  -- Chờ ổn định
     local prompt = item.Handle:FindFirstChildWhichIsA("ProximityPrompt")
     if prompt then
@@ -123,12 +131,9 @@ local function StoreFruit()
             return ReplicatedStorage.Remotes.CommF_:InvokeServer(unpack(args))
         end)
         
-        if not success then
-            return false  -- Không lưu được
-        end
-        return true  -- Đã lưu thành công
+        return success
     end
-    return false  -- Không có trái trong túi
+    return false
 end
 
 -- ĐỔI SERVER
@@ -150,9 +155,12 @@ while _G.AutoCollectFruits or _G.AutoCollectBerries do
     if _G.AutoCollectFruits then
         local fruit = FindNearestItem("Fruit")
         if fruit then
-            TeleportToItem(fruit)
+            FlyToItem(fruit)
+            wait(1)  -- Chờ nhặt xong
+
+            -- Cố gắng lưu trữ, nếu không được thì nhặt tiếp
             if not StoreFruit() then
-                continue  -- Nếu không lưu được, tìm trái khác
+                continue
             end
             foundItem = true
         end
@@ -161,7 +169,7 @@ while _G.AutoCollectFruits or _G.AutoCollectBerries do
     if _G.AutoCollectBerries then
         local berry = FindNearestItem("Berry")
         if berry then
-            TeleportToItem(berry)
+            FlyToItem(berry)
             foundItem = true
         end
     end

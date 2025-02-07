@@ -1,22 +1,12 @@
+-- discord.gg/25ms
 
+-- CẤU HÌNH LOADER
 shared.LoaderTitle = "Đang tải";
 shared.LoaderKeyFrames = {
-    [1] = {
-        1,
-        10
-    },
-    [2] = {
-        2,
-        30
-    },
-    [3] = {
-        3,
-        60
-    },
-    [4] = {
-        2,
-        100
-    }
+    [1] = { 1, 10 },
+    [2] = { 2, 30 },
+    [3] = { 3, 60 },
+    [4] = { 2, 100 }
 };
 local v2 = {
     LoaderData = {
@@ -30,77 +20,66 @@ local v2 = {
         }
     },
     Keyframes = shared.LoaderKeyFrames or {
-        [1] = {
-            1,
-            10
-        },
-        [2] = {
-            2,
-            30
-        },
-        [3] = {
-            3,
-            60
-        },
-        [4] = {
-            2,
-            100
-        }
+        [1] = { 1, 10 },
+        [2] = { 2, 30 },
+        [3] = { 3, 60 },
+        [4] = { 2, 100 }
     }
 };
-local v3 = {
-    [1] = "",
-    [2] = "",
-    [3] = "",
-    [4] = ""
-};
-function TweenObject(v178, v179, v180)
-    game.TweenService:Create(v178, TweenInfo.new(v179, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut), v180):Play();
+local v3 = { [1] = "", [2] = "", [3] = "", [4] = "" };
+
+-- HÀM TWEEN
+function TweenObject(obj, time, props)
+    game.TweenService:Create(obj, TweenInfo.new(time, Enum.EasingStyle.Linear, Enum.EasingDirection.InOut), props):Play();
 end
-function CreateObject(v181, v182)
-    local v183 = Instance.new(v181);
-    local v184;
-    for v416, v417 in pairs(v182) do
-        if (v416 ~= "Parent") then
-            v183[v416] = v417;
+
+-- HÀM TẠO ĐỐI TƯỢNG (CreateObject)
+function CreateObject(className, props)
+    local obj = Instance.new(className)
+    local parent
+    for prop, value in pairs(props) do
+        if prop == "Parent" then
+            parent = value
         else
-            v184 = v417;
+            obj[prop] = value
         end
     end
-    v183.Parent = v184;
-    return v183;
+    obj.Parent = parent
+    return obj
 end
-local function v4(v186, v187)
-    local v188 = Instance.new("UICorner");
-    v188.CornerRadius = UDim.new(0, v186);
-    v188.Parent = v187;
+
+-- HÀM TẠO GÓC BO TRÒN
+local function AddUICorner(radius, obj)
+    local uic = Instance.new("UICorner")
+    uic.CornerRadius = UDim.new(0, radius)
+    uic.Parent = obj
 end
+
+-- TẠO ScreenGui (v5)
 local v5 = CreateObject("ScreenGui", {
     Name = "Core",
     Parent = game.CoreGui
 });
--- Tạo nút đóng/mở menu
-local vToggleMenuButton = CreateObject("ImageButton", {
-    Name = "ToggleMenu",
-    Parent = game.CoreGui.Core, -- Đảm bảo nó thuộc GUI chính
-    Position = UDim2.new(0, 20, 0, 20), -- Vị trí góc trên bên trái
-    Size = UDim2.new(0, 50, 0, 50), -- Kích thước nút
-    BackgroundTransparency = 1, -- Làm nền trong suốt
-    Image = "rbxassetid://111982589088426" -- Hình ảnh nút
-})
 
--- Tạo biến theo dõi trạng thái menu
-local menuVisible = true
+---------------------------------------------------------------------------
+-- PHẦN THÊM CHỨC NĂNG ĐÓNG/MỞ MENU
+---------------------------------------------------------------------------
 
--- Hàm ẩn/hiện menu
-local function ToggleMenu()
-    menuVisible = not menuVisible
-    game.CoreGui.Core.Main.Visible = menuVisible
-end
-
--- Gán sự kiện nhấn nút
-vToggleMenuButton.MouseButton1Click:Connect(ToggleMenu)
+-- TẠO NÚT Toggle (vToggleMenuButton)
+local vToggleMenuButton = CreateObject("TextButton", {
+    Name = "ToggleButton",
+    Parent = v5,
+    Text = "Toggle Menu",
+    Position = UDim2.new(0, 10, 0, 10),
+    Size = UDim2.fromOffset(100, 50),
+    BackgroundColor3 = Color3.fromRGB(50, 50, 50),
+    TextColor3 = Color3.fromRGB(255, 255, 255),
+    Font = Enum.Font.GothamBold,
+    TextSize = 14
 });
+AddUICorner(8, vToggleMenuButton)
+
+-- TẠO FRAME CHO MENU (v6) – Đây là menu chính của loader
 local v6 = CreateObject("Frame", {
     Name = "Main",
     Parent = v5,
@@ -109,52 +88,55 @@ local v6 = CreateObject("Frame", {
     ClipsDescendants = true,
     Position = UDim2.new(0.5, 0, 0.5, 0),
     AnchorPoint = Vector2.new(0.5, 0.5),
-    Size = UDim2.new(0, 0, 0, 0)
+    Size = UDim2.new(0, 346, 0, 121)
 });
-v4(12, v6);
+AddUICorner(12, v6)
+
+-- (Các đối tượng khác của loader – ví dụ: UserImage, UserName, Title, Progress,…)
 local v7 = CreateObject("ImageLabel", {
     Name = "UserImage",
     Parent = v6,
     BackgroundTransparency = 1,
-    Image = "rbxassetid://111982589088426",
+    Image = "rbxassetid://111982589088426",  -- ID ảnh đã được đặt
     Position = UDim2.new(0, 15, 0, 10),
-    Size = UDim2.new(0, 50, 0, 50)
+    Size = UDim2.fromOffset(50, 50)
 });
-v4(25, v7);
+AddUICorner(25, v7)
+
 local v8 = CreateObject("TextLabel", {
     Name = "UserName",
     Parent = v6,
     BackgroundTransparency = 1,
     Text = "Ayai_Yume",
     Position = UDim2.new(0, 75, 0, 10),
-    Size = UDim2.new(0, 200, 0, 50),
+    Size = UDim2.fromOffset(200, 50),
     Font = Enum.Font.GothamBold,
     TextColor3 = v2.LoaderData.Colors.Title,
     TextSize = 14,
     TextXAlignment = Enum.TextXAlignment.Left
 });
+
 local v9 = CreateObject("TextLabel", {
     Name = "Top",
-    TextTransparency = 1,
     Parent = v6,
-    BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+    TextTransparency = 1,
     BackgroundTransparency = 1,
     Position = UDim2.new(0, 30, 0, 70),
-    Size = UDim2.new(0, 301, 0, 20),
+    Size = UDim2.fromOffset(301, 20),
     Font = Enum.Font.Gotham,
     Text = "Loader",
     TextColor3 = v2.LoaderData.Colors.Topic,
     TextSize = 10,
     TextXAlignment = Enum.TextXAlignment.Left
 });
+
 local v10 = CreateObject("TextLabel", {
     Name = "Title",
     Parent = v6,
     TextTransparency = 1,
-    BackgroundColor3 = Color3.fromRGB(255, 255, 255),
     BackgroundTransparency = 1,
     Position = UDim2.new(0, 30, 0, 90),
-    Size = UDim2.new(0, 301, 0, 46),
+    Size = UDim2.fromOffset(301, 46),
     Font = Enum.Font.Gotham,
     RichText = true,
     Text = "<b>" .. v2.LoaderData.Name .. "</b>",
@@ -162,6 +144,9 @@ local v10 = CreateObject("TextLabel", {
     TextSize = 14,
     TextXAlignment = Enum.TextXAlignment.Left
 });
+
+-- Các phần khác của loader (Progress, StepLabel, TweenObject calls, …)
+-- Ví dụ:
 local v11 = CreateObject("Frame", {
     Name = "BG",
     Parent = v6,
@@ -170,9 +155,10 @@ local v11 = CreateObject("Frame", {
     BackgroundColor3 = v2.LoaderData.Colors.LoaderBackground,
     BorderSizePixel = 0,
     Position = UDim2.new(0.5, 0, 0, 70),
-    Size = UDim2.new(0.8500000238418579, 0, 0, 24)
+    Size = UDim2.new(0.85, 0, 0, 24)
 });
-v4(8, v11);
+AddUICorner(8, v11)
+
 local v12 = CreateObject("Frame", {
     Name = "Progress",
     Parent = v11,
@@ -181,13 +167,14 @@ local v12 = CreateObject("Frame", {
     BorderSizePixel = 0,
     Size = UDim2.new(0, 0, 0, 24)
 });
-v4(8, v12);
+AddUICorner(8, v12)
+
 local v13 = CreateObject("TextLabel", {
     Name = "StepLabel",
     Parent = v6,
     BackgroundTransparency = 1,
-    Position = UDim2.new(0.5, 0, 1, - 25),
-    Size = UDim2.new(1, - 20, 0, 20),
+    Position = UDim2.new(0.5, 0, 1, -25),
+    Size = UDim2.new(1, -20, 0, 20),
     Font = Enum.Font.Gotham,
     Text = "",
     TextColor3 = v2.LoaderData.Colors.Topic,
@@ -195,198 +182,92 @@ local v13 = CreateObject("TextLabel", {
     TextXAlignment = Enum.TextXAlignment.Center,
     AnchorPoint = Vector2.new(0.5, 0.5)
 });
-function UpdateStepText(v191)
-    v13.Text = v3[v191] or "" ;
+local function UpdateStepText(step)
+    v13.Text = v3[step] or ""
 end
-function UpdatePercentage(v193, v194)
-    TweenObject(v12, 0.5, {
-        Size = UDim2.new(v193 / 100, 0, 0, 24)
-    });
-    UpdateStepText(v194);
+local function UpdatePercentage(perc, step)
+    TweenObject(v12, 0.5, { Size = UDim2.new(perc / 100, 0, 0, 24) })
+    UpdateStepText(step)
 end
-TweenObject(v6, 0.25, {
-    Size = UDim2.new(0, 346, 0, 121)
-});
-wait();
-TweenObject(v9, 0.5, {
-    TextTransparency = 0
-});
-TweenObject(v10, 0.5, {
-    TextTransparency = 0
-});
-TweenObject(v11, 0.5, {
-    BackgroundTransparency = 0
-});
-TweenObject(v12, 0.5, {
-    BackgroundTransparency = 0
-});
-for v195, v196 in pairs(v2.Keyframes) do
-    wait(v196[1]);
-    UpdatePercentage(v196[2], v195);
+
+-- Ví dụ chạy Animation Loader
+TweenObject(v6, 0.25, { Size = UDim2.new(0, 346, 0, 121) })
+wait()
+TweenObject(v9, 0.5, { TextTransparency = 0 })
+TweenObject(v10, 0.5, { TextTransparency = 0 })
+TweenObject(v11, 0.5, { BackgroundTransparency = 0 })
+TweenObject(v12, 0.5, { BackgroundTransparency = 0 })
+for step, key in pairs(v2.Keyframes) do
+    wait(key[1])
+    UpdatePercentage(key[2], step)
 end
-UpdatePercentage(100, 4);
-TweenObject(v9, 0.5, {
-    TextTransparency = 1
-});
-TweenObject(v10, 0.5, {
-    TextTransparency = 1
-});
-TweenObject(v11, 0.5, {
-    BackgroundTransparency = 1
-});
-TweenObject(v12, 0.5, {
-    BackgroundTransparency = 1
-});
-wait(0.5);
-TweenObject(v6, 0.25, {
-    Size = UDim2.new(0, 0, 0, 0)
-});
-wait(0.25);
-v5:Destroy();
--- spawn(function()
---     while wait() do
---         function print()
---         end
---         function warn()
---         end
---         function error()
---         end
---         debug.traceback = function()
---             return "Traceback blocked";
---         end;
---         debug.info = function()
---             return "Info blocked";
---         end;
---         local v420 = getrawmetatable(game);
---         if (v420 and not v420.__metatable) then
---             setreadonly(v420, false);
---             local v658 = v420.__index;
---             local v659 = v420.__newindex;
---             v420.__index = function(v759, v760)
---                 if ((v760 == "debug") or (v760 == "getrawmetatable")) then
---                     error("Anti Skid: Tampering detected!");
---                 end
---                 return v658(v759, v760);
---             end;
---             v420.__newindex = function(v761, v762, v763)
---                 if ((v762 == "debug") or (v762 == "getrawmetatable")) then
---                     error("Anti Skid: Tampering detected!");
---                 end
---                 return v659(v761, v762, v763);
---             end;
---             setreadonly(v420, true);
---         end
---         local function v421()
---             local v568 = {
---                 "_G",
---                 "debug",
---                 "getgenv",
---                 "getrawmetatable",
---                 "setfenv",
---                 "loadstring",
---                 "hookfunction"
---             };
---             for v662, v663 in ipairs(v568) do
---                 local v664, v665 = pcall(function()
---                     return _G[v663];
---                 end);
---                 if (v664 and v665) then
---                     error("Anti Skid: Environment tampering detected!");
---                 end
---             end
---         end
---         local function v422()
---             local v569 = {
---                 getrawmetatable,
---                 setreadonly,
---                 getgenv,
---                 debug.getinfo,
---                 debug.getregistry
---             };
---             for v666, v667 in ipairs(v569) do
---                 if v667 then
---                     error("Anti Skid: Hook tampering detected!");
---                 end
---             end
---         end
---         local v423 = game:FindService("HttpService");
---         if v423 then
---             v423.RequestAsync = function()
---                 error("HTTP Requests Blocked");
---             end;
---             v423.GetAsync = function()
---                 error("HTTP Get Blocked");
---             end;
---             v423.PostAsync = function()
---                 error("HTTP Post Blocked");
---             end;
---         end
---         function collectgarbage()
---             error("GC Blocked");
---         end
---         os.time = function()
---             error("OS Time Blocked");
---         end;
---         pcall(v421);
---         pcall(v422);
---     end
--- end);
+UpdatePercentage(100, 4)
+TweenObject(v9, 0.5, { TextTransparency = 1 })
+TweenObject(v10, 0.5, { TextTransparency = 1 })
+TweenObject(v11, 0.5, { BackgroundTransparency = 1 })
+TweenObject(v12, 0.5, { BackgroundTransparency = 1 })
+wait(0.5)
+TweenObject(v6, 0.25, { Size = UDim2.new(0, 0, 0, 0) })
+wait(0.25)
+v5:Destroy()
+
+---------------------------------------------------------------------------
+-- CHỨC NĂNG ĐÓNG/MỞ MENU
+---------------------------------------------------------------------------
+
+-- Sau khi loader chạy xong, ta sẽ load menu chính qua FluentTrau
+-- (Giả sử FluentTrau trả về một module với hàm CreateWindow)
 local v14 = loadstring(game:HttpGet("https://raw.githubusercontent.com/obfalchx/testfluent/refs/heads/main/FluentTrau"))();
 local v15 = v14:CreateWindow({
     Title = "Ayai_Yume",
     SubTitle = "Premium",
     TabWidth = 160,
     Theme = "dark",
-    Acrylic = false,
+    Acrylic = "CreateAcrylic",
     Size = UDim2.fromOffset(500, 320),
     MinimizeKey = Enum.KeyCode.End
 });
+
+-- (Các tab của menu)
 local v16 = {
-    Home = v15:AddTab({
-        Title = "Thông Tin"
-    }),
-    Main = v15:AddTab({
-        Title = "Cày|farm"
-    }),
-    Sea = v15:AddTab({
-        Title = "Sự Kiện|sea event"
-    }),
-    ITM = v15:AddTab({
-        Title = "Vật Phẩm|item"
-    }),
-    Setting = v15:AddTab({
-        Title = "Cài Đặt|setting"
-    }),
-    Status = v15:AddTab({
-        Title = "Máy Chủ|sever"
-    }),
-    Stats = v15:AddTab({
-        Title = "Chỉ Số|stats"
-    }),
-    Player = v15:AddTab({
-        Title = "Người Chơi|player"
-    }),
-    Teleport = v15:AddTab({
-        Title = "Dịch Chuyển|teleport"
-    }),
-    Visual = v15:AddTab({
-        Title = "Giả|troll fun"
-    }),
-    Fruit = v15:AddTab({
-        Title = "Trái|fruit"
-    }),
-    Raid = v15:AddTab({
-        Title = "Tập Kích|raid"
-    }),
-    Race = v15:AddTab({
-        Title = "Tộc|race"
-    }),
-    Shop = v15:AddTab({
-        Title = "Cửa Hàng|shop"
-    }),
-    Misc = v15:AddTab({
-        Title = "Khác|configs"
-    })
+    Home = v15:AddTab({ Title = "Thông Tin" }),
+    Main = v15:AddTab({ Title = "Cày|farm" }),
+    Sea = v15:AddTab({ Title = "Sự Kiện|sea event" }),
+    ITM = v15:AddTab({ Title = "Vật Phẩm|item" }),
+    Setting = v15:AddTab({ Title = "Cài Đặt|setting" }),
+    Status = v15:AddTab({ Title = "Máy Chủ|sever" }),
+    Stats = v15:AddTab({ Title = "Chỉ Số|stats" }),
+    Player = v15:AddTab({ Title = "Người Chơi|player" }),
+    Teleport = v15:AddTab({ Title = "Dịch Chuyển|teleport" }),
+    Visual = v15:AddTab({ Title = "Giả|troll fun" }),
+    Fruit = v15:AddTab({ Title = "Trái|fruit" }),
+    Raid = v15:AddTab({ Title = "Tập Kích|raid" }),
+    Race = v15:AddTab({ Title = "Tộc|race" }),
+    Shop = v15:AddTab({ Title = "Cửa Hàng|shop" }),
+    Misc = v15:AddTab({ Title = "Khác|configs" })
+};
+
+-- CHỨC NĂNG ẨN/HIỆN MENU CHÍNH
+-- Giả sử menu FluentTrau của bạn nằm trong một Frame bên trong v15 (module của FluentTrau tự quản lý giao diện)
+-- Ở đây, để đơn giản, ta dùng một biến để ẩn/hiện toàn bộ giao diện FluentTrau.
+local menuVisible = true
+local function ToggleMenu()
+    menuVisible = not menuVisible
+    -- Giả sử cửa sổ chính của FluentTrau được lưu trong v15.__Window (có thể khác tùy cách thiết kế của module)
+    if v15.__Window then
+        v15.__Window.Visible = menuVisible
+    end
+end
+
+-- Gán sự kiện cho nút Toggle đã tạo ở đầu file
+vToggleMenuButton.MouseButton1Click:Connect(ToggleMenu)
+
+-- Thêm keybind F để toggle menu
+game:GetService("UserInputService").InputBegan:Connect(function(input, gameProcessed)
+    if not gameProcessed and input.KeyCode == Enum.KeyCode.F then
+        ToggleMenu()
+    end
+end)
 };
 local v17 = v14.Options;
 local v18 = game.PlaceId;

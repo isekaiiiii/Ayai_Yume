@@ -2,7 +2,8 @@ _G.AutoCollectFruits = true   -- Bật/tắt Auto nhặt trái
 _G.AutoCollectBerries = true  -- Bật/tắt Auto nhặt Berry
 _G.AutoServerHop = true       -- Bật/tắt Auto đổi server nếu không có trái hoặc Berry
 
-local startTime = os.time()  -- Thời gian bắt đầu script, sẽ không reset
+local startTime = os.time()  -- Thời gian bắt đầu script (không reset)
+local fruitsCollected = 0    -- Đếm số lượng trái đã nhặt
 
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -19,14 +20,14 @@ screenGui.Name = "AutoFruitMenu"
 screenGui.Parent = player:WaitForChild("PlayerGui")
 
 local mainFrame = Instance.new("Frame")
-mainFrame.Size = UDim2.new(0, 300, 0, 160)
+mainFrame.Size = UDim2.new(0, 300, 0, 200)
 mainFrame.Position = UDim2.new(0.5, -150, 0.1, 0)
 mainFrame.BackgroundTransparency = 0.4
 mainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 mainFrame.Parent = screenGui
 
 local titleLabel = Instance.new("TextLabel")
-titleLabel.Size = UDim2.new(1, 0, 0.2, 0)
+titleLabel.Size = UDim2.new(1, 0, 0.15, 0)
 titleLabel.BackgroundTransparency = 1
 titleLabel.TextColor3 = Color3.new(1, 1, 1)
 titleLabel.Font = Enum.Font.SourceSansBold
@@ -35,8 +36,8 @@ titleLabel.Text = "Auto Fruit & Berry - Blox Fruits"
 titleLabel.Parent = mainFrame
 
 local usernameLabel = Instance.new("TextLabel")
-usernameLabel.Size = UDim2.new(1, 0, 0.2, 0)
-usernameLabel.Position = UDim2.new(0, 0, 0.2, 0)
+usernameLabel.Size = UDim2.new(1, 0, 0.15, 0)
+usernameLabel.Position = UDim2.new(0, 0, 0.15, 0)
 usernameLabel.BackgroundTransparency = 1
 usernameLabel.TextColor3 = Color3.new(1, 1, 1)
 usernameLabel.Font = Enum.Font.SourceSans
@@ -44,28 +45,41 @@ usernameLabel.TextScaled = true
 usernameLabel.Text = "Người chơi: " .. player.Name
 usernameLabel.Parent = mainFrame
 
+local fruitCountLabel = Instance.new("TextLabel")
+fruitCountLabel.Size = UDim2.new(1, 0, 0.15, 0)
+fruitCountLabel.Position = UDim2.new(0, 0, 0.3, 0)
+fruitCountLabel.BackgroundTransparency = 1
+fruitCountLabel.TextColor3 = Color3.new(1, 1, 1)
+fruitCountLabel.Font = Enum.Font.SourceSans
+fruitCountLabel.TextScaled = true
+fruitCountLabel.Text = "Trái đã nhặt: 0"
+fruitCountLabel.Parent = mainFrame
+
 local userImage = Instance.new("ImageLabel")
 userImage.Size = UDim2.new(0, 60, 0, 60)
-userImage.Position = UDim2.new(0.5, -30, 0.4, 0)
+userImage.Position = UDim2.new(0.5, -30, 0.45, 0)
 userImage.BackgroundTransparency = 1
 userImage.Image = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. player.UserId .. "&width=420&height=420&format=png"
 userImage.Parent = mainFrame
 
 local timeLabel = Instance.new("TextLabel")
-timeLabel.Size = UDim2.new(1, 0, 0.2, 0)
-timeLabel.Position = UDim2.new(0, 0, 0.7, 0)
+timeLabel.Size = UDim2.new(1, 0, 0.15, 0)
+timeLabel.Position = UDim2.new(0, 0, 0.75, 0)
 timeLabel.BackgroundTransparency = 1
 timeLabel.TextColor3 = Color3.new(1, 1, 1)
 timeLabel.Font = Enum.Font.SourceSans
 timeLabel.TextScaled = true
-timeLabel.Text = "Thời gian chạy: 0s"
+timeLabel.Text = "Thời gian chạy: 00:00:00"
 timeLabel.Parent = mainFrame
 
 -- Cập nhật thời gian chạy script (không reset)
 spawn(function()
     while true do
         local elapsed = os.time() - startTime
-        timeLabel.Text = "Thời gian chạy: " .. elapsed .. "s"
+        local hours = math.floor(elapsed / 3600)
+        local minutes = math.floor((elapsed % 3600) / 60)
+        local seconds = elapsed % 60
+        timeLabel.Text = string.format("Thời gian chạy: %02d:%02d:%02d", hours, minutes, seconds)
         wait(1)
     end
 end)
@@ -112,6 +126,8 @@ local function StoreFruit()
     if fruitTool then
         local args = {"StoreFruit", fruitTool}
         ReplicatedStorage.Remotes.CommF_:InvokeServer(unpack(args))
+        fruitsCollected = fruitsCollected + 1
+        fruitCountLabel.Text = "Trái đã nhặt: " .. fruitsCollected
     end
 end
 

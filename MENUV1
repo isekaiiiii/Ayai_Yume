@@ -1,7 +1,5 @@
--- discord.gg/25ms
 
-
-shared.LoaderTitle = "Ayai_Yume Premium";
+shared.LoaderTitle = "đang tải";
 shared.LoaderKeyFrames = {
     [1] = {
         1,
@@ -313,13 +311,26 @@ v5:Destroy();
 -- end);
 local v14 = loadstring(game:HttpGet("https://raw.githubusercontent.com/obfalchx/testfluent/refs/heads/main/FluentTrau"))();
 local v15 = v14:CreateWindow({
-    Title = "Min Gaming",
-    SubTitle = "Premium|Cần mua j về hack ib mik nha",
+    Title = "Ayai_Yume Premium",
+    SubTitle = "",
     TabWidth = 160,
     Theme = "Dark",
     Acrylic = false,
     Size = UDim2.fromOffset(500, 320),
-    MinimizeKey = "rbxassetid://111982589088426"
+    MinimizeKey =Enum.KeyCode.End
+    -- Tạo nút đóng/mở menu bằng hình ảnh riêng
+local toggleButton = Instance.new("ImageButton")
+toggleButton.Size = UDim2.new(0, 50, 0, 50)
+toggleButton.Position = UDim2.new(0.9, 0, 0.1, 0) -- Điều chỉnh vị trí nếu cần
+toggleButton.Image = "rbxassetid://111982589088426" -- Thay ID hình ảnh vào đây
+toggleButton.Parent = game.CoreGui
+
+local isMenuVisible = true -- Trạng thái hiển thị menu
+
+toggleButton.MouseButton1Click:Connect(function()
+    isMenuVisible = not isMenuVisible
+    v15:SetVisible(isMenuVisible) -- Đóng/mở menu
+end)
 });
 local v16 = {
     Home = v15:AddTab({
@@ -329,7 +340,7 @@ local v16 = {
         Title = "Cày"
     }),
     Sea = v15:AddTab({
-        Title = "Sự Kiện"
+        Title = "Sự Kiện biển"
     }),
     ITM = v15:AddTab({
         Title = "Vật Phẩm"
@@ -350,7 +361,7 @@ local v16 = {
         Title = "Dịch Chuyển"
     }),
     Visual = v15:AddTab({
-        Title = "Giả"
+        Title = "Troll"
     }),
     Fruit = v15:AddTab({
         Title = "Trái"
@@ -9325,6 +9336,6 @@ spawn(function()
 end);
 v14:Notify({
     Title = "Ayai_Yume Premium",
-    Content = "Tải Xong|Free Premium",
-    Duration = 30
+    Content = "Tải Xong",
+    Duration = 10
 });

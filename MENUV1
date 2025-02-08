@@ -1,7 +1,7 @@
 -- discord.gg/25ms
 
 
-shared.LoaderTitle = "Đang tải";
+shared.LoaderTitle = "Ayai_Yume Premium";
 shared.LoaderKeyFrames = {
     [1] = {
         1,
@@ -96,7 +96,7 @@ local v7 = CreateObject("ImageLabel", {
     Name = "UserImage",
     Parent = v6,
     BackgroundTransparency = 1,
-    Image = "rbxassetid://13717478897",
+    Image = "rbxassetid://111982589088426",
     Position = UDim2.new(0, 15, 0, 10),
     Size = UDim2.new(0, 50, 0, 50)
 });
@@ -313,31 +313,14 @@ v5:Destroy();
 -- end);
 local v14 = loadstring(game:HttpGet("https://raw.githubusercontent.com/obfalchx/testfluent/refs/heads/main/FluentTrau"))();
 local v15 = v14:CreateWindow({
-    Title = "Ayai_Yume",
-    SubTitle = "Premium",
+    Title = "Min Gaming",
+    SubTitle = "Premium|Cần mua j về hack ib mik nha",
     TabWidth = 160,
-    Theme = "Drak",
+    Theme = "Dark",
     Acrylic = false,
-    Size = UDim2.fromOffset(500, 320)
-})
-
--- Thêm nút đóng/mở menu
-local MenuButton = Instance.new("ImageButton")
-MenuButton.Size = UDim2.new(0, 50, 0, 50)
-MenuButton.Position = UDim2.new(0, 10, 0, 10)
-MenuButton.Image = "rbxassetid://111982589088426"
-MenuButton.BackgroundTransparency = 1
-MenuButton.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-
--- Biến lưu trạng thái menu
-local menuOpen = true 
-v15.Frame.Visible = menuOpen 
-
--- Xử lý sự kiện khi nhấn nút
-MenuButton.MouseButton1Click:Connect(function()
-    menuOpen = not menuOpen
-    v15.Frame.Visible = menuOpen
-end)
+    Size = UDim2.fromOffset(500, 320),
+    MinimizeKey = "rbxassetid://111982589088426"
+});
 local v16 = {
     Home = v15:AddTab({
         Title = "Thông Tin"
@@ -9342,6 +9325,6 @@ spawn(function()
 end);
 v14:Notify({
     Title = "Ayai_Yume Premium",
-    Content = "Tải Xong",
-    Duration = 10
+    Content = "Tải Xong|Free Premium",
+    Duration = 30
 });

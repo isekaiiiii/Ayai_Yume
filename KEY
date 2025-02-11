@@ -1,139 +1,25 @@
-local Players = game:GetService("Players")
-local Player = Players.LocalPlayer
-
--- Tạo GUI chính
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Parent = Player:WaitForChild("PlayerGui")
-
-local Frame = Instance.new("Frame")
-Frame.Size = UDim2.new(0.3, 0, 0.25, 0)
-Frame.Position = UDim2.new(0.35, 0, 0.35, 0)
-Frame.BackgroundColor3 = Color3.fromRGB(44, 47, 51) -- Nền xám như Roblox
-Frame.BorderSizePixel = 0
-Frame.Parent = ScreenGui
-
-local UICorner = Instance.new("UICorner")
-UICorner.CornerRadius = UDim.new(0, 10)
-UICorner.Parent = Frame
-
--- Tiêu đề
-local Title = Instance.new("TextLabel")
-Title.Size = UDim2.new(1, 0, 0.2, 0)
-Title.BackgroundTransparency = 1
-Title.Text = "Nhập Key Để Tiếp Tục"
-Title.TextScaled = true
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-Title.Font = Enum.Font.SourceSansBold
-Title.Parent = Frame
-
--- Ô nhập Key
-local TextBox = Instance.new("TextBox")
-TextBox.Size = UDim2.new(0.8, 0, 0.25, 0)
-TextBox.Position = UDim2.new(0.1, 0, 0.35, 0)
-TextBox.BackgroundColor3 = Color3.fromRGB(35, 39, 42)
-TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
-TextBox.PlaceholderText = "Nhập Key..."
-TextBox.TextScaled = true
-TextBox.Font = Enum.Font.SourceSans
-TextBox.Parent = Frame
-
-local TextBoxCorner = Instance.new("UICorner")
-TextBoxCorner.CornerRadius = UDim.new(0, 8)
-TextBoxCorner.Parent = TextBox
-
--- Nút xác nhận
-local SubmitButton = Instance.new("TextButton")
-SubmitButton.Size = UDim2.new(0.6, 0, 0.25, 0)
-SubmitButton.Position = UDim2.new(0.2, 0, 0.7, 0)
-SubmitButton.BackgroundColor3 = Color3.fromRGB(0, 162, 255)
-SubmitButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-SubmitButton.Text = "Xác nhận"
-SubmitButton.TextScaled = true
-SubmitButton.Font = Enum.Font.SourceSansBold
-SubmitButton.Parent = Frame
-
-local ButtonCorner = Instance.new("UICorner")
-ButtonCorner.CornerRadius = UDim.new(0, 8)
-ButtonCorner.Parent = SubmitButton
-
--- Hiệu ứng hover
-SubmitButton.MouseEnter:Connect(function()
-    SubmitButton.BackgroundColor3 = Color3.fromRGB(0, 145, 230)
-end)
-
-SubmitButton.MouseLeave:Connect(function()
-    SubmitButton.BackgroundColor3 = Color3.fromRGB(0, 162, 255)
-end)
-
--- Danh sách Key
-local keys = {
-    ["TONGHOP"] = "https://raw.githubusercontent.com/Gojo-Satoru27/Ayai_Yume/refs/heads/main/ALLGAME",
-    ["KAITUN"] = "https://raw.githubusercontent.com/Gojo-Satoru27/Ayai_Yume/refs/heads/main/KAITUN",
-    ["FLY"] = "https://raw.githubusercontent.com/Gojo-Satoru27/Ayai_Yume/refs/heads/main/FLY" -- Thay bằng link thực của script bay
+local validKeys = {
+    "1",
+    "KEY2",
+    "KEY3"
 }
 
--- Hiển thị thông báo (hiệu ứng mượt)
-local function showMessage(message, duration)
-    Title.Text = message
-    wait(duration)
-    Title.Text = "Nhập Key Để Tiếp Tục"
+if not getgenv().Key then
+    game:GetService("Players").LocalPlayer:Kick("Bạn chưa có key! Vui lòng nhập key trước khi chạy script.")
+    return
 end
 
--- Hiệu ứng biến mất mượt
-local function fadeOut(frame)
-    for i = 1, 10 do
-        frame.BackgroundTransparency = i * 0.1
-        wait(0.05)
-    end
-    frame.Visible = false
-end
-
--- Kiểm tra Key
-local function checkKey(userInput)
-    showMessage("Check Key...", 1.5) -- Hiển thị thông báo Check Key
-    wait(1.5) -- Đợi 1.5 giây trước khi kiểm tra key
-
-    if keys[userInput] then
-        if userInput == "TONGHOP" then
-            showMessage("Key đúng đang chạy script tổng hợp", 3)
-        elseif userInput == "KAITUN" then
-            showMessage(" Đang kích hoạt chế độ kaitun-Blox Fruits!", 3)
-        elseif userInput == "FLY" then
-            showMessage(" Đang kích hoạt chế độ bay...", 3)
-            wait(2)
-            showMessage("Script Made by Thong", 3) -- Hiển thị thông báo tác giả script
-            wait(3)
+local function checkKey()
+    for _, key in pairs(validKeys) do
+        if getgenv().Key == key then
+            return true
         end
-        
-        wait(2)
-        print("Đang tải script từ: " .. keys[userInput])
-
-        local success, scriptContent = pcall(function()
-            return game:HttpGet(keys[userInput])
-        end)
-
-        if success and scriptContent then
-            print("Script tải về thành công!")
-            showMessage("Đang chạy script...", 2)
-            wait(1)
-            fadeOut(Frame) -- Hiệu ứng biến mất
-
-            local runSuccess, err = pcall(loadstring(scriptContent))
-            if not runSuccess then
-                warn("Lỗi khi chạy script: " .. err)
-                showMessage("Lỗi khi thực thi script!", 3)
-            end
-        else
-            warn("Lỗi tải script từ URL!")
-            showMessage("Lỗi tải script!", 3)
-        end
-    else
-        showMessage("Key sai! Vui lòng nhập lại.", 3)
     end
+    return false
 end
 
--- Kết nối sự kiện bấm nút
-SubmitButton.MouseButton1Click:Connect(function()
-    checkKey(TextBox.Text)
-    TextBox.Text = ""
-end)
+if checkKey() then
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Gojo-Satoru27/Ayai_Yume/refs/heads/main/AOTUAIM"))()
+else
+    game:GetService("Players").LocalPlayer:Kick("Key không hợp lệ! Hãy lấy key hợp lệ để tiếp tục.")
+end

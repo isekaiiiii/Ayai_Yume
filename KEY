@@ -1,7 +1,6 @@
-getgenv().Key = "1" -- Key này sẽ tự kiểm tra ngay lập tức
+getgenv().Key = getgenv().Key or "" -- Đảm bảo biến Key không bị nil
 
--- Nếu không có key hoặc key không phải "1"
-if not getgenv().Key or getgenv().Key ~= "1" then
+if getgenv().Key ~= "1" then
     game:GetService("Players").LocalPlayer:Kick("Key sai!!!")
     return
 end

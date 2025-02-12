@@ -1,25 +1,33 @@
+getgenv().Key = "1" -- Key này sẽ tự kiểm tra ngay lập tức
+
 local validKeys = {
     "1",
     "KEY2",
     "KEY3"
 }
 
-if not getgenv().Key then
-    game:GetService("Players").LocalPlayer:Kick("Bạn chưa có key! Vui lòng nhập key trước khi chạy script.")
-    return
-end
-
-local function checkKey()
-    for _, key in pairs(validKeys) do
-        if getgenv().Key == key then
+-- Kiểm tra key hợp lệ
+local function checkKey(key)
+    for _, v in pairs(validKeys) do
+        if key == v then
             return true
         end
     end
     return false
 end
 
-if checkKey() then
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/Gojo-Satoru27/Ayai_Yume/refs/heads/main/AOTUAIM"))()
-else
-    game:GetService("Players").LocalPlayer:Kick("Key không hợp lệ! Hãy lấy key hợp lệ để tiếp tục.")
+-- Nếu không có key
+if not getgenv().Key or getgenv().Key == "" then
+    game:GetService("Players").LocalPlayer:Kick("Nhập key để chạy script")
+    return
 end
+
+-- Nếu key không hợp lệ
+if not checkKey(getgenv().Key) then
+    game:GetService("Players").LocalPlayer:Kick("Key không hợp lệ! Hãy lấy key hợp lệ để tiếp tục.")
+    return
+end
+
+-- Nếu key hợp lệ, chạy script
+print("Key hợp lệ! Đang chạy script...")
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Gojo-Satoru27/Ayai_Yume/refs/heads/main/AOTUAIM"))()

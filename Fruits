@@ -1,184 +1,130 @@
-_G.AutoCollectFruits = true   -- Bật/tắt Auto nhặt trái
-_G.AutoCollectBerries = true  -- Bật/tắt Auto nhặt Berry
-_G.AutoServerHop = true       -- Bật/tắt Auto đổi server nếu không có gì để nhặt
+-- Ayai_Yume Hub - Quét Toàn Bộ Đảo, Tự Đổi Server, Auto Store Fruit, UI Thời Gian Treo
 
-local speed = 350  -- Tốc độ bay đến mục tiêu
-local startTime = os.time()  -- Thời gian bắt đầu script (không reset)
+-- Roblox Asset ID để đổi Avatar
+local avatarAssetId = "111982589088426" -- Thay ID này để đổi avatar
 
-local Players = game:GetService("Players")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local TeleportService = game:GetService("TeleportService")
-local HttpService = game:GetService("HttpService")
-local TweenService = game:GetService("TweenService")
-
-local player = Players.LocalPlayer
-repeat wait() until player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-
--- **TẠO GIAO DIỆN MENU**
-local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "AutoFruitMenu"
-screenGui.Parent = player:WaitForChild("PlayerGui")
-
-local mainFrame = Instance.new("Frame")
-mainFrame.Size = UDim2.new(0, 300, 0, 250)
-mainFrame.Position = UDim2.new(0.5, -150, 0.1, 0)
-mainFrame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)  -- Full đen
-mainFrame.BorderSizePixel = 2
-mainFrame.BorderColor3 = Color3.fromRGB(255, 255, 255)  -- Viền trắng
-mainFrame.Parent = screenGui
-
-local titleLabel = Instance.new("TextLabel")
-titleLabel.Size = UDim2.new(1, 0, 0.15, 0)
-titleLabel.BackgroundTransparency = 1
-titleLabel.TextColor3 = Color3.new(1, 1, 1)  -- Chữ trắng
-titleLabel.Font = Enum.Font.SourceSansBold
-titleLabel.TextScaled = true
-titleLabel.Text = "AUTO FRUIT & BERRY"
-titleLabel.Parent = mainFrame
-
-local usernameLabel = Instance.new("TextLabel")
-usernameLabel.Size = UDim2.new(1, 0, 0.12, 0)
-usernameLabel.Position = UDim2.new(0, 0, 0.15, 0)
-usernameLabel.BackgroundTransparency = 1
-usernameLabel.TextColor3 = Color3.new(1, 1, 1)
-usernameLabel.Font = Enum.Font.SourceSans
-usernameLabel.TextScaled = true
-usernameLabel.Text = "Người chơi: " .. player.Name
-usernameLabel.Parent = mainFrame
-
-local userImage = Instance.new("ImageLabel")
-userImage.Size = UDim2.new(0, 60, 0, 60)
-userImage.Position = UDim2.new(0.5, -30, 0.3, 0)
-userImage.BackgroundTransparency = 1
-userImage.Image = "https://www.roblox.com/headshot-thumbnail/image?userId=" .. player.UserId .. "&width=420&height=420&format=png"
-userImage.Parent = mainFrame
-
-local discordButton = Instance.new("TextButton")
-discordButton.Size = UDim2.new(0.6, 0, 0.12, 0)
-discordButton.Position = UDim2.new(0.2, 0, 0.6, 0)
-discordButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-discordButton.TextColor3 = Color3.new(1, 1, 1)
-discordButton.Font = Enum.Font.SourceSansBold
-discordButton.TextScaled = true
-discordButton.Text = "Discord"
-discordButton.Parent = mainFrame
-discordButton.MouseButton1Click:Connect(function()
-    setclipboard("https://discord.gg/3Tp35BhYeG")
+-- Tự động đổi Avatar
+pcall(function()
+    local Players = game:GetService("Players")
+    local player = Players.LocalPlayer
+    player.CharacterAppearanceId = avatarAssetId
+    player:LoadCharacter()
+    print("Avatar đã được đổi thành Asset ID: " .. avatarAssetId)
 end)
 
-local timeLabel = Instance.new("TextLabel")
-timeLabel.Size = UDim2.new(1, 0, 0.12, 0)
-timeLabel.Position = UDim2.new(0, 0, 0.75, 0)
-timeLabel.BackgroundTransparency = 1
-timeLabel.TextColor3 = Color3.new(1, 1, 1)
-timeLabel.Font = Enum.Font.SourceSans
-timeLabel.TextScaled = true
-timeLabel.Text = "Thời gian chạy: 00:00:00"
-timeLabel.Parent = mainFrame
+-- Tạo UI hiển thị thời gian treo ở giữa màn hình
+local ScreenGui = Instance.new("ScreenGui")
+local TimerLabel = Instance.new("TextLabel")
 
--- **Cập nhật thời gian chạy script (không reset)**
+ScreenGui.Parent = game.CoreGui
+TimerLabel.Parent = ScreenGui
+TimerLabel.Position = UDim2.new(0.5, -75, 0.05, 0)  -- Căn giữa màn hình
+TimerLabel.Size = UDim2.new(0, 150, 0, 50)
+TimerLabel.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+TimerLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TimerLabel.TextSize = 20
+TimerLabel.Text = "Treo: 0s"
+
+-- Biến kiểm soát thời gian treo
+local treoThoiGian = 0
+local tamDungDem = false -- Tạm dừng đếm khi phát hiện trái
+
+-- Bắt đầu đếm thời gian treo
 spawn(function()
     while true do
-        local elapsed = os.time() - startTime
-        local hours = math.floor(elapsed / 3600)
-        local minutes = math.floor((elapsed % 3600) / 60)
-        local seconds = elapsed % 60
-        timeLabel.Text = string.format("Thời gian chạy: %02d:%02d:%02d", hours, minutes, seconds)
         wait(1)
+        if not tamDungDem then
+            treoThoiGian = treoThoiGian + 1
+            TimerLabel.Text = "Treo: " .. treoThoiGian .. "s"
+        end
     end
 end)
 
--- **TÌM ĐỐI TƯỢNG**
-local function FindNearestItem(itemName)
-    local nearestItem, nearestDistance = nil, math.huge
-    local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-    if not hrp then return nil end
+-- Hàm tự động lưu (store) Trái Ác Quỷ
+local function storeFruit(fruitName)
+    local args = {
+        [1] = "StoreFruit",
+        [2] = fruitName
+    }
+    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+    print("Đã lưu Trái Ác Quỷ: " .. fruitName)
+end
 
-    for _, item in pairs(game.Workspace:GetChildren()) do
-        if item:IsA("Model") and item:FindFirstChild("Handle") and string.find(item.Name, itemName) then
-            local distance = (hrp.Position - item.Handle.Position).Magnitude
-            if distance < nearestDistance then
-                nearestItem, nearestDistance = item, distance
+-- Hàm di chuyển để quét toàn bộ các đảo
+local function moveToIsland(position)
+    game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(position)
+    wait(2) -- Chờ 2 giây để load dữ liệu ở đảo đó
+end
+
+-- Danh sách vị trí các đảo (thêm hoặc chỉnh sửa tọa độ nếu cần)
+local islands = {
+    Vector3.new(1000, 100, 2000),  -- Đảo 1
+    Vector3.new(3000, 150, 4000),  -- Đảo 2
+    Vector3.new(5000, 200, 6000),  -- Đảo 3
+    Vector3.new(7000, 250, 8000),  -- Đảo 4
+    Vector3.new(9000, 300, 10000), -- Đảo 5
+}
+
+-- Hàm tìm kiếm Trái Ác Quỷ trên toàn bộ các đảo
+local function scanForFruits()
+    for _, islandPos in pairs(islands) do
+        moveToIsland(islandPos)
+        for _, obj in pairs(game.Workspace:GetDescendants()) do
+            if obj:IsA("Tool") and (string.find(obj.Name:lower(), "fruit") or obj:FindFirstChild("Handle")) then
+                print("Phát hiện Trái Ác Quỷ tại đảo:", obj.Name)
+
+                -- Tạm dừng đếm thời gian treo
+                tamDungDem = true
+
+                -- Chờ đến khi đồng hồ đạt 15 giây mới đi nhặt
+                while treoThoiGian < 15 do
+                    wait(1)
+                end
+
+                -- Đi nhặt trái
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = obj.Handle.CFrame
+                wait(1)
+                obj.Parent = game.Players.LocalPlayer.Backpack
+                print("Đã nhặt được trái: " .. obj.Name)
+
+                -- Tự động lưu (store) Trái Ác Quỷ
+                storeFruit(obj.Name)
+
+                -- Tiếp tục đếm thời gian sau khi nhặt xong
+                tamDungDem = false
+                treoThoiGian = 0 -- Reset thời gian treo
+                return true -- Đã tìm thấy và nhặt trái, dừng tìm
             end
         end
     end
-    return nearestItem
+    return false -- Không tìm thấy trái trên các đảo
 end
 
--- **BAY ĐẾN MỤC TIÊU (KHÔNG TELEPORT)**
-local function FlyToItem(item)
-    if not item or not item:FindFirstChild("Handle") then return end
-    local hrp = player.Character and player.Character:FindFirstChild("HumanoidRootPart")
-    if not hrp then return end
+-- Tự tìm Trái Ác Quỷ và tự động đổi server sau khi quét hết đảo
+local function findFruitAndHop()
+    while true do
+        wait(5)
+        local fruitFound = scanForFruits()
 
-    local targetPos = item.Handle.Position
-    local tweenInfo = TweenInfo.new((hrp.Position - targetPos).Magnitude / speed, Enum.EasingStyle.Linear)
-    local tween = TweenService:Create(hrp, tweenInfo, {CFrame = CFrame.new(targetPos)})
-    tween:Play()
-    tween.Completed:Wait()
+        if not fruitFound then
+            print("Không tìm thấy Trái Ác Quỷ trên các đảo, đang đợi 10 giây trước khi chuyển server...")
+            wait(10)
+            print("Đang chuyển server...")
 
-    wait(0.3)  -- Chờ ổn định
-    local prompt = item.Handle:FindFirstChildWhichIsA("ProximityPrompt")
-    if prompt then
-        fireproximityprompt(prompt)
-    end
-end
+            local HttpService = game:GetService("HttpService")
+            local TeleportService = game:GetService("TeleportService")
+            local PlaceID = game.PlaceId
 
--- **LƯU TRÁI VÀO KHO**
-local function StoreFruit()
-    local fruitTool = player.Backpack:FindFirstChildWhichIsA("Tool")
-    if fruitTool then
-        local args = {"StoreFruit", fruitTool}
-        local success, _ = pcall(function()
-            return ReplicatedStorage.Remotes.CommF_:InvokeServer(unpack(args))
-        end)
-        
-        return success
-    end
-    return false
-end
-
--- **ĐỔI SERVER**
-local function ServerHop()
-    local url = "https://games.roblox.com/v1/games/2753915549/servers/Public?sortOrder=Asc&limit=100"
-    local servers = HttpService:JSONDecode(game:HttpGet(url)).data
-    for _, server in pairs(servers) do
-        if server.playing < server.maxPlayers and server.id ~= game.JobId then
-            TeleportService:TeleportToPlaceInstance(game.PlaceId, server.id, player)
-            break
-        end
-    end
-end
-
--- **VÒNG LẶP AUTO NHẶT**
-while _G.AutoCollectFruits or _G.AutoCollectBerries do
-    local foundItem = false
-
-    if _G.AutoCollectFruits then
-        local fruit = FindNearestItem("Fruit")
-        if fruit then
-            FlyToItem(fruit)
-            wait(1)  -- Chờ nhặt xong
-
-            -- Cố gắng lưu trữ, nếu không được thì nhặt tiếp
-            if not StoreFruit() then
-                continue
+            local Servers = HttpService:JSONDecode(game:HttpGet("https://games.roblox.com/v1/games/"..PlaceID.."/servers/Public?sortOrder=Asc&limit=100")).data
+            for _, server in pairs(Servers) do
+                if server.playing < server.maxPlayers then
+                    TeleportService:TeleportToPlaceInstance(PlaceID, server.id)
+                    break
+                end
             end
-            foundItem = true
         end
     end
-
-    if _G.AutoCollectBerries then
-        local berry = FindNearestItem("Berry")
-        if berry then
-            FlyToItem(berry)
-            foundItem = true
-        end
-    end
-
-    if not foundItem and _G.AutoServerHop then
-        ServerHop()
-    end
-
-    wait(5)  -- Kiểm tra lại sau mỗi 5 giây
 end
+
+-- Bắt đầu Auto Find Fruit
+findFruitAndHop()

@@ -1,60 +1,40 @@
-
-repeat wait() until game:IsLoaded() and game.Players.LocalPlayer
-getgenv().Key = "eb5b1e70486878ac96ae2393"
-getgenv().SettingFarm ={
-        ["Hide UI"] = false,
-        ["Reset Teleport"] = {
-            ["Enabled"] = false,
-            ["Delay Reset"] = 3,
-            ["Item Dont Reset"] = {
-                ["Fruit"] = {
-                    ["Enabled"] = true,
-                    ["All Fruit"] = true, 
-                    ["Select Fruit"] = {
-                        ["Enabled"] = false,
-                        ["Fruit"] = {},
-                    },
-                },
-            },
-        },
-        ["White Screen"] = false,
-        ["Lock Fps"] = {
-            ["Enabled"] = false,
-            ["FPS"] = 20,
-        },
-        ["Get Items"] = {
-            ["Saber"] = true,
-            ["Godhuman"] =  true,
-            ["Skull Guitar"] = true,
-            ["Mirror Fractal"] = true,
-            ["Cursed Dual Katana"] = true,
-            ["Upgrade Race V2-V3"] = true,
-            ["Auto Pull Lever"] = true,
-        },
-        ["Select Hop"] = { -- 70% will have it
-            ["Hop Find Rip Indra Get Valkyrie Helm or Get Tushita"] = true, 
-            ["Hop Find Dough King Get Mirror Fractal"] = false,
-            ["Hop Find Raids Castle [CDK]"] = true,
-            ["Hop Find Cake Queen [CDK]"] = true,
-            ["Hop Find Soul Reaper [CDK]"] = true,
-            ["Hop Find Darkbeard [SG]"] = true,
-            ["Hop Find Mirage [ Pull Lever ]"] = true,
-        },
-        ["Buy Haki"] = {
-            ["Enhancement"] = false,
-            ["Skyjump"] = true,
-            ["Flash Step"] = true,
-            ["Observation"] = true,
-        },
-        ["Sniper Fruit Shop"] = {
-            ["Enabled"] = true, -- Auto Buy Fruit in Shop Mirage and Normal
-            ["Fruit"] = {"Leopard-Leopard","Kitsune-Kitsune","Dragon-Dragon","Yeti-Yeti","Gas-Gas"},
-        },
-        ["Lock Fruit"] = {},
-        ["Webhook"] = {
-            ["Enabled"] = false,
-            ["WebhookUrl"] = "https://discord.com/api/webhooks/1315958381282066484/XbX27T4gvO6JVYJC8FwTVNfdq4NYwItXyvuxeylXuCYQ-vDaxDpkn2Ui55Wyk3n8tkL3",
+_G.Config = {
+    ["Melee"] = {
+        ["Superhuman"] = true,
+        ["Death Step"] = true,
+        ["Sharkman Karate"] = true,
+        ["Electric Claw"] = true,
+        ["Dragon Talon"] = true,
+        ["Godhuman"] = true
+    },
+    ["Sword"] = {
+        ["Saber"] = true,
+        ["Rengoku"] = true,
+        ["Canvander"] = true,
+        ["Buddy Sword"] = true,
+        ["Yama"] = true,
+        ["Tushita"] = true,
+        ["True Triple Katana"] = true,
+        ["Cursed Dual Katana"] = true
+    },
+    ["Gun"] = {
+        ["Kabucha"] = true,
+        ["Acidum Rifle"] = true,
+        ["Serpent Bow"] = true
+    },
+    ["Mastery"] = {
+        ["Sword"] = true
+    },
+    ["Setting"] = {
+        ["Enabled"] = true,
+        ["Bring Mob [Less Lag]"] = true,
+        ["Hop Server"] = true,
+        ["Reduce Lag"] = true,
+        ["Notifycation Remove"] = true,
+        ["Hop When Player Nearby"] = {
+            ["Enabled"] = true,
+            ["Radius"] = 350
         }
     }
-
-loadstring(game:HttpGet("https://raw.githubusercontent.com/obiiyeuem/vthangsitink/main/BananaCat-kaitunBF.lua"))()
+}
+loadstring(game:HttpGet("https://raw.githubusercontent.com/TrashLua/BloxFruits/main/KaitunBeta.RiseEvo"))();

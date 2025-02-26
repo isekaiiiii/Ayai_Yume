@@ -53,7 +53,7 @@ getgenv().SettingFarm ={
         ["Lock Fruit"] = {},
         ["Webhook"] = {
             ["Enabled"] = false,
-            ["WebhookUrl"] = "",
+            ["WebhookUrl"] = "https://discord.com/api/webhooks/1315958381282066484/XbX27T4gvO6JVYJC8FwTVNfdq4NYwItXyvuxeylXuCYQ-vDaxDpkn2Ui55Wyk3n8tkL3",
         }
     }
 

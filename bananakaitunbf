@@ -10,7 +10,7 @@ _G["HoHo Hub Auto Bounty V4"] = {
     ["Distance Attack Y"] = 2,
     ["Chat After Kill"] = {
         ["Active"] = false,
-        ["List Chat"] = {""},
+        ["List Chat"] = {"i have a good gaming chair","No skill? Use Hoho hub","How to play this game","im new","your bad"},
     },
     ["Yourself"] = {
         ["Invisible From Ken"] = true,
@@ -18,18 +18,18 @@ _G["HoHo Hub Auto Bounty V4"] = {
     },
     ["SafeZone"] = {
         Enabled = true,
-        ["Health Left (%)"] = 25,
-        ["Wait Until Heal (%)"] = 80,
+        ["Health Left (%)"] = 30,
+        ["Wait Until Heal (%)"] = 50,
     },
     ["Time Control"] = {
-        ["Max Time Target Player"] = 120,
+        ["Max Time Target Player"] = 30,
     },
     ["Abilities"] = {
         ["Auto Click"] = true,
         ["Melee"] = {
-            Z = {Enabled = true, Hold = 0, WaitNextSkill = 0},
-            X = {Enabled = true, Hold = 0, WaitNextSkill = 0},
-            C = {Enabled = true, Hold = 0, WaitNextSkill = 0},
+            Z = {Enabled = true, Hold = 0.05, WaitNextSkill = 0.6},
+            X = {Enabled = true, Hold = 0.05, WaitNextSkill = 0.6},
+            C = {Enabled = true, Hold = 0.05, WaitNextSkill = 0.6},
         },
         ["Sword"] = {
             Z = {Enabled = true, Hold = 0.05, WaitNextSkill = 0.6},
@@ -40,11 +40,11 @@ _G["HoHo Hub Auto Bounty V4"] = {
             X = {Enabled = true, Hold = 0.05, WaitNextSkill = 0.6},
         },
         ["Fruit"] = {
-            Z = {Enabled = true, Hold = 0, WaitNextSkill = 0},
-            X = {Enabled = true, Hold = 0, WaitNextSkill = 0},
+            Z = {Enabled = true, Hold = 0.05, WaitNextSkill = 0.6},
+            X = {Enabled = true, Hold = 0.05, WaitNextSkill = 0.6},
             C = {Enabled = true, Hold = 0.05, WaitNextSkill = 0.6},
             V = {Enabled = true, Hold = 0.05, WaitNextSkill = 0.6},
-            F = {Enabled = false, Hold = 0.05, WaitNextSkill = 0.6},
+            F = {Enabled = true, Hold = 0.05, WaitNextSkill = 0.6},
         },
     },
 }

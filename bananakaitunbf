@@ -1,5 +1,5 @@
 _G["HoHo Hub Auto Bounty V4"] = {
-    ["Avatar"] = "111982589088426",
+    ["Avatar"] = "rbxassetid://111982589088426",
     ["Farm Method"] = "Normal",
     ["Select Team"] = "Pirate",
     ["Discord Webhook"] = "https://discord.com/api/webhooks/1315958381282066484/XbX27T4gvO6JVYJC8FwTVNfdq4NYwItXyvuxeylXuCYQ-vDaxDpkn2Ui55Wyk3n8tkL3",
@@ -10,7 +10,7 @@ _G["HoHo Hub Auto Bounty V4"] = {
     ["Distance Attack Y"] = 2,
     ["Chat After Kill"] = {
         ["Active"] = false,
-        ["List Chat"] = {"i have a good gaming chair","No skill? Use Hoho hub","How to play this game","im new","your bad"},
+        ["List Chat"] = {},
     },
     ["Yourself"] = {
         ["Invisible From Ken"] = true,
@@ -22,7 +22,7 @@ _G["HoHo Hub Auto Bounty V4"] = {
         ["Wait Until Heal (%)"] = 50,
     },
     ["Time Control"] = {
-        ["Max Time Target Player"] = 30,
+        ["Max Time Target Player"] = 45,
     },
     ["Abilities"] = {
         ["Auto Click"] = true,

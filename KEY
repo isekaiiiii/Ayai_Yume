@@ -1,10 +1,1 @@
-getgenv().Key = getgenv().Key or "" -- Đảm bảo biến Key không bị nil
-
-if getgenv().Key ~= "1" then
-    game:GetService("Players").LocalPlayer:Kick("Key sai!!!")
-    return
-end
-
--- Nếu key hợp lệ, chạy script
-print("Key hợp lệ! Đang chạy script...")
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Gojo-Satoru27/Ayai_Yume/refs/heads/main/AOTUAIM"))()
+loadstring(game:HttpGet("https://raw.githubusercontent.com/LuaCrack/Min/refs/heads/main/MinHopSword"))()
